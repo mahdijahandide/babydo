@@ -1,0 +1,4 @@
+#Fri Oct 07 14:52:34 IRST 2022
+base.0=C\:\\Users\\Mehdi\\AndroidStudioProjects\\FlutterProjects\\babydo\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

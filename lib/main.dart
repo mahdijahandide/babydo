@@ -1,0 +1,59 @@
+import 'dart:io';
+
+import 'package:babydoo/services/bindings/bindings.dart';
+import 'package:babydoo/services/controller/language_controller.dart';
+import 'package:babydoo/services/internationalization/messages.dart';
+import 'package:babydoo/services/remotes/http_config.dart';
+import 'package:babydoo/services/utils/app_statusbar.dart';
+import 'package:babydoo/view/screens/address/address_book.dart';
+import 'package:babydoo/view/screens/auth/auth_screen.dart';
+import 'package:babydoo/view/screens/auth/otp_screen.dart';
+import 'package:babydoo/view/screens/booking/booking.dart';
+import 'package:babydoo/view/screens/booking/my_booking.dart';
+import 'package:babydoo/view/screens/home/dashboard.dart';
+import 'package:babydoo/view/screens/language/languages.dart';
+import 'package:babydoo/view/screens/splash/splash.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+void main() {
+  HttpOverrides.global = MyHttpOverrides();
+  AppStatusbar().statusbarColor(color: Colors.transparent);
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    Get.put(LanguageController());
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Babydo',
+      translations: Messages(),
+      locale: Get.deviceLocale,
+      fallbackLocale: const Locale('en', 'US'),
+      // supportedLocales: const [
+      //   Locale("ar", "KW"),
+      //   Locale("en", "US"),
+      // ],
+      theme: ThemeData(primarySwatch: Colors.yellow, fontFamily: 'Poppins'),
+      defaultTransition: Transition.cupertino,
+      getPages: [
+        GetPage(name: '/splash', page: () =>  const Splash()),
+        GetPage(name: '/languages', page: () => const Languages()),
+        GetPage(name: '/auth', page: () => const AuthScreen()),
+        GetPage(name: '/otp', page: () => const OtpScreen()),
+        GetPage(name: '/home', page: () => const DashboardScreen()),
+        GetPage(name: '/booking', page: () => const Booking()),
+        GetPage(name: '/addressBook', page: () => const AddressBook()),
+        GetPage(name: '/myBooking', page: () => const MyBooking()),
+      ],
+      initialRoute: '/splash',
+      initialBinding: AppBindings(),
+      unknownRoute:
+          GetPage(name: '/nothingFound', page: () => const Languages()),
+    );
+  }
+}

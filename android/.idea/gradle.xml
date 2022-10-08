@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="testRunner" value="GRADLE" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$USER_HOME$/Documents/Developer/Projects/Flutter/babydoo/android" />
+        <option name="gradleHome" value="/usr/local/Cellar/gradle/7.4.2/libexec" />
+        <option name="gradleJvm" value="11" />
+        <option name="modules">
+          <set>
+            <option value="$USER_HOME$/Documents/Developer/Projects/Flutter/babydoo/android" />
+            <option value="$USER_HOME$/Documents/Developer/Projects/Flutter/babydoo/android/app" />
+            <option value="$USER_HOME$/development/flutter3.3/.pub-cache/hosted/pub.dartlang.org/video_player_android-2.3.9/android" />
+            <option value="$USER_HOME$/development/flutter3.3/.pub-cache/hosted/pub.dartlang.org/wakelock-0.6.2/android" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
