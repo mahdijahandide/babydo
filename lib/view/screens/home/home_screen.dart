@@ -150,8 +150,7 @@ class HomeScreen extends GetView<HomeController> {
                                           SizedBox(
                                             width: Get.width,
                                             child: CustomText().createText(
-                                                title: current.kidsCount
-                                                    .toString()+'kids'.tr,
+                                                title: '${current.kidsCount} ${'kids'.tr}',
                                                 color: Colors.white,
                                                 size: 18,
                                                 fontWeight: FontWeight.w500,

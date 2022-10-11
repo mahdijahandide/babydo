@@ -34,10 +34,6 @@ class MyApp extends StatelessWidget {
       translations: Messages(),
       locale: Get.deviceLocale,
       fallbackLocale: const Locale('en', 'US'),
-      // supportedLocales: const [
-      //   Locale("ar", "KW"),
-      //   Locale("en", "US"),
-      // ],
       theme: ThemeData(primarySwatch: Colors.yellow, fontFamily: 'Poppins'),
       defaultTransition: Transition.cupertino,
       getPages: [

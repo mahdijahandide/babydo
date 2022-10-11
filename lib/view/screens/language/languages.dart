@@ -46,17 +46,20 @@ class Languages extends GetView<LanguageController> {
                           height: 12,
                         ),
                         Obx(
-                          () => Row(
+                          () => Row(textDirection: TextDirection.ltr,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               languageWidget(
                                   imgText: 'E',
                                   title: 'English',
-                                  bg: controller.lang.value=='en'
+                                  bg: controller.lang.value == 'en'
                                       ? AppColors().green
                                       : AppColors().gray,
                                   onClick: () {
-                                    Get.find<LanguageController>().changeLocalization(languageCode: 'en', countryCode: 'US');
+                                    Get.find<LanguageController>()
+                                        .changeLocalization(
+                                            languageCode: 'en',
+                                            countryCode: 'US');
                                   }),
                               const SizedBox(
                                 width: 30,
@@ -64,11 +67,14 @@ class Languages extends GetView<LanguageController> {
                               languageWidget(
                                   imgText: 'ع',
                                   title: 'العربية',
-                                  bg: controller.lang.value=='ar'
+                                  bg: controller.lang.value == 'ar'
                                       ? AppColors().green
                                       : AppColors().gray,
                                   onClick: () {
-                                    Get.find<LanguageController>().changeLocalization(languageCode: 'ar', countryCode: 'KW');
+                                    Get.find<LanguageController>()
+                                        .changeLocalization(
+                                            languageCode: 'ar',
+                                            countryCode: 'KW');
                                   })
                             ],
                           ),
@@ -78,7 +84,8 @@ class Languages extends GetView<LanguageController> {
                         ),
                         Container(
                           margin: const EdgeInsets.symmetric(horizontal: 12),
-                          width: Get.width,height: 45,
+                          width: Get.width,
+                          height: 45,
                           child: CustomTextButton().createTextButton(
                               buttonText: 'continue'.tr,
                               buttonColor: AppColors().green,
