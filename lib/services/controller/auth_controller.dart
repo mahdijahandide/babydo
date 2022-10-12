@@ -1,5 +1,5 @@
 import 'package:babydoo/services/controller/home_controller.dart';
-import 'package:babydoo/services/model/BusModel.dart';
+import 'package:babydoo/services/model/busModel/bus_model.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/dialogs/loading_dialogs.dart';
 import 'package:babydoo/view/widgets/snackbar/snackbar.dart';
@@ -64,7 +64,7 @@ class AuthController extends GetxController {
           token=jsonObject['data']['token'];
 
           jsonObject['data']['buses'].forEach((element){
-          Get.find<HomeController>().busses.add(BusModel(name: element['name'],kidsCount: element['kids_count']));
+          Get.find<HomeController>().busses.add(BusModel(data: element));
           });
           Get.offAndToNamed('/home');
           break;

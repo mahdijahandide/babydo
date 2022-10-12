@@ -1,6 +1,4 @@
-import 'package:babydoo/services/enums/enums.dart';
-import 'package:babydoo/services/model/BusModel.dart';
-import 'package:babydoo/services/remotes/api_routes.dart';
+import 'package:babydoo/services/model/busModel/bus_model.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
