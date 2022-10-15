@@ -51,6 +51,7 @@ dependencies:
   pin_code_fields: ^7.4.0
   vk: ^0.2.1
   http: ^0.13.5
+  shimmer: ^2.0.0
 
 dev_dependencies:
   flutter_test:

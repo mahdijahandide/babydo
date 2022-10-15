@@ -9,10 +9,9 @@ import 'package:get/get.dart';
 class AppBindings extends Bindings {
   @override
   void dependencies() {
-    Get.put(HomeController());
-    Get.put(BookController());
-
+    Get.lazyPut(() => BookController());
     Get.lazyPut(() => LanguageController());
+    Get.lazyPut(() => HomeController());
     Get.lazyPut(() => AddressController());
     Get.lazyPut(() => BusController());
     Get.lazyPut(() => AuthController());

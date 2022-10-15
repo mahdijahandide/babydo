@@ -1,5 +1,5 @@
-import 'package:babydoo/services/controller/auth_controller.dart';
 import 'package:babydoo/services/controller/home_controller.dart';
+import 'package:babydoo/services/controller/language_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/screens/home/widgets/carusel.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
@@ -7,6 +7,7 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../widgets/texts/customText.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 
@@ -16,7 +17,6 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     controller.onInit();
-    // print('_______________________________________________________________________________________________ ${Get.find<AuthController>().busses[0].buses![0].name}');
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -66,8 +66,20 @@ class HomeScreen extends GetView<HomeController> {
                   height: 10,
                 ),
                 controller.imgList.isEmpty
-                    ? const SizedBox(
+                    ? SizedBox(
+                        width: Get.width,
                         height: 170,
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.grey,
+                          highlightColor: Colors.black.withOpacity(0.8),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey.withOpacity(0.4),
+                                borderRadius: BorderRadius.circular(20)),
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            margin: const EdgeInsets.fromLTRB(20, 0, 20, 8),
+                          ),
+                        ),
                       )
                     : const Carusel(),
                 controller.imgList.isEmpty
@@ -92,289 +104,331 @@ class HomeScreen extends GetView<HomeController> {
                         size: 20)),
                 ListView.builder(
                     controller: controller.mainScrollController,
-                    itemCount: controller.busses.length,
+                    itemCount: controller.bussesList.isEmpty
+                        ? 4
+                        : controller.bussesList.length,
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      var current = controller.busses[index];
-                      return Align(
-                          heightFactor: 0.965,
-                          alignment: Alignment.topCenter,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 20),
-                            margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage(index > 3
-                                        ? 'assets/png/box1.png'
-                                        : 'assets/png/box${index + 1}.png'),
-                                    fit: BoxFit.cover,
-                                    alignment: Alignment.topCenter),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(20.0)),
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black.withAlpha(100),
-                                      blurRadius: 10.0),
-                                ]),
-                            child: Theme(
-                              data: Theme.of(context)
-                                  .copyWith(dividerColor: Colors.transparent),
-                              child: ExpansionTile(
-                                textColor: Colors.black12,
-                                trailing: const Icon(
-                                  Icons.keyboard_arrow_down_outlined,
-                                  size: 0,
-                                  color: Colors.white,
+                      // ignore: prefer_typing_uninitialized_variables
+                      var current;
+                      if (controller.bussesList.isNotEmpty) {
+                        current = controller.bussesList[index];
+                      }
+
+                      return controller.bussesList.isEmpty
+                          ? SizedBox(
+                              width: Get.width,
+                              height: 100,
+                              child: Shimmer.fromColors(
+                                baseColor: Colors.grey,
+                                highlightColor: Colors.black.withOpacity(0.8),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey.withOpacity(0.4),
+                                      borderRadius: BorderRadius.circular(20)),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 20),
+                                  margin:
+                                      const EdgeInsets.fromLTRB(20, 0, 20, 8),
                                 ),
-                                title: ListTile(
-                                  leading: Lottie.asset(index > 3
-                                      ? 'assets/json/bus1.json'
-                                      : 'assets/json/bus${index + 1}.json'),
-                                  title: CustomText().createText(
-                                      title: current.name.toString(),
-                                      size: 24,
+                              ),
+                            )
+                          : Align(
+                              heightFactor: 0.965,
+                              alignment: Alignment.topCenter,
+                              child: Container(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage(index > 3
+                                            ? 'assets/png/box1.png'
+                                            : 'assets/png/box${index + 1}.png'),
+                                        fit: BoxFit.cover,
+                                        alignment: Alignment.topCenter),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(20.0)),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.black.withAlpha(100),
+                                          blurRadius: 10.0),
+                                    ]),
+                                child: Theme(
+                                  data: Theme.of(context).copyWith(
+                                      dividerColor: Colors.transparent),
+                                  child: ExpansionTile(
+                                    textColor: Colors.black12,
+                                    trailing: const Icon(
+                                      Icons.keyboard_arrow_down_outlined,
+                                      size: 0,
                                       color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                children: [
-                                  Container(
-                                      height: 650,
-                                      margin: const EdgeInsets.fromLTRB(
-                                          8, 8, 8, 20),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            width: Get.width,
-                                            child: CustomText().createText(
-                                                title: '${current.kidsCount} ${'kids'.tr}',
-                                                color: Colors.white,
-                                                size: 18,
-                                                fontWeight: FontWeight.w500,
-                                                align: TextAlign.center),
-                                          ),
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                    ),
+                                    title: ListTile(
+                                      leading: Lottie.asset(index > 3
+                                          ? 'assets/json/bus1.json'
+                                          : 'assets/json/bus${index + 1}.json'),
+                                      title: CustomText().createText(
+                                          title: current.name.toString(),
+                                          size: 24,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    children: [
+                                      Container(
+                                          height: 650,
+                                          margin: const EdgeInsets.fromLTRB(
+                                              8, 8, 8, 20),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              createWhiteButton(
-                                                  title: 'Slides'),
-                                              createWhiteButton(
-                                                  title: 'Cinema'),
-                                              createWhiteButton(
-                                                  title: 'Climbing'),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 12,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              createWhiteButton(
-                                                  title: 'Slides'),
-                                              createWhiteButton(
-                                                  title: 'Cinema'),
-                                              createWhiteButton(
-                                                  title: 'Climbing'),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 12,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              CustomText().createText(
-                                                  title: 'KD 25 /Season',
-                                                  fontWeight: FontWeight.w500,
-                                                  size: 14,
-                                                  color: Colors.white),
-                                              CustomText().createText(
-                                                  title: '1 yr to 10 yr',
-                                                  fontWeight: FontWeight.w500,
-                                                  size: 14,
-                                                  color: Colors.white),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 12,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 12),
-                                            child: Stack(
-                                              children: [
-                                                Image(
-                                                  image: const AssetImage(
-                                                      'assets/png/bus_inside.png'),
-                                                  width: Get.width,
-                                                  height: 170,
-                                                  fit: BoxFit.fill,
-                                                  alignment:
-                                                      Alignment.topCenter,
+                                              SizedBox(
+                                                width: Get.width,
+                                                child: CustomText().createText(
+                                                    title:
+                                                        '${current.kidsCount} ${'kids'.tr}',
+                                                    color: Colors.white,
+                                                    size: 18,
+                                                    fontWeight: FontWeight.w500,
+                                                    align: TextAlign.center),
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                              GridView.builder(
+                                                physics:
+                                                    const NeverScrollableScrollPhysics(),
+                                                shrinkWrap: true,
+                                                gridDelegate:
+                                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount: 3,
+                                                  crossAxisSpacing: 5.0,
+                                                  mainAxisSpacing: 5.0,
+                                                  childAspectRatio: 2.0,
                                                 ),
-                                                Container(
-                                                  width: 70,
-                                                  height: 150,
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.white
-                                                          .withOpacity(0.5),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8)),
-                                                  margin: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 12,
-                                                      vertical: 10),
-                                                  child: ShaderMask(
-                                                    shaderCallback:
-                                                        (Rect rect) {
-                                                      return const LinearGradient(
-                                                        begin:
-                                                            Alignment.topCenter,
-                                                        end: Alignment
-                                                            .bottomCenter,
-                                                        colors: [
-                                                          Colors.grey,
-                                                          Colors.transparent,
-                                                          Colors.transparent,
-                                                          Colors.grey
-                                                        ],
-                                                        stops: [
-                                                          0.0,
-                                                          0.12,
-                                                          0.9,
-                                                          1.0
-                                                        ],
-                                                      ).createShader(rect);
-                                                    },
-                                                    blendMode: BlendMode.dstOut,
-                                                    child: ListView.builder(
-                                                      itemCount: 20,
-                                                      shrinkWrap: true,
-                                                      physics:
-                                                          const BouncingScrollPhysics(),
-                                                      scrollDirection:
-                                                          Axis.vertical,
-                                                      itemBuilder:
-                                                          (BuildContext context,
-                                                              int index) {
-                                                        return Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 6),
-                                                          width: 50,
-                                                          height: 50,
-                                                          decoration: const BoxDecoration(
-                                                              image: DecorationImage(
-                                                                  image: AssetImage(
-                                                                      'assets/png/bus_thumbnail.png'))),
-                                                        );
-                                                      },
+                                                itemCount:
+                                                    current.featureList.length,
+                                                itemBuilder: (context, index) {
+                                                  var cf = current
+                                                      .featureList[index];
+                                                  return createWhiteButton(
+                                                      title:
+                                                          Get.find<LanguageController>()
+                                                                      .lang
+                                                                      .value ==
+                                                                  'en'
+                                                              ? cf.featureEn
+                                                              : cf.featureAr);
+                                                },
+                                              ),
+
+                                              const SizedBox(
+                                                height: 12,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  CustomText().createText(
+                                                      title: 'KD 25 /Season',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      size: 14,
+                                                      color: Colors.white),
+                                                  CustomText().createText(
+                                                      title: '1 yr to 10 yr',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      size: 14,
+                                                      color: Colors.white),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 12,
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 12),
+                                                child: Stack(
+                                                  children: [
+                                                    Image(
+                                                      image: const AssetImage(
+                                                          'assets/png/bus_inside.png'),
+                                                      width: Get.width,
+                                                      height: 170,
+                                                      fit: BoxFit.fill,
+                                                      alignment:
+                                                          Alignment.topCenter,
                                                     ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          CustomText().createText(
-                                              title: 'Arcade Bus',
-                                              fontWeight: FontWeight.w600,
-                                              size: 16),
-                                          // const SizedBox(
-                                          //   height: 12,
-                                          // ),
-                                          // CustomText().createText(
-                                          //     title:
-                                          //         'Bus details text here.Lorem ipsum lorem ipsum lorem lorem lorem lorem lorem ipsum Bus details text here.Lorem ipsum lorem ipsum lorem lorem lorem lorem lorem ipsum Bus details text here.Lorem ipsum lorem ip'),
-                                          const SizedBox(
-                                            height: 12,
-                                          ),
-                                          Container(
-                                            height: 170,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                                color: Colors.white),
-                                            child:
-                                                controller.chewieController ==
+                                                    Container(
+                                                      width: 70,
+                                                      height: 150,
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.white
+                                                              .withOpacity(0.5),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8)),
+                                                      margin: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 12,
+                                                          vertical: 10),
+                                                      child: ShaderMask(
+                                                        shaderCallback:
+                                                            (Rect rect) {
+                                                          return const LinearGradient(
+                                                            begin: Alignment
+                                                                .topCenter,
+                                                            end: Alignment
+                                                                .bottomCenter,
+                                                            colors: [
+                                                              Colors.grey,
+                                                              Colors
+                                                                  .transparent,
+                                                              Colors
+                                                                  .transparent,
+                                                              Colors.grey
+                                                            ],
+                                                            stops: [
+                                                              0.0,
+                                                              0.12,
+                                                              0.9,
+                                                              1.0
+                                                            ],
+                                                          ).createShader(rect);
+                                                        },
+                                                        blendMode:
+                                                            BlendMode.dstOut,
+                                                        child: ListView.builder(
+                                                          itemCount: 20,
+                                                          shrinkWrap: true,
+                                                          physics:
+                                                              const BouncingScrollPhysics(),
+                                                          scrollDirection:
+                                                              Axis.vertical,
+                                                          itemBuilder:
+                                                              (BuildContext
+                                                                      context,
+                                                                  int index) {
+                                                            return Container(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      bottom:
+                                                                          6),
+                                                              width: 50,
+                                                              height: 50,
+                                                              decoration: const BoxDecoration(
+                                                                  image: DecorationImage(
+                                                                      image: AssetImage(
+                                                                          'assets/png/bus_thumbnail.png'))),
+                                                            );
+                                                          },
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              CustomText().createText(
+                                                  title: 'Arcade Bus',
+                                                  fontWeight: FontWeight.w600,
+                                                  size: 16),
+                                              // const SizedBox(
+                                              //   height: 12,
+                                              // ),
+                                              // CustomText().createText(
+                                              //     title:
+                                              //         'Bus details text here.Lorem ipsum lorem ipsum lorem lorem lorem lorem lorem ipsum Bus details text here.Lorem ipsum lorem ipsum lorem lorem lorem lorem lorem ipsum Bus details text here.Lorem ipsum lorem ip'),
+                                              const SizedBox(
+                                                height: 12,
+                                              ),
+                                              Container(
+                                                height: 170,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12),
+                                                    color: Colors.white),
+                                                child: controller
+                                                            .chewieController ==
                                                         null
                                                     ? Container()
                                                     : Chewie(
                                                         controller: controller
                                                             .chewieController!,
                                                       ),
-                                          ),
-                                          const SizedBox(height: 20),
-                                          // CustomText().createText(
-                                          //   title: 'Week Days',
-                                          //   size: 18,
-                                          // ),
-                                          // Row(
-                                          //   mainAxisAlignment:
-                                          //       MainAxisAlignment.center,
-                                          //   children: [
-                                          //     createBlueBox(),
-                                          //     const SizedBox(
-                                          //       width: 15,
-                                          //     ),
-                                          //     createBlueBox(),
-                                          //   ],
-                                          // ),
-                                          // const SizedBox(
-                                          //   height: 12,
-                                          // ),
-                                          // CustomText().createText(
-                                          //   title: 'Weekend',
-                                          //   size: 18,
-                                          // ),
-                                          // Row(
-                                          //   mainAxisAlignment:
-                                          //       MainAxisAlignment.center,
-                                          //   children: [
-                                          //     createBlueBox(),
-                                          //     const SizedBox(
-                                          //       width: 15,
-                                          //     ),
-                                          //     createBlueBox(),
-                                          //   ],
-                                          // ),
-                                          // const SizedBox(height: 20),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(
-                                                child: CustomTextButton()
-                                                    .createTextButton(
-                                                        buttonText: 'Book Now',
-                                                        textSize: 16,
-                                                        weight: FontWeight.w600,
-                                                        buttonColor: AppColors()
-                                                            .darkBlue,
-                                                        textColor: Colors.white,
-                                                        onPress: () =>
-                                                            Get.toNamed(
-                                                                '/booking')),
+                                              ),
+                                              const SizedBox(height: 20),
+                                              // CustomText().createText(
+                                              //   title: 'Week Days',
+                                              //   size: 18,
+                                              // ),
+                                              // Row(
+                                              //   mainAxisAlignment:
+                                              //       MainAxisAlignment.center,
+                                              //   children: [
+                                              //     createBlueBox(),
+                                              //     const SizedBox(
+                                              //       width: 15,
+                                              //     ),
+                                              //     createBlueBox(),
+                                              //   ],
+                                              // ),
+                                              // const SizedBox(
+                                              //   height: 12,
+                                              // ),
+                                              // CustomText().createText(
+                                              //   title: 'Weekend',
+                                              //   size: 18,
+                                              // ),
+                                              // Row(
+                                              //   mainAxisAlignment:
+                                              //       MainAxisAlignment.center,
+                                              //   children: [
+                                              //     createBlueBox(),
+                                              //     const SizedBox(
+                                              //       width: 15,
+                                              //     ),
+                                              //     createBlueBox(),
+                                              //   ],
+                                              // ),
+                                              // const SizedBox(height: 20),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Expanded(
+                                                    child: CustomTextButton()
+                                                        .createTextButton(
+                                                            buttonText:
+                                                                'Book Now',
+                                                            textSize: 16,
+                                                            weight:
+                                                                FontWeight.w600,
+                                                            buttonColor:
+                                                                AppColors()
+                                                                    .darkBlue,
+                                                            textColor:
+                                                                Colors.white,
+                                                            onPress: () =>
+                                                                Get.toNamed(
+                                                                    '/booking')),
+                                                  ),
+                                                ],
                                               ),
                                             ],
-                                          ),
-                                        ],
-                                      ))
-                                ],
-                              ),
-                            ),
-                          ));
+                                          ))
+                                    ],
+                                  ),
+                                ),
+                              ));
                     }),
                 const SizedBox(
                   height: 120,

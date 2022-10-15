@@ -23,7 +23,7 @@ class HomeController extends GetxController {
 
   RxList<SliderModel> imgList = RxList([]);
 
-  List<BusModel> busses=[];
+  List<BusModel> bussesList = [];
 
   @override
   void onInit() async {
@@ -38,22 +38,42 @@ class HomeController extends GetxController {
       autoPlay: false,
       looping: false,
     );
-   handleSlider();
+    handleSlider();
+    handleBusRequest();
   }
 
   handleSlider() async {
-      final response = await Request.getSliderRequest();
-      switch (response.statusCode) {
-        case 200:
-          var jsonObject=convert.jsonDecode(response.body);
-          var slidersArray=jsonObject['data']['sliders'];
-          slidersArray.forEach((element){
-            imgList.add(SliderModel(data: element));
-          });
-          break;
-        default:
-          print(response.statusCode);
-          break;
-      }
+    final response = await Request.getSliderRequest();
+    switch (response.statusCode) {
+      case 200:
+        var jsonObject = convert.jsonDecode(response.body);
+        var slidersArray = jsonObject['data']['sliders'];
+        imgList.clear();
+        slidersArray.forEach((element) {
+          imgList.add(SliderModel(data: element));
+        });
+        break;
+      default:
+        print(response.statusCode);
+        break;
+    }
+  }
+
+  handleBusRequest() async {
+    final response = await Request.getBusRequest();
+    switch (response.statusCode) {
+      case 200:
+        var jsonObject = convert.jsonDecode(response.body);
+        var busArray = jsonObject['data']['buses'];
+        bussesList.clear();
+        busArray.forEach((element) {
+          bussesList.add(BusModel(data: element));
+        });
+        update();
+        break;
+      default:
+        print(response.statusCode);
+        break;
+    }
   }
 }
