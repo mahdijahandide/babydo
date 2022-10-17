@@ -3,11 +3,13 @@ import 'package:babydoo/services/controller/language_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/screens/home/widgets/carusel.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
+import 'package:babydoo/view/widgets/marquee/marquee_widget.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
+import '../../widgets/chewie/chewie.dart';
 import '../../widgets/texts/customText.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 
@@ -178,7 +180,6 @@ class HomeScreen extends GetView<HomeController> {
                                     ),
                                     children: [
                                       Container(
-                                          height: 650,
                                           margin: const EdgeInsets.fromLTRB(
                                               8, 8, 8, 20),
                                           child: Column(
@@ -207,7 +208,7 @@ class HomeScreen extends GetView<HomeController> {
                                                   crossAxisCount: 3,
                                                   crossAxisSpacing: 5.0,
                                                   mainAxisSpacing: 5.0,
-                                                  childAspectRatio: 2.0,
+                                                  childAspectRatio: 4.0,
                                                 ),
                                                 itemCount:
                                                     current.featureList.length,
@@ -234,13 +235,15 @@ class HomeScreen extends GetView<HomeController> {
                                                         .spaceBetween,
                                                 children: [
                                                   CustomText().createText(
-                                                      title: 'KD 25 /Season',
+                                                      title:
+                                                          'KD ${current.sessionPrice} /Session',
                                                       fontWeight:
                                                           FontWeight.w500,
                                                       size: 14,
                                                       color: Colors.white),
                                                   CustomText().createText(
-                                                      title: '1 yr to 10 yr',
+                                                      title:
+                                                          '${current.startAge} yr to ${current.endAge} yr',
                                                       fontWeight:
                                                           FontWeight.w500,
                                                       size: 14,
@@ -256,14 +259,17 @@ class HomeScreen extends GetView<HomeController> {
                                                         vertical: 12),
                                                 child: Stack(
                                                   children: [
-                                                    Image(
-                                                      image: const AssetImage(
-                                                          'assets/png/bus_inside.png'),
-                                                      width: Get.width,
-                                                      height: 170,
-                                                      fit: BoxFit.fill,
-                                                      alignment:
-                                                          Alignment.topCenter,
+                                                    Obx(
+                                                      () => Image(
+                                                        image: NetworkImage(
+                                                            current
+                                                                .imgBg.value),
+                                                        width: Get.width,
+                                                        height: 170,
+                                                        fit: BoxFit.fill,
+                                                        alignment:
+                                                            Alignment.topCenter,
+                                                      ),
                                                     ),
                                                     Container(
                                                       width: 70,
@@ -305,7 +311,9 @@ class HomeScreen extends GetView<HomeController> {
                                                         blendMode:
                                                             BlendMode.dstOut,
                                                         child: ListView.builder(
-                                                          itemCount: 20,
+                                                          itemCount: current
+                                                              .galleryList
+                                                              .length,
                                                           shrinkWrap: true,
                                                           physics:
                                                               const BouncingScrollPhysics(),
@@ -315,18 +323,30 @@ class HomeScreen extends GetView<HomeController> {
                                                               (BuildContext
                                                                       context,
                                                                   int index) {
-                                                            return Container(
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      bottom:
-                                                                          6),
-                                                              width: 50,
-                                                              height: 50,
-                                                              decoration: const BoxDecoration(
-                                                                  image: DecorationImage(
-                                                                      image: AssetImage(
-                                                                          'assets/png/bus_thumbnail.png'))),
+                                                            var cg = current
+                                                                    .galleryList[
+                                                                index];
+                                                            return InkWell(
+                                                              onTap: () {
+                                                                current.imgBg
+                                                                        .value =
+                                                                    cg.url;
+                                                                controller
+                                                                    .update();
+                                                              },
+                                                              child: Container(
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        bottom:
+                                                                            6),
+                                                                width: 50,
+                                                                height: 50,
+                                                                decoration: BoxDecoration(
+                                                                    image: DecorationImage(
+                                                                        image: NetworkImage(
+                                                                            cg.url))),
+                                                              ),
                                                             );
                                                           },
                                                         ),
@@ -336,7 +356,7 @@ class HomeScreen extends GetView<HomeController> {
                                                 ),
                                               ),
                                               CustomText().createText(
-                                                  title: 'Arcade Bus',
+                                                  title: current.name,
                                                   fontWeight: FontWeight.w600,
                                                   size: 16),
                                               // const SizedBox(
@@ -348,21 +368,10 @@ class HomeScreen extends GetView<HomeController> {
                                               const SizedBox(
                                                 height: 12,
                                               ),
-                                              Container(
-                                                height: 170,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12),
-                                                    color: Colors.white),
-                                                child: controller
-                                                            .chewieController ==
-                                                        null
-                                                    ? Container()
-                                                    : Chewie(
-                                                        controller: controller
-                                                            .chewieController!,
-                                                      ),
+                                              VideoWidget(
+                                                play: true,
+                                                url: current
+                                                    .videoGalleryList[0].url,
                                               ),
                                               const SizedBox(height: 20),
                                               // CustomText().createText(
@@ -450,11 +459,15 @@ class HomeScreen extends GetView<HomeController> {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Center(
-        child: CustomText().createText(
-            title: '$title',
-            color: Colors.pinkAccent,
-            size: 13,
-            fontWeight: FontWeight.w400),
+        child: MarqueeWidget(
+          direction: Axis.horizontal,
+          child: CustomText().createText(
+              title: '$title',
+              color: Colors.pinkAccent,
+              align: TextAlign.center,
+              size: 13,
+              fontWeight: FontWeight.w400),
+        ),
       ),
     );
   }

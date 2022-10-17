@@ -6,6 +6,7 @@ import 'package:babydoo/services/model/busModel/bus_price_model.dart';
 import 'package:babydoo/services/model/busModel/bus_video_gallery_model.dart';
 import 'package:babydoo/services/model/busModel/bus_weekley_schedule_model.dart';
 import 'package:babydoo/services/remotes/api_routes.dart';
+import 'package:get/get.dart';
 
 class BusModel {
   // {
@@ -97,6 +98,7 @@ class BusModel {
   //               ],
   //           },
   int? id, driverId, startAge, endAge, kidsCount, status;
+  RxString imgBg=''.obs;
   String? image,
       thumbnailVideo,
       sessionTime,
@@ -155,7 +157,8 @@ class BusModel {
     weekleyScheduleArray = data['weekly_schedule'];
     priceArray = data['price'];
     featureArray = data['feature'];
-    
+    imgBg.value = baseUrl + galleryArray[0]['url'];
+
     galleryArray.forEach((element) {
       galleryList.add(BusGalleryModel(data: element));
     });

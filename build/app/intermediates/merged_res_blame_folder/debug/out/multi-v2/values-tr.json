@@ -4,7 +4,17 @@
             "outputFile": "C:\\Users\\Mehdi\\AndroidStudioProjects\\FlutterProjects\\babydo\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-tr\\values-tr.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Mehdi\\.gradle\\caches\\transforms-3\\5e083c06c9925c2309f02468fc66e376\\transformed\\core-1.7.0\\res\\values-tr\\values-tr.xml",
+                    "source": "C:\\Users\\Mehdi\\.gradle\\caches\\transforms-3\\e6f28f50e7e80f97a626baa2da922f6d\\transformed\\jetified-exoplayer-core-2.18.1\\res\\values-tr\\values-tr.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,132,191,256,317,397,469,559,655",
+                        "endColumns": "76,58,64,60,79,71,89,95,75",
+                        "endOffsets": "127,186,251,312,392,464,554,650,726"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Mehdi\\.gradle\\caches\\transforms-3\\4d3b05803e6fd4061d206e6ff20d4657\\transformed\\core-1.7.0\\res\\values-tr\\values-tr.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -18,16 +28,6 @@
                         "startOffsets": "731",
                         "endColumns": "100",
                         "endOffsets": "827"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Mehdi\\.gradle\\caches\\transforms-3\\6ec2c823b2ddfa9d4aff16fd99b56b89\\transformed\\jetified-exoplayer-core-2.18.1\\res\\values-tr\\values-tr.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10",
-                        "startColumns": "4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,132,191,256,317,397,469,559,655",
-                        "endColumns": "76,58,64,60,79,71,89,95,75",
-                        "endOffsets": "127,186,251,312,392,464,554,650,726"
                     }
                 }
             ]
