@@ -16,3 +16,7 @@ key.properties
 **/*.keystore
 **/*.jks
 
+
+.flutter-plugins
+
+.flutter-plugins-dependencies
