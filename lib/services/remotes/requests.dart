@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../controller/auth_controller.dart';
 import 'api_routes.dart';
+import 'package:get/get.dart';
 
 class Request {
   static Future<http.Response> userRegister(
@@ -43,5 +45,16 @@ class Request {
 
   static Future<http.Response> getBusRequest() {
     return http.post(Uri.parse(getBusRoute));
+  }
+
+  static Future<http.Response> getAddressesRequest() {
+    return http.post(
+      Uri.parse(getAddressesRoute),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${Get.find<AuthController>().token}'
+      },
+    );
   }
 }

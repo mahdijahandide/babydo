@@ -9,3 +9,4 @@ String userRegisterRoute = '$baseUrl$apiRoute/user/register';
 String userLoginRoute = '$baseUrl$apiRoute/user/login';
 String getSliderRoute = '$baseUrl$apiRoute/getSlider';
 String getBusRoute = '$baseUrl$apiRoute/bus/list';
+String getAddressesRoute = '$baseUrl$apiRoute/getAddresses';
