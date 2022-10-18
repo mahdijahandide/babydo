@@ -17,27 +17,16 @@ class HomeController extends GetxController {
   ScrollController insederScrollController = ScrollController();
   final GlobalKey<ScaffoldState> drawerKey = GlobalKey();
 
-  ChewieController? chewieController;
-
   final Carusel carusel = const Carusel();
 
   RxList<SliderModel> imgList = RxList([]);
 
-  List<BusModel> bussesList = [];
+  RxList<BusModel> bussesList = RxList([]);
 
   @override
-  void onInit() async {
+  void onInit() {
     super.onInit();
-    final videoPlayerController = VideoPlayerController.network(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4');
 
-    await videoPlayerController.initialize();
-
-    chewieController = ChewieController(
-      videoPlayerController: videoPlayerController,
-      autoPlay: false,
-      looping: false,
-    );
     handleSlider();
     handleBusRequest();
   }
@@ -54,7 +43,7 @@ class HomeController extends GetxController {
         });
         break;
       default:
-        print(response.statusCode);
+        debugPrint(response.statusCode.toString());
         break;
     }
   }
@@ -72,7 +61,7 @@ class HomeController extends GetxController {
         update();
         break;
       default:
-        print(response.statusCode);
+        debugPrint(response.statusCode.toString());
         break;
     }
   }
