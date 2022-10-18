@@ -117,7 +117,6 @@ class HomeScreen extends GetView<HomeController> {
                       if (controller.bussesList.isNotEmpty) {
                         current = controller.bussesList[index];
                       }
-
                       return controller.bussesList.isEmpty
                           ? SizedBox(
                               width: Get.width,
