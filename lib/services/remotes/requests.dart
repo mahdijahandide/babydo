@@ -57,4 +57,15 @@ class Request {
       },
     );
   }
+
+  static Future<http.Response> getBookingRequest() {
+    return http.post(
+      Uri.parse(getBookingRoute),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${Get.find<AuthController>().token}'
+      },
+    );
+  }
 }

@@ -10,3 +10,4 @@ String userLoginRoute = '$baseUrl$apiRoute/user/login';
 String getSliderRoute = '$baseUrl$apiRoute/getSlider';
 String getBusRoute = '$baseUrl$apiRoute/bus/list';
 String getAddressesRoute = '$baseUrl$apiRoute/getAddresses';
+String getBookingRoute = '$baseUrl$apiRoute/bookingList';

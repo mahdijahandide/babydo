@@ -1,3 +1,5 @@
+import 'package:babydoo/services/remotes/api_routes.dart';
+
 class BookingModel {
   //  {
   //               "id": 6213,
@@ -66,10 +68,11 @@ class BookingModel {
       startAge,
       endAge,
       kidsCount,
-      status;
+      busStatus;
   String? bookingStatus,
       uniqueNumber,
       totalPrice,
+      status,
       phone,
       name,
       area,
@@ -107,6 +110,8 @@ class BookingModel {
       busUpdatedAt,
       busName,
       busDescription;
+  var orderObj;
+  var busObj;
   BookingModel({data}) {
     id = data[id];
     userId = data['user_id'];
@@ -120,5 +125,47 @@ class BookingModel {
     street = data['street'];
     avenue = data['avenue'];
     additionalNote = data['additional_note'];
+    buildingNumber = data['building_number'];
+    createdAt = data['created_at'];
+    updatedAt = data['updated_at'];
+    orderObj = data['order_item'];
+    orderId = orderObj['id'];
+    orderItemId = orderObj['order_id'];
+    orderItemBusId = orderObj['bus_id'];
+    busTitle = orderObj['bus_title'];
+    bookingType = orderObj['booking_type'];
+    dateReserved = orderObj['date_reserved'];
+    startTime = orderObj['start_time'];
+    endTime = orderObj['end_time'];
+    price = orderObj['price'];
+    deliveryCharge = orderObj['delivery_charge'].toString();
+    orderCreatedAt = orderObj['created_at'];
+    orderUpdatedAt = orderObj['updated_at'];
+    busObj = data['bus'];
+    busId = busObj['id'];
+    driverId = busObj['driver_id'];
+    busImage = baseUrl + busObj['image'];
+    busThumbnailVideo = baseUrl + busObj['tumbnailVideos'];
+    startAge = busObj['start_age'];
+    endAge = busObj['end_age'];
+    kidsCount = busObj['kids_count'];
+    sessionTime = busObj['session_time'];
+    sessionPrice = busObj['session_price'];
+    fulldayPrice = busObj['fullday_price'];
+    weekendSessionPrice = busObj['weekend_session_price'];
+    weekendFulldayPrice = busObj['weekend_fullday_price'];
+    editSessionTime = busObj['edit_session_time'];
+    editDateSessionTime = busObj['edit_date_session_time'];
+    youtubeLink = busObj['youtube_link'];
+    liveVideoFirst = busObj['live_video_first'];
+    liveVideoSecond = busObj['live_video_second'];
+    liveVideoThird = busObj['live_video_third'];
+    liveVideoFourth = busObj['live_video_fourth'];
+    status = busObj['status'];
+    busCreatedAt = busObj['created_at'];
+    busUpdatedAt = busObj['updated_at'];
+    busName = busObj['name'];
+    busStatus = busObj['status'];
+    busDescription = busObj['description'] ?? '';
   }
 }
