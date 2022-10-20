@@ -141,7 +141,7 @@ class BookingModel {
     deliveryCharge = orderObj['delivery_charge'].toString();
     orderCreatedAt = orderObj['created_at'];
     orderUpdatedAt = orderObj['updated_at'];
-    busObj = data['bus'];
+    busObj = orderObj['bus'];
     busId = busObj['id'];
     driverId = busObj['driver_id'];
     busImage = baseUrl + busObj['image'];
@@ -161,7 +161,7 @@ class BookingModel {
     liveVideoSecond = busObj['live_video_second'];
     liveVideoThird = busObj['live_video_third'];
     liveVideoFourth = busObj['live_video_fourth'];
-    status = busObj['status'];
+    busStatus = busObj['status'];
     busCreatedAt = busObj['created_at'];
     busUpdatedAt = busObj['updated_at'];
     busName = busObj['name'];

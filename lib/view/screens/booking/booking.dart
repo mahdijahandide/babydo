@@ -1,3 +1,4 @@
+import 'package:babydoo/services/controller/auth_controller.dart';
 import 'package:babydoo/services/controller/booking_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/screens/booking/date_picker.dart';
@@ -17,6 +18,9 @@ class Booking extends GetView<BookController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(
+      () => BookController(),
+    );
     return Scaffold(
         extendBody: true,
         appBar: AppBar(
@@ -42,19 +46,21 @@ class Booking extends GetView<BookController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          CustomText().createText(
-                              title: 'Already have account? ',
-                              size: 16,
-                              fontWeight: FontWeight.w400),
-                          CustomText().createText(
-                              title: 'Signin',
-                              color: AppColors().litePink,
-                              fontWeight: FontWeight.w600,
-                              size: 18),
-                        ],
-                      ),
+                      Get.find<AuthController>().token != ''
+                          ? Row(
+                              children: [
+                                CustomText().createText(
+                                    title: 'Already have account? ',
+                                    size: 16,
+                                    fontWeight: FontWeight.w400),
+                                CustomText().createText(
+                                    title: 'Signin',
+                                    color: AppColors().litePink,
+                                    fontWeight: FontWeight.w600,
+                                    size: 18),
+                              ],
+                            )
+                          : const SizedBox(),
                       const SizedBox(
                         height: 10,
                       ),

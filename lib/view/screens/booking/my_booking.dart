@@ -1,6 +1,7 @@
 import 'package:babydoo/services/controller/booking_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
+import 'package:babydoo/view/widgets/marquee/marquee_widget.dart';
 import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -95,7 +96,7 @@ class MyBooking extends GetView<BookController> {
                                       child: Column(
                                         children: [
                                           CustomText().createText(
-                                              title: 'Evening Arcade Games',
+                                              title: currentItem.busName,
                                               fontWeight: FontWeight.w600,
                                               size: 16),
                                           const SizedBox(
@@ -109,7 +110,8 @@ class MyBooking extends GetView<BookController> {
                                               Expanded(
                                                 child: CustomTextButton()
                                                     .createTextButton(
-                                                        buttonText: '20.06.22',
+                                                        buttonText: currentItem
+                                                            .dateReserved,
                                                         textSize: 12,
                                                         weight: FontWeight.w600,
                                                         buttonColor: AppColors()
@@ -126,7 +128,7 @@ class MyBooking extends GetView<BookController> {
                                                 child: CustomTextButton()
                                                     .createTextButton(
                                                         buttonText:
-                                                            '8pm- 9.30pm',
+                                                            '${currentItem.startTime}- ${currentItem.endTime}',
                                                         textSize: 12,
                                                         weight: FontWeight.w600,
                                                         buttonColor: AppColors()
@@ -149,22 +151,28 @@ class MyBooking extends GetView<BookController> {
                                                 title: 'Address',
                                                 fontWeight: FontWeight.w600,
                                                 size: 12),
-                                            title: CustomText().createText(
-                                                title:
-                                                    'Aveniue apartment and so on',
-                                                fontWeight: FontWeight.w400,
-                                                size: 12),
+                                            title: MarqueeWidget(
+                                              direction: Axis.horizontal,
+                                              child: CustomText().createText(
+                                                  title:
+                                                      'Area: ${currentItem.area} Avenue: ${currentItem.avenue} Street: ${currentItem.street} Block: ${currentItem.block}',
+                                                  fontWeight: FontWeight.w400,
+                                                  size: 12),
+                                            ),
                                           ),
                                           ListTile(
                                             leading: CustomText().createText(
-                                                title: 'Address',
+                                                title: 'Special note',
                                                 fontWeight: FontWeight.w600,
                                                 size: 12),
-                                            title: CustomText().createText(
-                                                title:
-                                                    'Aveniue apartment and so on',
-                                                size: 12,
-                                                fontWeight: FontWeight.w400),
+                                            title: MarqueeWidget(
+                                              direction: Axis.horizontal,
+                                              child: CustomText().createText(
+                                                  title: currentItem
+                                                      .additionalNote,
+                                                  size: 12,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
                                           )
                                         ],
                                       ),
@@ -176,16 +184,15 @@ class MyBooking extends GetView<BookController> {
                                     child: Stack(
                                       fit: StackFit.loose,
                                       children: [
-                                        SvgPicture.asset(index == 1
+                                        SvgPicture.asset(currentItem.status !=
+                                                'completed'
                                             ? 'assets/svg/red_banner.svg'
                                             : 'assets/svg/green_banner.svg'),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 50, vertical: 4),
                                           child: CustomText().createText(
-                                              title: index == 1
-                                                  ? 'Unpaid'
-                                                  : 'Paid',
+                                              title: currentItem.status,
                                               color: Colors.white,
                                               size: 18,
                                               fontWeight: FontWeight.bold),
