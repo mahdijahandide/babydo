@@ -7,11 +7,13 @@ import 'package:babydoo/services/remotes/http_config.dart';
 import 'package:babydoo/services/utils/app_statusbar.dart';
 import 'package:babydoo/view/screens/address/address_book.dart';
 import 'package:babydoo/view/screens/auth/auth_screen.dart';
+import 'package:babydoo/view/screens/auth/change_password.dart';
 import 'package:babydoo/view/screens/auth/otp_screen.dart';
 import 'package:babydoo/view/screens/booking/booking.dart';
 import 'package:babydoo/view/screens/booking/my_booking.dart';
 import 'package:babydoo/view/screens/home/dashboard.dart';
 import 'package:babydoo/view/screens/language/languages.dart';
+import 'package:babydoo/view/screens/profile/edit_profile_screen.dart';
 import 'package:babydoo/view/screens/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,7 +39,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.yellow, fontFamily: 'Poppins'),
       defaultTransition: Transition.cupertino,
       getPages: [
-        GetPage(name: '/splash', page: () =>  const Splash()),
+        GetPage(name: '/splash', page: () => const Splash()),
         GetPage(name: '/languages', page: () => const Languages()),
         GetPage(name: '/auth', page: () => const AuthScreen()),
         GetPage(name: '/otp', page: () => const OtpScreen()),
@@ -45,6 +47,9 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/booking', page: () => const Booking()),
         GetPage(name: '/addressBook', page: () => const AddressBook()),
         GetPage(name: '/myBooking', page: () => const MyBooking()),
+        GetPage(name: '/editProfile', page: () => const EditProfileScreen()),
+        GetPage(
+            name: '/changePassword', page: () => const ChangePasswordScreen()),
       ],
       initialRoute: '/splash',
       initialBinding: AppBindings(),

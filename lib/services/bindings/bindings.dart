@@ -4,6 +4,7 @@ import 'package:babydoo/services/controller/booking_controller.dart';
 import 'package:babydoo/services/controller/bus_controller.dart';
 import 'package:babydoo/services/controller/home_controller.dart';
 import 'package:babydoo/services/controller/language_controller.dart';
+import 'package:babydoo/services/controller/profile_controller.dart';
 import 'package:get/get.dart';
 
 class AppBindings extends Bindings {
@@ -15,5 +16,6 @@ class AppBindings extends Bindings {
     Get.lazyPut(() => AddressController());
     Get.lazyPut(() => BusController());
     Get.lazyPut(() => AuthController());
+    Get.lazyPut(() => ProfileController());
   }
 }

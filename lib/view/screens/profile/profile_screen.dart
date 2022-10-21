@@ -108,7 +108,12 @@ class ProfileScreen extends StatelessWidget {
                       const SizedBox(
                         height: 25,
                       ),
-                      iconTextWidget(ic: 'person_edit', txt: 'Edit Profile'),
+                      iconTextWidget(
+                          ic: 'person_edit',
+                          txt: 'Edit Profile',
+                          listner: () {
+                            Get.toNamed('/editProfile');
+                          }),
                       const SizedBox(
                         height: 20,
                       ),
@@ -121,7 +126,12 @@ class ProfileScreen extends StatelessWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      iconTextWidget(ic: 'lock', txt: 'Change Password'),
+                      iconTextWidget(
+                          ic: 'lock',
+                          txt: 'Change Password',
+                          listner: () {
+                            Get.toNamed('/changePassword');
+                          }),
                       const SizedBox(
                         height: 20,
                       ),
@@ -156,7 +166,10 @@ class ProfileScreen extends StatelessWidget {
             width: 50,
           ),
           SvgPicture.asset(
-            'assets/svg/$ic.svg',color: Colors.orangeAccent,width: 30,height: 30,
+            'assets/svg/$ic.svg',
+            color: Colors.orangeAccent,
+            width: 30,
+            height: 30,
           ),
           const SizedBox(
             width: 20,
