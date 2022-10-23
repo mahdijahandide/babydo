@@ -1,5 +1,3 @@
-import 'package:babydoo/services/controller/home_controller.dart';
-import 'package:babydoo/services/model/busModel/bus_model.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/dialogs/loading_dialogs.dart';
 import 'package:babydoo/view/widgets/snackbar/snackbar.dart';
@@ -12,6 +10,11 @@ import 'dart:convert' as convert;
 class AuthController extends GetxController {
   RxBool isSignUp = false.obs;
   RxBool obSecurePassField = true.obs;
+
+  RxBool ChangePassObSecureCurrentPassField = true.obs;
+  RxBool ChangePassObSecureNewPassField = true.obs;
+  RxBool ChangePassObSecureConfirmPassField = true.obs;
+
   RxBool acceptTerm = false.obs;
 
   TextEditingController mobileTextController = TextEditingController();
@@ -22,12 +25,17 @@ class AuthController extends GetxController {
   TextEditingController loginPasswordTextController = TextEditingController();
   TextEditingController loginMobileTextController = TextEditingController();
 
+  TextEditingController changePasswordCurrentPass = TextEditingController();
+  TextEditingController changePasswordNewPass = TextEditingController();
+  TextEditingController changePasswordConfirmPass = TextEditingController();
+
   TextEditingController otpTextController = TextEditingController();
 
   FocusNode otpNode = FocusNode();
 
   String otpVerifyCode = '';
   String token = '';
+  var user;
 
   handleRegister() async {
     if (mobileTextController.text.isNotEmpty &&
@@ -73,6 +81,7 @@ class AuthController extends GetxController {
         case 200:
           var jsonObject = convert.jsonDecode(response.body);
           token = jsonObject['data']['token'];
+          user = jsonObject['data']['user'];
           Get.offAndToNamed('/home');
           break;
         default:
@@ -84,6 +93,42 @@ class AuthController extends GetxController {
       Snack().createSnack(
           title: 'warning',
           msg: 'Please Fill the Form',
+          icon: Icon(
+            Icons.warning,
+            color: AppColors().maroon,
+          ));
+    }
+  }
+
+  handleChangePassword() async {
+    if (changePasswordCurrentPass.text.isNotEmpty &&
+        changePasswordNewPass.text.isNotEmpty &&
+        changePasswordNewPass.text == changePasswordConfirmPass.text) {
+      LoadingDialog.showCustomDialog(msg: 'loading');
+      final response = await Request.changePasswordRequest(
+          changePasswordCurrentPass.text,
+          changePasswordNewPass.text,
+          changePasswordConfirmPass.text);
+      switch (response.statusCode) {
+        case 200:
+          var jsonObject = convert.jsonDecode(response.body);
+          Snack().createSnack(
+              title: 'Successful',
+              msg: 'Password changed successfuly',
+              icon: Icon(
+                Icons.check,
+                color: AppColors().green,
+              ));
+          break;
+        default:
+          print(response.statusCode);
+          Get.close(1);
+          break;
+      }
+    } else {
+      Snack().createSnack(
+          title: 'warning',
+          msg: 'Please Fill the Form Correctly',
           icon: Icon(
             Icons.warning,
             color: AppColors().maroon,

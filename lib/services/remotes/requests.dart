@@ -1,5 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+// ignore: depend_on_referenced_packages
+import 'package:async/async.dart';
+
+import '../../view/dialogs/loading_dialogs.dart';
 import '../controller/auth_controller.dart';
 import 'api_routes.dart';
 import 'package:get/get.dart';
@@ -68,4 +74,22 @@ class Request {
       },
     );
   }
+
+  static Future<http.Response> changePasswordRequest(
+      String currentPassword, String newPassword, String confirmPassword) {
+    return http.post(
+      Uri.parse(changePasswordRoute),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${Get.find<AuthController>().token}'
+      },
+      body: jsonEncode(<String, String>{
+        'password_confirmation': confirmPassword,
+        'password': newPassword,
+        'old_password': currentPassword
+      }),
+    );
+  }
+  
 }

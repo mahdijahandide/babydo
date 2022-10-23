@@ -35,7 +35,13 @@ class Messages extends Translations {
           'date_of_birth': 'Date of Birth',
           'update_profile': 'Update Profile',
           'edit_profile': 'Edit Profile',
-          'change_profile_picture': 'Change Profile Picture'
+          'change_profile_picture': 'Change Profile Picture',
+          'current_password':'Current Password',
+          'new_password':'New Password',
+          'change_password':'Change Password',
+          'select_photo':'Select Photo',
+          'bus_live_streaming':'Bus Live Streaming',
+          'back_to_profile':'Back To Profile'
         },
         'ar_KW': {
           'appName': 'بيبي دو',
@@ -60,7 +66,18 @@ class Messages extends Translations {
           'accept_term_and_conditions': 'قبول الشروط والأحكام',
           'already_have_an_account': 'هل لديك حساب؟ ',
           'please_login_here': 'الرجاء تسجيل الدخول هنا',
-          'kids': 'أطفال'
+          'kids': 'أطفال',
+          'full_name': 'الاسم الكامل',
+          'date_of_birth': 'تاريخ الولادة',
+          'update_profile': 'تحديث الملف',
+          'edit_profile': 'تعديل الملف الشخصي',
+          'change_profile_picture': 'تغيير صورة الملف الشخصي',
+          'current_password':'كلمة المرور الحالية',
+          'new_password':'كلمة السر الجديدة',
+          'change_password':'غير كلمة السر',
+          'select_photo':'اختر الصور',
+          'bus_live_streaming':'حافلة البث المباشر',
+          'back_to_profile':'العودة إلى الملف الشخصي'
         }
       };
 }

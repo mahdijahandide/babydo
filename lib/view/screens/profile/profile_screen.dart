@@ -1,3 +1,5 @@
+import 'package:babydoo/services/controller/auth_controller.dart';
+import 'package:babydoo/services/remotes/api_routes.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
@@ -74,9 +76,12 @@ class ProfileScreen extends StatelessWidget {
                               blurRadius: 5)
                         ]),
                         margin: const EdgeInsets.only(top: 10),
-                        child: const CircleAvatar(
-                          backgroundImage: AssetImage(
-                            'assets/png/baby.png',
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            baseUrl +
+                                Get.find<AuthController>()
+                                    .user['icon']
+                                    .toString(),
                           ),
                         ),
                       ),
@@ -84,16 +89,16 @@ class ProfileScreen extends StatelessWidget {
                         height: 8,
                       ),
                       CustomText().createText(
-                          title: 'Abdul Rehman',
+                          title: Get.find<AuthController>().user['name'],
                           size: 18,
                           fontWeight: FontWeight.w500),
                       CustomText().createText(
-                          title: 'abdulrehman22@gmail.com',
+                          title: Get.find<AuthController>().user['email'],
                           size: 12,
                           fontWeight: FontWeight.w500,
                           color: Colors.grey),
                       CustomText().createText(
-                          title: '+965 96018811',
+                          title: Get.find<AuthController>().user['mobile'],
                           size: 12,
                           fontWeight: FontWeight.w500,
                           color: Colors.grey),
@@ -145,7 +150,11 @@ class ProfileScreen extends StatelessWidget {
                         height: 20,
                       ),
                       iconTextWidget(
-                          ic: 'streaming', txt: 'Bus Live Streaming'),
+                          ic: 'streaming',
+                          txt: 'Bus Live Streaming',
+                          listner: () {
+                            Get.toNamed('/liveStreaming');
+                          }),
                     ],
                   ),
                 )
