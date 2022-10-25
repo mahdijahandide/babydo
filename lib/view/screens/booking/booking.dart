@@ -21,6 +21,7 @@ class Booking extends GetView<BookController> {
     Get.lazyPut(
       () => BookController(),
     );
+
     return Scaffold(
         extendBody: true,
         appBar: AppBar(
@@ -46,7 +47,7 @@ class Booking extends GetView<BookController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Get.find<AuthController>().token != ''
+                      Get.find<AuthController>().token.value == ''
                           ? Row(
                               children: [
                                 CustomText().createText(
@@ -68,7 +69,7 @@ class Booking extends GetView<BookController> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 12),
                         width: Get.width,
-                        height: 140,
+                        height: 200,
                         decoration: BoxDecoration(
                             color: AppColors().liteGray,
                             borderRadius: BorderRadius.circular(12),
@@ -124,25 +125,49 @@ class Booking extends GetView<BookController> {
                                   const EdgeInsets.symmetric(horizontal: 15),
                               child: Row(
                                 children: [
-                                  SvgPicture.asset(
-                                      'assets/svg/location_tick.svg'),
-                                  const SizedBox(
-                                    width: 6,
+                                  Container(
+                                    padding:const EdgeInsets.all(4),
+                                    decoration: BoxDecoration(color: controller.selectedPackage.value=='session'?AppColors().yellow:Colors.transparent),
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                            'assets/svg/location_tick.svg'),
+                                        const SizedBox(
+                                          width: 6,
+                                        ),
+                                        CustomText().createText(
+                                            title: 'Session',
+                                            fontWeight: FontWeight.w500,
+                                            size: 16),
+                                      ],
+                                    ),
                                   ),
-                                  CustomText().createText(
-                                      title: 'Season',
-                                      fontWeight: FontWeight.w500,
-                                      size: 16),
                                   const Expanded(child: SizedBox()),
-                                  SvgPicture.asset(
-                                      'assets/svg/location_tick.svg'),
-                                  const SizedBox(
-                                    width: 6,
+                                  InkWell(
+                                    onTap: () {
+
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          color:controller.selectedPackage.value=='fullDay'? AppColors().yellow:Colors.transparent),
+                                      child: Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                              'assets/svg/location_tick.svg'),
+                                          const SizedBox(
+                                            width: 6,
+                                          ),
+                                          CustomText().createText(
+                                              title: 'Full booking',
+                                              size: 16,
+                                              fontWeight: FontWeight.w500),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                  CustomText().createText(
-                                      title: 'Full booking',
-                                      size: 16,
-                                      fontWeight: FontWeight.w500),
                                 ],
                               ),
                             )

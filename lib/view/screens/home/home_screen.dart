@@ -1,3 +1,4 @@
+import 'package:babydoo/services/controller/booking_controller.dart';
 import 'package:babydoo/services/controller/home_controller.dart';
 import 'package:babydoo/services/controller/language_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
@@ -425,9 +426,14 @@ class HomeScreen extends GetView<HomeController> {
                                                                     .darkBlue,
                                                             textColor:
                                                                 Colors.white,
-                                                            onPress: () =>
-                                                                Get.toNamed(
-                                                                    '/booking')),
+                                                            onPress: () {
+                                                              Get.find<
+                                                                      BookController>()
+                                                                  .handleGetBookingNowRequest(
+                                                                      busId: current
+                                                                          .id
+                                                                          .toString());
+                                                            }),
                                                   ),
                                                 ],
                                               ),

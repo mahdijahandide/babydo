@@ -1,4 +1,3 @@
-import 'package:babydoo/services/controller/auth_controller.dart';
 import 'package:babydoo/services/controller/profile_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
@@ -15,13 +14,12 @@ class EditProfileScreen extends GetView<ProfileController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(
-      () => ProfileController(),
-    );
+    Get.put(ProfileController());
     return Scaffold(
-      backgroundColor: AppColors().blue,
+      backgroundColor: AppColors().litePink,
       appBar: AppBar(
         centerTitle: false,
+        foregroundColor: Colors.white,
         title: CustomText().createText(
             title: 'edit_profile'.tr,
             size: 14,
@@ -138,7 +136,6 @@ class EditProfileScreen extends GetView<ProfileController> {
                           ),
                           Container(
                             width: Get.width,
-                            height: 73,
                             padding:
                                 const EdgeInsets.only(right: 8.0, left: 8.0),
                             decoration: BoxDecoration(
@@ -153,19 +150,22 @@ class EditProfileScreen extends GetView<ProfileController> {
                                     title: 'date_of_birth'.tr,
                                     align: TextAlign.start,
                                     color: AppColors().green),
-                                DateTimePicker(
-                                  initialValue: '',
-                                  decoration: const InputDecoration(
-                                      border: InputBorder.none),
-                                  firstDate: DateTime(1990),
-                                  lastDate: DateTime(2100),
-                                  onChanged: (val) =>
-                                      controller.editProfileDOB.value = val,
-                                  validator: (val) {
-                                    print(val);
-                                    return null;
-                                  },
-                                  onSaved: (val) => print(val),
+                                SizedBox(
+                                  height: 20,
+                                  child: DateTimePicker(
+                                    initialValue:
+                                        controller.editProfileDOB.value,
+                                    decoration: const InputDecoration(
+                                        border: InputBorder.none),
+                                    firstDate: DateTime(1990),
+                                    lastDate: DateTime(2100),
+                                    onChanged: (val) =>
+                                        controller.editProfileDOB.value = val,
+                                    validator: (val) {
+                                      return null;
+                                    },
+                                    onSaved: (val) => print(val),
+                                  ),
                                 ),
                               ],
                             ),

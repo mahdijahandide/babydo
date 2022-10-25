@@ -34,7 +34,7 @@ class AuthController extends GetxController {
   FocusNode otpNode = FocusNode();
 
   String otpVerifyCode = '';
-  String token = '';
+  RxString token = ''.obs;
   var user;
 
   handleRegister() async {
@@ -53,7 +53,7 @@ class AuthController extends GetxController {
           var jsonObject = convert.jsonDecode(response.body);
           otpVerifyCode =
               jsonObject['data']['user']['sms_activation_code'].toString();
-          token = jsonObject['data']['token'];
+          token.value = jsonObject['data']['token'];
           Get.offAndToNamed('/otp');
           break;
         default:
@@ -80,7 +80,7 @@ class AuthController extends GetxController {
       switch (response.statusCode) {
         case 200:
           var jsonObject = convert.jsonDecode(response.body);
-          token = jsonObject['data']['token'];
+          token.value = jsonObject['data']['token'];
           user = jsonObject['data']['user'];
           Get.offAndToNamed('/home');
           break;
@@ -119,6 +119,7 @@ class AuthController extends GetxController {
                 Icons.check,
                 color: AppColors().green,
               ));
+          Get.close(1);
           break;
         default:
           print(response.statusCode);

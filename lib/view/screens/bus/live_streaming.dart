@@ -1,4 +1,3 @@
-import 'package:babydoo/services/controller/auth_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
 import 'package:babydoo/view/widgets/chewie/chewie.dart';
@@ -6,8 +5,6 @@ import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-
-import '../../widgets/textfields/textfield.dart';
 
 class LiveStreaming extends StatelessWidget {
   const LiveStreaming({Key? key}) : super(key: key);

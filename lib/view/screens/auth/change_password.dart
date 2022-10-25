@@ -17,7 +17,7 @@ class ChangePasswordScreen extends GetView<AuthController> {
       () => AuthController(),
     );
     return Scaffold(
-      backgroundColor: AppColors().blue,
+      backgroundColor: AppColors().green,
       appBar: AppBar(
         centerTitle: false,
         title: CustomText().createText(
@@ -27,6 +27,7 @@ class ChangePasswordScreen extends GetView<AuthController> {
             color: Colors.white),
         backgroundColor: AppColors().green,
         elevation: 0,
+        foregroundColor: Colors.white,
         actions: [
           IconButton(
               onPressed: () {},
