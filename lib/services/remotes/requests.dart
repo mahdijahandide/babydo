@@ -102,4 +102,14 @@ class Request {
       }),
     );
   }
+
+  static Future<http.Response> getAreasRequest() {
+    return http.post(
+      Uri.parse(getAreasRoute),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+      },
+    );
+  }
 }

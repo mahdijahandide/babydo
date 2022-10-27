@@ -1,5 +1,6 @@
 import 'package:babydoo/services/controller/auth_controller.dart';
 import 'package:babydoo/services/controller/booking_controller.dart';
+import 'package:babydoo/services/model/area_model.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/screens/booking/date_picker.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
@@ -21,7 +22,7 @@ class Booking extends GetView<BookController> {
     Get.lazyPut(
       () => BookController(),
     );
-
+    controller.handleGetBookingAreasRequest();
     return Scaffold(
         extendBody: true,
         appBar: AppBar(
@@ -69,7 +70,7 @@ class Booking extends GetView<BookController> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 12),
                         width: Get.width,
-                        height: 200,
+                        height: 150,
                         decoration: BoxDecoration(
                             color: AppColors().liteGray,
                             borderRadius: BorderRadius.circular(12),
@@ -125,34 +126,54 @@ class Booking extends GetView<BookController> {
                                   const EdgeInsets.symmetric(horizontal: 15),
                               child: Row(
                                 children: [
-                                  Container(
-                                    padding:const EdgeInsets.all(4),
-                                    decoration: BoxDecoration(color: controller.selectedPackage.value=='session'?AppColors().yellow:Colors.transparent),
-                                    child: Row(
-                                      children: [
-                                        SvgPicture.asset(
-                                            'assets/svg/location_tick.svg'),
-                                        const SizedBox(
-                                          width: 6,
-                                        ),
-                                        CustomText().createText(
-                                            title: 'Session',
-                                            fontWeight: FontWeight.w500,
-                                            size: 16),
-                                      ],
-                                    ),
-                                  ),
-                                  const Expanded(child: SizedBox()),
                                   InkWell(
                                     onTap: () {
-
+                                      controller.handleSessionSelection();
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.all(4),
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(8),
-                                          color:controller.selectedPackage.value=='fullDay'? AppColors().yellow:Colors.transparent),
+                                          color: controller
+                                                      .selectedPackage.value ==
+                                                  'session'
+                                              ? AppColors()
+                                                  .yellow
+                                                  .withOpacity(0.8)
+                                              : Colors.transparent),
+                                      child: Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                              'assets/svg/location_tick.svg'),
+                                          const SizedBox(
+                                            width: 6,
+                                          ),
+                                          CustomText().createText(
+                                              title: 'Session',
+                                              fontWeight: FontWeight.w500,
+                                              size: 16),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  const Expanded(child: SizedBox()),
+                                  InkWell(
+                                    onTap: () {
+                                      controller.handleFulldaySelection();
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          color: controller
+                                                      .selectedPackage.value ==
+                                                  'fullDay'
+                                              ? AppColors()
+                                                  .yellow
+                                                  .withOpacity(0.8)
+                                              : Colors.transparent),
                                       child: Row(
                                         children: [
                                           SvgPicture.asset(
@@ -170,7 +191,7 @@ class Booking extends GetView<BookController> {
                                   ),
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -186,13 +207,17 @@ class Booking extends GetView<BookController> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Center(
-                        child: buildWeekDatePicker(
-                            controller.selectedDate,
-                            controller.startOfPeriod,
-                            controller.endOfPeriod,
-                            (value) {}),
-                      ),
+                      GetBuilder(builder: (BookController bookController) {
+                        return Center(
+                          child: buildWeekDatePicker(
+                              controller.selectedDate,
+                              controller.startOfPeriod,
+                              controller.endOfPeriod, (value) {
+                            print(value);
+                            // controller.selectedDate = value;
+                          }),
+                        );
+                      }),
                       Center(
                         child: CustomText().createText(
                             title: 'Contract details',
@@ -221,17 +246,52 @@ class Booking extends GetView<BookController> {
                       const SizedBox(
                         height: 8,
                       ),
-                      CustomDropDown().createCustomDropdown(
-                        value: 'test',
-                        mList: [
-                          'test',
-                          'test2',
-                          'test3',
-                          'test4',
-                          'test5',
-                          'test6'
-                        ],
-                      ),
+                      controller.bookingAreaList.isEmpty
+                          ? Container(
+                              width: Get.width,
+                              height: 45,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: AppColors().green, width: 1),
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: const Center(
+                                  child: CircularProgressIndicator()))
+                          : Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: AppColors().green, width: 1),
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: DropdownButtonHideUnderline(
+                                child: Directionality(
+                                  textDirection: TextDirection.rtl,
+                                  child: DropdownButton<String>(
+                                    focusColor: Colors.white,
+                                    isExpanded: true,
+                                    hint: Text(controller.selectedArea.value),
+                                    onChanged: (val) {
+                                      controller.selectedArea.value = controller
+                                          .bookingAreaList
+                                          .where(
+                                              (p0) => p0.id.toString() == val)
+                                          .first
+                                          .name
+                                          .toString();
+                                    },
+                                    items: controller.bookingAreaList
+                                        .map((AreaModel value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value.id.toString(),
+                                        child: Text(value.name.toString()),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ),
+                            ),
                       const SizedBox(
                         height: 8,
                       ),

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:babydoo/services/model/area_model.dart';
 import 'package:babydoo/services/model/bookDetailsModel/book_full_time_model.dart';
 import 'package:babydoo/services/model/bookDetailsModel/book_session_model.dart';
 import 'package:babydoo/services/model/bookDetailsModel/booking_details_model.dart';
@@ -7,19 +8,22 @@ import 'package:babydoo/services/model/booking_model.dart';
 import 'package:babydoo/view/dialogs/loading_dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../remotes/requests.dart';
 import 'dart:convert' as convert;
 
 class BookController extends GetxController {
   RxBool acceptTerm = false.obs;
-  DateTime startOfPeriod = DateTime.now().subtract(const Duration(days: 10));
-  DateTime endOfPeriod = DateTime.now().add(const Duration(days: 10));
-  DateTime selectedDate = DateTime.now().add(const Duration(days: 10));
+  DateTime startOfPeriod = DateTime.now();
+  DateTime endOfPeriod = DateTime.now();
+  DateTime selectedDate = DateTime.now();
 
   RxList<BookingModel> bookingList = RxList([]);
   RxList<BookingDetailsModel> bookingDetailsList = RxList([]);
+  RxList<AreaModel> bookingAreaList = RxList([]);
   RxString selectedPackage = ''.obs;
+  RxString selectedArea = ''.obs;
 
   @override
   void onInit() {
@@ -60,7 +64,14 @@ class BookController extends GetxController {
         moonDataArray.forEach((element) {
           bookingDetailsList.add(BookingDetailsModel(data: element));
         });
+        
 
+        startOfPeriod =
+            DateFormat("yyyy-MM-dd hh:mm:ss").parse('${bookingDetailsList.first.date} 00:00:00');
+        endOfPeriod =
+            DateFormat("yyyy-MM-dd hh:mm:ss").parse('${bookingDetailsList.last.date} 00:00:00');
+            selectedDate=DateFormat("yyyy-MM-dd hh:mm:ss").parse('${bookingDetailsList.first.date} 00:00:00');
+        
         update();
         break;
       default:
@@ -69,8 +80,31 @@ class BookController extends GetxController {
     }
   }
 
+  handleGetBookingAreasRequest() async {
+    final response = await Request.getAreasRequest();
+    switch (response.statusCode) {
+      case 200:
+        var jsonObject = convert.jsonDecode(response.body);
+        log(jsonObject.toString());
+        var areaArray = jsonObject['data']['areas'];
+        bookingAreaList.clear();
+        areaArray.forEach((element) {
+          bookingAreaList.add(AreaModel(data: element));
+        });
+        update();
+        break;
+      default:
+        debugPrint(response.statusCode.toString());
+        break;
+    }
+  }
+
+
   handleSessionSelection() {
     selectedPackage.value = 'session';
-    
+  }
+
+  handleFulldaySelection() {
+    selectedPackage.value = 'fullDay';
   }
 }

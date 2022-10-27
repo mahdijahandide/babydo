@@ -14,4 +14,5 @@ String getBookingRoute = '$baseUrl$apiRoute/bookingList';
 String getBookingNowRoute = '$baseUrl$apiRoute/bus/get_bookingNow';
 String changePasswordRoute = '$baseUrl$apiRoute/user/changePassword';
 String editProfileRoute = '$baseUrl$apiRoute/user/editPrifile';
+String getAreasRoute = '$baseUrl$apiRoute/getAreas';
 
