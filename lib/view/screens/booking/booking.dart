@@ -2,12 +2,12 @@ import 'package:babydoo/services/controller/auth_controller.dart';
 import 'package:babydoo/services/controller/booking_controller.dart';
 import 'package:babydoo/services/model/area_model.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
-import 'package:babydoo/view/screens/booking/date_picker.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
-import 'package:babydoo/view/widgets/dropdowns/custom_drop_down.dart';
 import 'package:babydoo/view/widgets/textfields/textfield.dart';
+import 'package:flutter_date_pickers/flutter_date_pickers.dart' as dp;
 import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_date_pickers/flutter_date_pickers.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -23,6 +23,25 @@ class Booking extends GetView<BookController> {
       () => BookController(),
     );
     controller.handleGetBookingAreasRequest();
+
+    // add selected colors to default settings
+    dp.DatePickerRangeStyles styles = dp.DatePickerRangeStyles(
+      selectedDateStyle: const TextStyle(fontFamily: 'Vibes',fontSize: 26,fontWeight: FontWeight.bold),
+      selectedSingleDateDecoration: BoxDecoration(
+        color: AppColors().yellow,
+        shape: BoxShape.circle,
+      ),
+      disabledDateStyle: const TextStyle(fontFamily: 'Vibes',fontSize: 18),
+      dayHeaderStyle: const DayHeaderStyle(
+        textStyle: TextStyle(
+          color: Colors.black,fontSize: 20,fontFamily: 'Vibes'
+        ),
+      ),
+      defaultDateTextStyle: const TextStyle(color:Colors.green,fontSize: 26,fontFamily: 'Vibes'),
+      dayHeaderTitleBuilder: controller.dayHeaderTitleBuilder,
+      displayedPeriodTitle: const TextStyle(fontFamily: 'Vibes',fontSize:30,fontWeight: FontWeight.bold)
+    );
+
     return Scaffold(
         extendBody: true,
         appBar: AppBar(
@@ -209,13 +228,24 @@ class Booking extends GetView<BookController> {
                       ),
                       GetBuilder(builder: (BookController bookController) {
                         return Center(
-                          child: buildWeekDatePicker(
-                              controller.selectedDate,
-                              controller.startOfPeriod,
-                              controller.endOfPeriod, (value) {
-                            print(value);
-                            // controller.selectedDate = value;
-                          }),
+                          child: dp.DayPicker.single(
+                            selectedDate: controller.selectedDate,
+                            onChanged: (v){
+                              controller.selectedDate=v;
+                              controller.update();
+                            },
+                            firstDate: controller.startOfPeriod,
+                            lastDate: controller.endOfPeriod,
+                            datePickerStyles: styles,
+                            datePickerLayoutSettings:const dp.DatePickerLayoutSettings(
+                              maxDayPickerRowCount: 5,
+                              showPrevMonthEnd: true,
+                              showNextMonthStart: true,
+                              scrollPhysics: NeverScrollableScrollPhysics(),
+                            ),
+                            // selectableDayPredicate: controller.isSelectableCustom,
+                            // eventDecorationBuilder: _eventDecorationBuilder,
+                          ),
                         );
                       }),
                       Center(
@@ -443,6 +473,7 @@ class Booking extends GetView<BookController> {
             ],
           ),
         ));
+
   }
 
   Widget createCustomField({

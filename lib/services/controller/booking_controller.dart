@@ -1,8 +1,6 @@
 import 'dart:developer';
 
 import 'package:babydoo/services/model/area_model.dart';
-import 'package:babydoo/services/model/bookDetailsModel/book_full_time_model.dart';
-import 'package:babydoo/services/model/bookDetailsModel/book_session_model.dart';
 import 'package:babydoo/services/model/bookDetailsModel/booking_details_model.dart';
 import 'package:babydoo/services/model/booking_model.dart';
 import 'package:babydoo/view/dialogs/loading_dialogs.dart';
@@ -15,9 +13,9 @@ import 'dart:convert' as convert;
 
 class BookController extends GetxController {
   RxBool acceptTerm = false.obs;
-  DateTime startOfPeriod = DateTime.now();
-  DateTime endOfPeriod = DateTime.now();
-  DateTime selectedDate = DateTime.now();
+  late DateTime startOfPeriod;
+  late DateTime endOfPeriod;
+  DateTime selectedDate=DateTime.now();
 
   RxList<BookingModel> bookingList = RxList([]);
   RxList<BookingDetailsModel> bookingDetailsList = RxList([]);
@@ -31,6 +29,11 @@ class BookController extends GetxController {
     super.onInit();
     handleGetBookingRequest();
   }
+
+  String dayHeaderTitleBuilder(
+      int dayOfTheWeek, List<String> localizedHeaders) =>
+      localizedHeaders[dayOfTheWeek].substring(0, 3);
+
 
   handleGetBookingRequest() async {
     final response = await Request.getBookingRequest();
@@ -71,7 +74,6 @@ class BookController extends GetxController {
         endOfPeriod =
             DateFormat("yyyy-MM-dd hh:mm:ss").parse('${bookingDetailsList.last.date} 00:00:00');
             selectedDate=DateFormat("yyyy-MM-dd hh:mm:ss").parse('${bookingDetailsList.first.date} 00:00:00');
-        
         update();
         break;
       default:

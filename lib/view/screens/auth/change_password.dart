@@ -105,17 +105,17 @@ class ChangePasswordScreen extends GetView<AuthController> {
                               lable: 'current_password'.tr,
                               controller: controller.changePasswordCurrentPass,
                               obscure: controller
-                                  .ChangePassObSecureCurrentPassField.value,
+                                  .changePassObSecureCurrentPassField.value,
                               borderColor: AppColors().green,
                               borderWidth: 2.0,
                               lableColor: AppColors().green,
                               hasSuffixIcon: true,
                               suffixIcon: Icons.remove_red_eye,
                               suffixPress: () {
-                                controller.ChangePassObSecureCurrentPassField
+                                controller.changePassObSecureCurrentPassField
                                         .value =
                                     !controller
-                                        .ChangePassObSecureCurrentPassField
+                                        .changePassObSecureCurrentPassField
                                         .value;
                               }),
                           const SizedBox(
@@ -127,7 +127,7 @@ class ChangePasswordScreen extends GetView<AuthController> {
                               lable: 'new_password'.tr,
                               controller: controller.changePasswordNewPass,
                               obscure: controller
-                                  .ChangePassObSecureNewPassField.value,
+                                  .changePassObSecureNewPassField.value,
                               borderColor: AppColors().green,
                               borderWidth: 2.0,
                               lableColor: AppColors().green,
@@ -135,9 +135,9 @@ class ChangePasswordScreen extends GetView<AuthController> {
                               suffixIcon: Icons.remove_red_eye,
                               suffixPress: () {
                                 controller
-                                        .ChangePassObSecureNewPassField.value =
+                                        .changePassObSecureNewPassField.value =
                                     !controller
-                                        .ChangePassObSecureNewPassField.value;
+                                        .changePassObSecureNewPassField.value;
                               }),
                           const SizedBox(
                             height: 12,
@@ -148,17 +148,17 @@ class ChangePasswordScreen extends GetView<AuthController> {
                               lable: 'confirm_password'.tr,
                               controller: controller.changePasswordConfirmPass,
                               obscure: controller
-                                  .ChangePassObSecureConfirmPassField.value,
+                                  .changePassObSecureConfirmPassField.value,
                               borderColor: AppColors().green,
                               borderWidth: 2.0,
                               lableColor: AppColors().green,
                               hasSuffixIcon: true,
                               suffixIcon: Icons.remove_red_eye,
                               suffixPress: () {
-                                controller.ChangePassObSecureConfirmPassField
+                                controller.changePassObSecureConfirmPassField
                                         .value =
                                     !controller
-                                        .ChangePassObSecureConfirmPassField
+                                        .changePassObSecureConfirmPassField
                                         .value;
                               }),
                           const SizedBox(

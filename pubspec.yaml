@@ -90,3 +90,6 @@ flutter:
           - asset: assets/fonts/poppins_medium.ttf
           - asset: assets/fonts/poppins_semi_bold.ttf
           - asset: assets/fonts/poppins_bold.ttf
+    - family: Vibes
+      fonts:
+        - asset: assets/fonts/vibes.ttf

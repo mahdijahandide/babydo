@@ -11,9 +11,9 @@ class AuthController extends GetxController {
   RxBool isSignUp = false.obs;
   RxBool obSecurePassField = true.obs;
 
-  RxBool ChangePassObSecureCurrentPassField = true.obs;
-  RxBool ChangePassObSecureNewPassField = true.obs;
-  RxBool ChangePassObSecureConfirmPassField = true.obs;
+  RxBool changePassObSecureCurrentPassField = true.obs;
+  RxBool changePassObSecureNewPassField = true.obs;
+  RxBool changePassObSecureConfirmPassField = true.obs;
 
   RxBool acceptTerm = false.obs;
 
@@ -77,6 +77,7 @@ class AuthController extends GetxController {
       LoadingDialog.showCustomDialog(msg: 'loading');
       final response = await Request.userLogin(
           loginMobileTextController.text, loginPasswordTextController.text, '');
+      Get.log(response.body.toString());
       switch (response.statusCode) {
         case 200:
           var jsonObject = convert.jsonDecode(response.body);
@@ -85,7 +86,7 @@ class AuthController extends GetxController {
           Get.offAndToNamed('/home');
           break;
         default:
-          print(response.statusCode);
+          debugPrint(response.statusCode.toString());
           Get.close(1);
           break;
       }
@@ -111,7 +112,7 @@ class AuthController extends GetxController {
           changePasswordConfirmPass.text);
       switch (response.statusCode) {
         case 200:
-          var jsonObject = convert.jsonDecode(response.body);
+          // var jsonObject = convert.jsonDecode(response.body);
           Snack().createSnack(
               title: 'Successful',
               msg: 'Password changed successfuly',
@@ -122,7 +123,7 @@ class AuthController extends GetxController {
           Get.close(1);
           break;
         default:
-          print(response.statusCode);
+          debugPrint(response.statusCode.toString());
           Get.close(1);
           break;
       }
