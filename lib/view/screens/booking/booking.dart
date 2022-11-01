@@ -26,21 +26,22 @@ class Booking extends GetView<BookController> {
 
     // add selected colors to default settings
     dp.DatePickerRangeStyles styles = dp.DatePickerRangeStyles(
-      selectedDateStyle: const TextStyle(fontFamily: 'Vibes',fontSize: 26,fontWeight: FontWeight.bold),
-      selectedSingleDateDecoration: BoxDecoration(
-        color: AppColors().yellow,
-        shape: BoxShape.circle,
-      ),
-      disabledDateStyle: const TextStyle(fontFamily: 'Vibes',fontSize: 18),
-      dayHeaderStyle: const DayHeaderStyle(
-        textStyle: TextStyle(
-          color: Colors.black,fontSize: 20,fontFamily: 'Vibes'
+        selectedDateStyle: const TextStyle(
+            fontFamily: 'Vibes', fontSize: 26, fontWeight: FontWeight.bold),
+        selectedSingleDateDecoration: BoxDecoration(
+          color: AppColors().yellow,
+          shape: BoxShape.circle,
         ),
-      ),
-      defaultDateTextStyle: const TextStyle(color:Colors.green,fontSize: 26,fontFamily: 'Vibes'),
-      dayHeaderTitleBuilder: controller.dayHeaderTitleBuilder,
-      displayedPeriodTitle: const TextStyle(fontFamily: 'Vibes',fontSize:30,fontWeight: FontWeight.bold)
-    );
+        disabledDateStyle: const TextStyle(fontFamily: 'Vibes', fontSize: 18),
+        dayHeaderStyle: const DayHeaderStyle(
+          textStyle:
+              TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Vibes'),
+        ),
+        defaultDateTextStyle: const TextStyle(
+            color: Colors.green, fontSize: 26, fontFamily: 'Vibes'),
+        dayHeaderTitleBuilder: controller.dayHeaderTitleBuilder,
+        displayedPeriodTitle: const TextStyle(
+            fontFamily: 'Vibes', fontSize: 30, fontWeight: FontWeight.bold));
 
     return Scaffold(
         extendBody: true,
@@ -154,13 +155,13 @@ class Booking extends GetView<BookController> {
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(8),
-                                          color: controller
-                                                      .selectedPackage.value ==
-                                                  'session'
-                                              ? AppColors()
-                                                  .yellow
-                                                  .withOpacity(0.8)
-                                              : Colors.transparent),
+                                          color:
+                                              controller.bookData.packageType ==
+                                                      'Session'
+                                                  ? AppColors()
+                                                      .yellow
+                                                      .withOpacity(0.8)
+                                                  : Colors.transparent),
                                       child: Row(
                                         children: [
                                           SvgPicture.asset(
@@ -186,13 +187,13 @@ class Booking extends GetView<BookController> {
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(8),
-                                          color: controller
-                                                      .selectedPackage.value ==
-                                                  'fullDay'
-                                              ? AppColors()
-                                                  .yellow
-                                                  .withOpacity(0.8)
-                                              : Colors.transparent),
+                                          color:
+                                              controller.bookData.packageType ==
+                                                      'FullDay'
+                                                  ? AppColors()
+                                                      .yellow
+                                                      .withOpacity(0.8)
+                                                  : Colors.transparent),
                                       child: Row(
                                         children: [
                                           SvgPicture.asset(
@@ -230,21 +231,81 @@ class Booking extends GetView<BookController> {
                         return Center(
                           child: dp.DayPicker.single(
                             selectedDate: controller.selectedDate,
-                            onChanged: (v){
-                              controller.selectedDate=v;
+                            onChanged: (v) {
+                              controller.selectedDate = v;
                               controller.update();
+                              print(v);
                             },
                             firstDate: controller.startOfPeriod,
                             lastDate: controller.endOfPeriod,
                             datePickerStyles: styles,
-                            datePickerLayoutSettings:const dp.DatePickerLayoutSettings(
+                            datePickerLayoutSettings:
+                                const dp.DatePickerLayoutSettings(
                               maxDayPickerRowCount: 5,
                               showPrevMonthEnd: true,
                               showNextMonthStart: true,
                               scrollPhysics: NeverScrollableScrollPhysics(),
                             ),
-                            // selectableDayPredicate: controller.isSelectableCustom,
-                            // eventDecorationBuilder: _eventDecorationBuilder,
+                          ),
+                        );
+                      }),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      GetBuilder(builder: (BookController bookController) {
+                        return SizedBox(
+                          height: 50,
+                          width: Get.width,
+                          child: ListView.builder(
+                            itemCount:
+                                controller.bookData.packageType == 'FullDay'
+                                    ? controller.bookingDetailsList
+                                        .where((p0) =>
+                                            p0.date.toString() ==
+                                            controller.selectedDate.toString())
+                                        .first
+                                        .fullBookingList
+                                        .length
+                                    : controller.bookingDetailsList
+                                        .where((p0) =>
+                                            p0.date.toString() ==
+                                            controller.selectedDate.toString())
+                                        .first
+                                        .sessionList
+                                        .length,
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              var current;
+                              current = controller.bookData.packageType ==
+                                      'FullDay'
+                                  ? controller.bookingDetailsList
+                                      .where((p0) =>
+                                          p0.date.toString() ==
+                                          controller.selectedDate.toString())
+                                      .first
+                                      .fullBookingList[index]
+                                  : controller.bookingDetailsList
+                                      .where((p0) =>
+                                          p0.date.toString() ==
+                                          controller.selectedDate.toString())
+                                      .first
+                                      .sessionList[index];
+                              return Container(
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 4, horizontal: 4),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 5, vertical: 3),
+                                decoration: BoxDecoration(
+                                    color: AppColors().gray.withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Center(
+                                  child: CustomText().createText(
+                                      title:
+                                          '${current.startTimeShow}-${current.endTimeShow}'),
+                                ),
+                              );
+                            },
                           ),
                         );
                       }),
@@ -301,15 +362,17 @@ class Booking extends GetView<BookController> {
                                   child: DropdownButton<String>(
                                     focusColor: Colors.white,
                                     isExpanded: true,
-                                    hint: Text(controller.selectedArea.value),
+                                    hint: Text(controller.bookData.areaName
+                                        .toString()),
                                     onChanged: (val) {
-                                      controller.selectedArea.value = controller
+                                      controller.bookData.areaName = controller
                                           .bookingAreaList
                                           .where(
                                               (p0) => p0.id.toString() == val)
                                           .first
                                           .name
                                           .toString();
+                                      controller.bookData.areaId = val;
                                     },
                                     items: controller.bookingAreaList
                                         .map((AreaModel value) {
@@ -473,7 +536,6 @@ class Booking extends GetView<BookController> {
             ],
           ),
         ));
-
   }
 
   Widget createCustomField({

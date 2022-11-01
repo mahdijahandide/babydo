@@ -88,8 +88,7 @@ class Request {
     );
   }
 
-  static Future<http.Response> getBookingNowRequest(
-      String busId) {
+  static Future<http.Response> getBookingNowRequest(String busId) {
     return http.post(
       Uri.parse(getBookingNowRoute),
       headers: <String, String>{

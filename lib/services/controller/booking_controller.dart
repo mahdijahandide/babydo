@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:babydoo/services/model/area_model.dart';
+import 'package:babydoo/services/model/bookDetailsModel/book_data_model.dart';
 import 'package:babydoo/services/model/bookDetailsModel/booking_details_model.dart';
 import 'package:babydoo/services/model/booking_model.dart';
 import 'package:babydoo/view/dialogs/loading_dialogs.dart';
@@ -15,13 +16,16 @@ class BookController extends GetxController {
   RxBool acceptTerm = false.obs;
   late DateTime startOfPeriod;
   late DateTime endOfPeriod;
-  DateTime selectedDate=DateTime.now();
+  DateTime selectedDate = DateTime.now();
 
   RxList<BookingModel> bookingList = RxList([]);
   RxList<BookingDetailsModel> bookingDetailsList = RxList([]);
   RxList<AreaModel> bookingAreaList = RxList([]);
-  RxString selectedPackage = ''.obs;
-  RxString selectedArea = ''.obs;
+
+  // RxString selectedArea = ''.obs;
+
+  BookDataModel bookData = BookDataModel(
+      '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
 
   @override
   void onInit() {
@@ -31,9 +35,8 @@ class BookController extends GetxController {
   }
 
   String dayHeaderTitleBuilder(
-      int dayOfTheWeek, List<String> localizedHeaders) =>
+          int dayOfTheWeek, List<String> localizedHeaders) =>
       localizedHeaders[dayOfTheWeek].substring(0, 3);
-
 
   handleGetBookingRequest() async {
     final response = await Request.getBookingRequest();
@@ -67,13 +70,15 @@ class BookController extends GetxController {
         moonDataArray.forEach((element) {
           bookingDetailsList.add(BookingDetailsModel(data: element));
         });
-        
 
-        startOfPeriod =
-            DateFormat("yyyy-MM-dd hh:mm:ss").parse('${bookingDetailsList.first.date} 00:00:00');
-        endOfPeriod =
-            DateFormat("yyyy-MM-dd hh:mm:ss").parse('${bookingDetailsList.last.date} 00:00:00');
-            selectedDate=DateFormat("yyyy-MM-dd hh:mm:ss").parse('${bookingDetailsList.first.date} 00:00:00');
+        startOfPeriod = DateFormat("yyyy-MM-dd hh:mm:ss")
+            .parse('${bookingDetailsList.first.date}');
+        endOfPeriod = DateFormat("yyyy-MM-dd hh:mm:ss")
+            .parse('${bookingDetailsList.last.date}');
+        selectedDate = DateFormat("yyyy-MM-dd hh:mm:ss")
+            .parse('${bookingDetailsList.first.date}');
+        bookData.busId = busId;
+        handleSessionSelection();
         update();
         break;
       default:
@@ -101,12 +106,11 @@ class BookController extends GetxController {
     }
   }
 
-
   handleSessionSelection() {
-    selectedPackage.value = 'session';
+    bookData.packageType = 'Session';
   }
 
   handleFulldaySelection() {
-    selectedPackage.value = 'fullDay';
+    bookData.packageType = 'FullDay';
   }
 }

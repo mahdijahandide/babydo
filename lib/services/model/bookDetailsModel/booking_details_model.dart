@@ -69,7 +69,7 @@ class BookingDetailsModel {
     createdAt = dayData['created_at'];
     updatedAt = dayData['updated_at'];
     weekDayName = dayData['week_day_name'];
-    date = dayData['date'];
+    date = dayData['date'] + ' 00:00:00.000';
     isAvailable = data['is_available'];
     availableStatus = data['available_status'];
     availableType = data['available_type'];
