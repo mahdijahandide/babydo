@@ -111,4 +111,67 @@ class Request {
       },
     );
   }
+
+  static Future<http.Response> bookingPaymentRequest(
+      String busId,
+      dateReserved,
+      startTime,
+      endTime,
+      name,
+      phoneNumber,
+      block,
+      street,
+      avenue,
+      areaId,
+      houseNum,
+      spNote,
+      delivery,
+      bookingType) {
+    print(
+      jsonEncode(<String, String>{
+        'bus_id': busId,
+        'date_reserved': dateReserved,
+        'start_time': startTime,
+        'end_time': endTime,
+        'name': name,
+        'phone_number': phoneNumber,
+        'block': block,
+        'street': street,
+        'avenue': avenue,
+        'area_id': areaId,
+        'latitude': '19.0000',
+        'longitude': '18,00000',
+        'house_number': houseNum,
+        'special_note': spNote,
+        'delivery_charge': delivery,
+        'booking_type': bookingType,
+      }),
+    );
+    return http.post(
+      Uri.parse(bookPaymentRoute),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${Get.find<AuthController>().token.value}'
+      },
+      body: jsonEncode(<String, String>{
+        'bus_id': busId,
+        'date_reserved': dateReserved,
+        'start_time': startTime,
+        'end_time': endTime,
+        'name': name,
+        'phone_number': phoneNumber,
+        'block': block,
+        'street': street,
+        'avenue': avenue,
+        'area_id': areaId,
+        'latitude': '19.0000',
+        'longitude': '18,00000',
+        'house_number': houseNum,
+        'special_note': spNote,
+        'delivery_charge': delivery,
+        'booking_type': bookingType,
+      }),
+    );
+  }
 }

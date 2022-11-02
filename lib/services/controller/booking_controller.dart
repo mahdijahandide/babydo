@@ -8,6 +8,7 @@ import 'package:babydoo/view/dialogs/loading_dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../remotes/requests.dart';
 import 'dart:convert' as convert;
@@ -22,10 +23,16 @@ class BookController extends GetxController {
   RxList<BookingDetailsModel> bookingDetailsList = RxList([]);
   RxList<AreaModel> bookingAreaList = RxList([]);
 
-  // RxString selectedArea = ''.obs;
+  TextEditingController nameTxtController = TextEditingController();
+  TextEditingController mobileTxtController = TextEditingController();
+  TextEditingController blockTxtController = TextEditingController();
+  TextEditingController streetTxtController = TextEditingController();
+  TextEditingController avenueTxtController = TextEditingController();
+  TextEditingController houseTxtController = TextEditingController();
+  TextEditingController spNoteTxtController = TextEditingController();
 
-  BookDataModel bookData = BookDataModel(
-      '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+  BookDataModel bookData = BookDataModel('', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '');
 
   @override
   void onInit() {
@@ -108,9 +115,65 @@ class BookController extends GetxController {
 
   handleSessionSelection() {
     bookData.packageType = 'Session';
+    bookData.selectedTime = '';
+    bookData.startTime = '';
+    bookData.endTime = '';
+    bookData.bookPrice = '0';
+    bookData.areaId = '';
+    bookData.areaName = '';
+    bookData.deliveryCharge = '0';
+    update();
   }
 
   handleFulldaySelection() {
     bookData.packageType = 'FullDay';
+    bookData.selectedTime = '';
+    bookData.startTime = '';
+    bookData.endTime = '';
+    bookData.bookPrice = '0';
+    bookData.areaId = '';
+    bookData.areaName = '';
+    bookData.deliveryCharge = '0';
+    update();
+  }
+
+  handlePaymentRequest() async {
+    LoadingDialog.showCustomDialog(msg: 'title'.tr);
+    final response = await Request.bookingPaymentRequest(
+        bookData.busId.toString(),
+        bookData.dateReserved.toString(),
+        bookData.startTime.toString(),
+        bookData.endTime.toString(),
+        bookData.name.toString(),
+        bookData.phoneNumber.toString(),
+        bookData.block.toString(),
+        bookData.street.toString(),
+        bookData.avenue.toString(),
+        bookData.areaId.toString(),
+        bookData.houseNumber.toString(),
+        bookData.specialNote.toString(),
+        bookData.deliveryCharge.toString(),
+        bookData.packageType.toString());
+    switch (response.statusCode) {
+      case 200:
+        var jsonObject = convert.jsonDecode(response.body);
+        Get.close(1);
+        Get.log(jsonObject.toString());
+        String url = jsonObject['data']['webViewUrl'].toString();
+        _launchUrl(url);
+        update();
+        break;
+      default:
+        debugPrint(response.statusCode.toString());
+        break;
+    }
+  }
+
+  Future<void> _launchUrl(String url) async {
+    if (!await launchUrl(
+      Uri.parse(url),
+    )) {
+      throw 'Could not launch $url';
+    }
   }
 }

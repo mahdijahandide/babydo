@@ -3,6 +3,7 @@ class BookDataModel {
       dateReserved,
       startTime,
       endTime,
+      selectedTime,
       name,
       phoneNumber,
       block,
@@ -15,12 +16,14 @@ class BookDataModel {
       houseNumber,
       specialNote,
       packageType,
+      bookPrice,
       deliveryCharge;
   BookDataModel(
       mBusId,
       mDateReserved,
       mStartTime,
       mEndTime,
+      mSelectedTime,
       mName,
       mPhoneNumber,
       mBlock,
@@ -33,11 +36,13 @@ class BookDataModel {
       mHouseNumber,
       mSpecialNote,
       mPackageType,
+      mBookPrice,
       mDeliveryCharge) {
     busId = mBusId.toString();
     dateReserved = mDateReserved.toString();
     startTime = mStartTime.toString();
     endTime = mEndTime.toString();
+    selectedTime = mSelectedTime.toString();
     name = mName.toString();
     phoneNumber = mPhoneNumber.toString();
     block = mBlock.toString();
@@ -50,6 +55,7 @@ class BookDataModel {
     houseNumber = mHouseNumber.toString();
     specialNote = mSpecialNote.toString();
     packageType = mPackageType.toString();
+    bookPrice = mBookPrice.toString();
     deliveryCharge = mDeliveryCharge.toString();
   }
 }
