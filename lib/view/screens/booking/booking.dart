@@ -187,7 +187,7 @@ class Booking extends GetView<BookController> {
                                         borderRadius: BorderRadius.circular(8),
                                         color:
                                             controller.bookData.packageType ==
-                                                    'FullDay'
+                                                    'Fullday'
                                                 ? AppColors()
                                                     .yellow
                                                     .withOpacity(0.8)
@@ -262,7 +262,7 @@ class Booking extends GetView<BookController> {
                         width: Get.width,
                         child: ListView.builder(
                           itemCount:
-                              controller.bookData.packageType == 'FullDay'
+                              controller.bookData.packageType == 'Fullday'
                                   ? controller.bookingDetailsList
                                       .where((p0) =>
                                           p0.date.toString() ==
@@ -282,7 +282,7 @@ class Booking extends GetView<BookController> {
                           itemBuilder: (context, index) {
                             var current;
                             current =
-                                controller.bookData.packageType == 'FullDay'
+                                controller.bookData.packageType == 'Fullday'
                                     ? controller.bookingDetailsList
                                         .where((p0) =>
                                             p0.date.toString() ==
@@ -333,30 +333,42 @@ class Booking extends GetView<BookController> {
                     const SizedBox(
                       height: 10,
                     ),
-                    ListTile(
-                      leading: CustomText().createText(
-                          title: 'Booking Price: ', color: Colors.black),
-                      title: CustomText().createText(
-                          title: 'KD ${controller.bookData.bookPrice}',
-                          color: AppColors().maroon),
+                    SizedBox(
+                      height: 30,
+                      child: ListTile(
+                        leading: CustomText().createText(
+                            title: 'Booking Price: ', color: Colors.black),
+                        title: CustomText().createText(
+                            title: 'KD ${controller.bookData.bookPrice}',
+                            color: AppColors().maroon,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
-                    ListTile(
-                      leading: CustomText().createText(
-                          title: 'Delivery Charge: ', color: Colors.black),
-                      title: CustomText().createText(
-                          title: 'KD ${controller.bookData.deliveryCharge}',
-                          color: AppColors().maroon),
+                    SizedBox(
+                      height: 30,
+                      child: ListTile(
+                        leading: CustomText().createText(
+                            title: 'Delivery Charge: ', color: Colors.black),
+                        title: CustomText().createText(
+                            title: 'KD ${controller.bookData.deliveryCharge}',
+                            color: AppColors().maroon,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
-                    ListTile(
-                      leading: CustomText()
-                          .createText(title: 'Total: ', color: Colors.black),
-                      title: CustomText().createText(
-                          title:
-                              'KD ${double.parse(controller.bookData.deliveryCharge.toString()) + double.parse(controller.bookData.bookPrice.toString())}',
-                          color: AppColors().maroon),
+                    SizedBox(
+                      height: 30,
+                      child: ListTile(
+                        leading: CustomText()
+                            .createText(title: 'Total: ', color: Colors.black),
+                        title: CustomText().createText(
+                            title:
+                                'KD ${double.parse(controller.bookData.deliveryCharge.toString()) + double.parse(controller.bookData.bookPrice.toString())}',
+                            color: AppColors().maroon,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
                     Center(
                       child: CustomText().createText(
@@ -425,7 +437,7 @@ class Booking extends GetView<BookController> {
                                     controller.bookData.areaId = val;
                                     String pName =
                                         controller.bookData.packageType ==
-                                                'FullDay'
+                                                'Fullday'
                                             ? 'fullday'
                                             : 'session';
                                     if (areaModel.type.toString() != pName) {

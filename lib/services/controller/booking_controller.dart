@@ -5,6 +5,7 @@ import 'package:babydoo/services/model/bookDetailsModel/book_data_model.dart';
 import 'package:babydoo/services/model/bookDetailsModel/booking_details_model.dart';
 import 'package:babydoo/services/model/booking_model.dart';
 import 'package:babydoo/view/dialogs/loading_dialogs.dart';
+import 'package:babydoo/view/widgets/snackbar/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -84,7 +85,19 @@ class BookController extends GetxController {
             .parse('${bookingDetailsList.last.date}');
         selectedDate = DateFormat("yyyy-MM-dd hh:mm:ss")
             .parse('${bookingDetailsList.first.date}');
+
+        bookData = BookDataModel('', '', '', '', '', '', '', '', '', '', '', '',
+            '', '', '', '', '', '', '');
+        nameTxtController.text = '';
+        mobileTxtController.text = '';
+        blockTxtController.text = '';
+        streetTxtController.text = '';
+        avenueTxtController.text = '';
+        houseTxtController.text = '';
+        spNoteTxtController.text = '';
         bookData.busId = busId;
+        bookData.dateReserved =
+            '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
         handleSessionSelection();
         update();
         break;
@@ -126,7 +139,7 @@ class BookController extends GetxController {
   }
 
   handleFulldaySelection() {
-    bookData.packageType = 'FullDay';
+    bookData.packageType = 'Fullday';
     bookData.selectedTime = '';
     bookData.startTime = '';
     bookData.endTime = '';
@@ -159,8 +172,16 @@ class BookController extends GetxController {
         var jsonObject = convert.jsonDecode(response.body);
         Get.close(1);
         Get.log(jsonObject.toString());
-        String url = jsonObject['data']['webViewUrl'].toString();
-        _launchUrl(url);
+        if (jsonObject['status'] == 200) {
+          String url = jsonObject['data']['webViewUrl'].toString();
+          _launchUrl(url);
+        } else {
+          Snack().createSnack(
+              title: 'warning',
+              msg: jsonObject['message'].toString(),
+              duration: 5);
+        }
+
         update();
         break;
       default:
