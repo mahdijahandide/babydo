@@ -127,26 +127,6 @@ class Request {
       spNote,
       delivery,
       bookingType) {
-    print(
-      jsonEncode(<String, String>{
-        'bus_id': busId,
-        'date_reserved': dateReserved,
-        'start_time': startTime,
-        'end_time': endTime,
-        'name': name,
-        'phone_number': phoneNumber,
-        'block': block,
-        'street': street,
-        'avenue': avenue,
-        'area_id': areaId,
-        'latitude': '19.0000',
-        'longitude': '18,00000',
-        'house_number': houseNum,
-        'special_note': spNote,
-        'delivery_charge': delivery,
-        'booking_type': bookingType,
-      }),
-    );
     return http.post(
       Uri.parse(bookPaymentRoute),
       headers: <String, String>{

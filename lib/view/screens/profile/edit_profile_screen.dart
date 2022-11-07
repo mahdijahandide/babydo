@@ -27,14 +27,14 @@ class EditProfileScreen extends GetView<ProfileController> {
             color: Colors.white),
         backgroundColor: AppColors().litePink,
         elevation: 0,
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.power_settings_new_rounded,
-                color: Colors.white,
-              ))
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {},
+        //       icon: const Icon(
+        //         Icons.power_settings_new_rounded,
+        //         color: Colors.white,
+        //       ))
+        // ],
       ),
       body: Obx(
         () => SingleChildScrollView(

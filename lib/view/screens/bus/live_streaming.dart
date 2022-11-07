@@ -22,14 +22,14 @@ class LiveStreaming extends StatelessWidget {
             color: Colors.white),
         backgroundColor: AppColors().yellow,
         elevation: 0,
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.power_settings_new_rounded,
-                color: Colors.white,
-              ))
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {},
+        //       icon: const Icon(
+        //         Icons.power_settings_new_rounded,
+        //         color: Colors.white,
+        //       ))
+        // ],
       ),
       body: SingleChildScrollView(
         child: Stack(

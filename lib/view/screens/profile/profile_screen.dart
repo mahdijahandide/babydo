@@ -24,6 +24,7 @@ class ProfileScreen extends GetView<ProfileController> {
             color: Colors.white),
         backgroundColor: AppColors().blue,
         elevation: 0,
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
               onPressed: () {},
@@ -92,16 +93,19 @@ class ProfileScreen extends GetView<ProfileController> {
                           height: 8,
                         ),
                         CustomText().createText(
-                            title: Get.find<AuthController>().user['name'],
+                            title:
+                                Get.find<AuthController>().user['name'] ?? '',
                             size: 18,
                             fontWeight: FontWeight.w500),
                         CustomText().createText(
-                            title: Get.find<AuthController>().user['email'],
+                            title:
+                                Get.find<AuthController>().user['email'] ?? '',
                             size: 12,
                             fontWeight: FontWeight.w500,
                             color: Colors.grey),
                         CustomText().createText(
-                            title: Get.find<AuthController>().user['mobile'],
+                            title:
+                                Get.find<AuthController>().user['mobile'] ?? '',
                             size: 12,
                             fontWeight: FontWeight.w500,
                             color: Colors.grey),

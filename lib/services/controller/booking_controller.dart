@@ -16,6 +16,7 @@ import 'dart:convert' as convert;
 
 class BookController extends GetxController {
   RxBool acceptTerm = false.obs;
+  RxBool isEmptyList = false.obs;
   late DateTime startOfPeriod;
   late DateTime endOfPeriod;
   DateTime selectedDate = DateTime.now();
@@ -57,6 +58,9 @@ class BookController extends GetxController {
         bookingArray.forEach((element) {
           bookingList.add(BookingModel(data: element));
         });
+        if (bookingList.isEmpty) {
+          isEmptyList.value = true;
+        }
         update();
         break;
       default:

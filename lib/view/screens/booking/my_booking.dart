@@ -48,167 +48,197 @@ class MyBooking extends GetView<BookController> {
           Obx(
             () => Padding(
                 padding: const EdgeInsets.all(12),
-                child: ListView.builder(
-                  itemCount: controller.bookingList.isEmpty
-                      ? 4
-                      : controller.bookingList.length,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                  itemBuilder: (BuildContext context, int index) {
-                    var currentItem;
-                    if (controller.bookingList.isNotEmpty) {
-                      currentItem = controller.bookingList[index];
-                    }
-                    return controller.bookingList.isEmpty
-                        ? SizedBox(
-                            width: Get.width,
-                            height: 280,
-                            child: Shimmer.fromColors(
-                              baseColor: Colors.grey,
-                              highlightColor: Colors.black.withOpacity(0.8),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.grey.withOpacity(0.4),
-                                    borderRadius: BorderRadius.circular(20)),
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 20),
-                                margin: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-                              ),
-                            ),
-                          )
-                        : Column(
-                            children: [
-                              Stack(
-                                children: [
-                                  Container(
-                                    width: Get.width,
-                                    height: 280,
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                          color: AppColors().blue, width: 1.1),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 60),
-                                      child: Column(
-                                        children: [
-                                          CustomText().createText(
-                                              title: currentItem.busName,
-                                              fontWeight: FontWeight.w600,
-                                              size: 16),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            children: [
-                                              const SizedBox(
-                                                width: 12,
-                                              ),
-                                              Expanded(
-                                                child: CustomTextButton()
-                                                    .createTextButton(
-                                                        buttonText: currentItem
-                                                            .dateReserved,
-                                                        textSize: 12,
-                                                        weight: FontWeight.w600,
-                                                        buttonColor: AppColors()
-                                                            .gray
-                                                            .withOpacity(0.5),
-                                                        elevation: 0.0,
-                                                        textColor:
-                                                            Colors.black),
-                                              ),
-                                              const SizedBox(
-                                                width: 12,
-                                              ),
-                                              Expanded(
-                                                child: CustomTextButton()
-                                                    .createTextButton(
-                                                        buttonText:
-                                                            '${currentItem.startTime}- ${currentItem.endTime}',
-                                                        textSize: 12,
-                                                        weight: FontWeight.w600,
-                                                        buttonColor: AppColors()
-                                                            .gray
-                                                            .withOpacity(0.5),
-                                                        elevation: 0.0,
-                                                        textColor:
-                                                            Colors.black),
-                                              ),
-                                              const SizedBox(
-                                                width: 12,
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 12,
-                                          ),
-                                          ListTile(
-                                            leading: CustomText().createText(
-                                                title: 'Address',
-                                                fontWeight: FontWeight.w600,
-                                                size: 12),
-                                            title: MarqueeWidget(
-                                              direction: Axis.horizontal,
-                                              child: CustomText().createText(
-                                                  title:
-                                                      'Area: ${currentItem.area} Avenue: ${currentItem.avenue} Street: ${currentItem.street} Block: ${currentItem.block}',
-                                                  fontWeight: FontWeight.w400,
-                                                  size: 12),
-                                            ),
-                                          ),
-                                          ListTile(
-                                            leading: CustomText().createText(
-                                                title: 'Special note',
-                                                fontWeight: FontWeight.w600,
-                                                size: 12),
-                                            title: MarqueeWidget(
-                                              direction: Axis.horizontal,
-                                              child: CustomText().createText(
-                                                  title: currentItem
-                                                      .additionalNote,
-                                                  size: 12,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          )
-                                        ],
-                                      ),
+                child: controller.isEmptyList.isTrue
+                    ? const Center(
+                        child:
+                            Image(image: AssetImage('assets/png/nodata.png')),
+                      )
+                    : ListView.builder(
+                        itemCount: controller.bookingList.isEmpty
+                            ? 4
+                            : controller.bookingList.length,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12, horizontal: 12),
+                        itemBuilder: (BuildContext context, int index) {
+                          var currentItem;
+                          if (controller.bookingList.isNotEmpty) {
+                            currentItem = controller.bookingList[index];
+                          }
+                          return controller.bookingList.isEmpty
+                              ? SizedBox(
+                                  width: Get.width,
+                                  height: 280,
+                                  child: Shimmer.fromColors(
+                                    baseColor: Colors.grey,
+                                    highlightColor:
+                                        Colors.black.withOpacity(0.8),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey.withOpacity(0.4),
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20),
+                                      margin: const EdgeInsets.fromLTRB(
+                                          12, 0, 12, 8),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 15),
-                                    child: Stack(
-                                      fit: StackFit.loose,
+                                )
+                              : Column(
+                                  children: [
+                                    Stack(
                                       children: [
-                                        SvgPicture.asset(currentItem.status !=
-                                                'completed'
-                                            ? 'assets/svg/red_banner.svg'
-                                            : 'assets/svg/green_banner.svg'),
+                                        Container(
+                                          width: Get.width,
+                                          height: 280,
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            border: Border.all(
+                                                color: AppColors().blue,
+                                                width: 1.1),
+                                          ),
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 60),
+                                            child: Column(
+                                              children: [
+                                                CustomText().createText(
+                                                    title: currentItem.busName,
+                                                    fontWeight: FontWeight.w600,
+                                                    size: 16),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    const SizedBox(
+                                                      width: 12,
+                                                    ),
+                                                    Expanded(
+                                                      child: CustomTextButton()
+                                                          .createTextButton(
+                                                              buttonText:
+                                                                  currentItem
+                                                                      .dateReserved,
+                                                              textSize: 12,
+                                                              weight: FontWeight
+                                                                  .w600,
+                                                              buttonColor:
+                                                                  AppColors()
+                                                                      .gray
+                                                                      .withOpacity(
+                                                                          0.5),
+                                                              elevation: 0.0,
+                                                              textColor:
+                                                                  Colors.black),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 12,
+                                                    ),
+                                                    Expanded(
+                                                      child: CustomTextButton()
+                                                          .createTextButton(
+                                                              buttonText:
+                                                                  '${currentItem.startTime}- ${currentItem.endTime}',
+                                                              textSize: 12,
+                                                              weight: FontWeight
+                                                                  .w600,
+                                                              buttonColor:
+                                                                  AppColors()
+                                                                      .gray
+                                                                      .withOpacity(
+                                                                          0.5),
+                                                              elevation: 0.0,
+                                                              textColor:
+                                                                  Colors.black),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 12,
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 12,
+                                                ),
+                                                ListTile(
+                                                  leading: CustomText()
+                                                      .createText(
+                                                          title: 'Address',
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          size: 12),
+                                                  title: MarqueeWidget(
+                                                    direction: Axis.horizontal,
+                                                    child: CustomText().createText(
+                                                        title:
+                                                            'Area: ${currentItem.area} Avenue: ${currentItem.avenue} Street: ${currentItem.street} Block: ${currentItem.block}',
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        size: 12),
+                                                  ),
+                                                ),
+                                                ListTile(
+                                                  leading: CustomText()
+                                                      .createText(
+                                                          title: 'Special note',
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          size: 12),
+                                                  title: MarqueeWidget(
+                                                    direction: Axis.horizontal,
+                                                    child: CustomText()
+                                                        .createText(
+                                                            title: currentItem
+                                                                .additionalNote,
+                                                            size: 12,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
-                                              horizontal: 50, vertical: 4),
-                                          child: CustomText().createText(
-                                              title: currentItem.status,
-                                              color: Colors.white,
-                                              size: 18,
-                                              fontWeight: FontWeight.bold),
-                                        )
+                                              vertical: 15),
+                                          child: Stack(
+                                            fit: StackFit.loose,
+                                            children: [
+                                              SvgPicture.asset(currentItem
+                                                          .status !=
+                                                      'completed'
+                                                  ? 'assets/svg/red_banner.svg'
+                                                  : 'assets/svg/green_banner.svg'),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 50,
+                                                        vertical: 4),
+                                                child: CustomText().createText(
+                                                    title: currentItem.status,
+                                                    color: Colors.white,
+                                                    size: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )
+                                            ],
+                                          ),
+                                        ),
                                       ],
                                     ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              )
-                            ],
-                          );
-                  },
-                )),
+                                    const SizedBox(
+                                      height: 8,
+                                    )
+                                  ],
+                                );
+                        },
+                      )),
           ),
         ],
       ),

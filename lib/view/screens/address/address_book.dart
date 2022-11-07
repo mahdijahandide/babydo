@@ -41,133 +41,148 @@ class AddressBook extends GetView<AddressController> {
           Obx(
             () => Padding(
                 padding: const EdgeInsets.all(12),
-                child: ListView.builder(
-                  itemCount: controller.addressList.isEmpty
-                      ? 4
-                      : controller.addressList.length,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                  itemBuilder: (BuildContext context, int index) {
-                    var currentItem;
-                    if (controller.addressList.isNotEmpty) {
-                      currentItem = controller.addressList[index];
-                    }
-                    return controller.addressList.isEmpty
-                        ? SizedBox(
-                            width: Get.width,
-                            height: 100,
-                            child: Shimmer.fromColors(
-                              baseColor: Colors.grey,
-                              highlightColor: Colors.black.withOpacity(0.8),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.grey.withOpacity(0.4),
-                                    borderRadius: BorderRadius.circular(20)),
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 20),
-                                margin: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-                              ),
-                            ),
-                          )
-                        : Column(
-                            children: [
-                              Slidable(
-                                key: const ValueKey(0),
-                                endActionPane: ActionPane(
-                                  motion: const ScrollMotion(),
-                                  children: [
-                                    SlidableAction(
-                                      // An action can be bigger than the others.
-
-                                      onPressed: (v) {},
-                                      backgroundColor: AppColors().blue,
-                                      foregroundColor: Colors.white,
-                                      icon: Icons.edit,
-                                      borderRadius: BorderRadius.circular(8),
-                                      label: 'Edit',
-                                    ),
-                                    SlidableAction(
-                                      onPressed: (v) {},
-                                      backgroundColor: AppColors().maroon,
-                                      foregroundColor: Colors.white,
-                                      icon: Icons.delete,
-                                      borderRadius: BorderRadius.circular(8),
-                                      label: 'Delete',
-                                    ),
-                                  ],
-                                ),
-                                child: Container(
+                child: controller.isEmptyList.isTrue
+                    ? const Center(
+                        child:
+                            Image(image: AssetImage('assets/png/nodata.png')),
+                      )
+                    : ListView.builder(
+                        itemCount: controller.addressList.isEmpty
+                            ? 4
+                            : controller.addressList.length,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12, horizontal: 12),
+                        itemBuilder: (BuildContext context, int index) {
+                          var currentItem;
+                          if (controller.addressList.isNotEmpty) {
+                            currentItem = controller.addressList[index];
+                          }
+                          return controller.addressList.isEmpty
+                              ? SizedBox(
+                                  width: Get.width,
                                   height: 100,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12),
-                                  decoration: BoxDecoration(
-                                      color: AppColors().green,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.grey.withOpacity(0.4),
-                                            offset: const Offset(1, 1),
-                                            spreadRadius: 1,
-                                            blurRadius: 3)
-                                      ],
-                                      borderRadius: BorderRadius.circular(8)),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(20),
+                                  child: Shimmer.fromColors(
+                                    baseColor: Colors.grey,
+                                    highlightColor:
+                                        Colors.black.withOpacity(0.8),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey.withOpacity(0.4),
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20),
+                                      margin: const EdgeInsets.fromLTRB(
+                                          12, 0, 12, 8),
+                                    ),
+                                  ),
+                                )
+                              : Column(
+                                  children: [
+                                    Slidable(
+                                      key: const ValueKey(0),
+                                      endActionPane: ActionPane(
+                                        motion: const ScrollMotion(),
+                                        children: [
+                                          SlidableAction(
+                                            // An action can be bigger than the others.
+
+                                            onPressed: (v) {},
+                                            backgroundColor: AppColors().blue,
+                                            foregroundColor: Colors.white,
+                                            icon: Icons.edit,
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            label: 'Edit',
+                                          ),
+                                          SlidableAction(
+                                            onPressed: (v) {},
+                                            backgroundColor: AppColors().maroon,
+                                            foregroundColor: Colors.white,
+                                            icon: Icons.delete,
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            label: 'Delete',
+                                          ),
+                                        ],
+                                      ),
+                                      child: Container(
+                                        height: 100,
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12),
                                         decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.white, width: 1),
-                                          shape: BoxShape.circle,
-                                          color: const Color(0xff99CA4E),
-                                        ),
-                                        child: Center(
-                                            child: SvgPicture.asset(
-                                                'assets/svg/location.svg')),
-                                      ),
-                                      const SizedBox(
-                                        width: 12,
-                                      ),
-                                      Flexible(
-                                        child: Column(
+                                            color: AppColors().green,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.grey
+                                                      .withOpacity(0.4),
+                                                  offset: const Offset(1, 1),
+                                                  spreadRadius: 1,
+                                                  blurRadius: 3)
+                                            ],
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                        child: Row(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                              CrossAxisAlignment.center,
                                           children: [
-                                            MarqueeWidget(
-                                              direction: Axis.horizontal,
-                                              child: CustomText().createText(
-                                                  title:
-                                                      '${currentItem.area},${currentItem.block}',
-                                                  color: Colors.white,
-                                                  size: 18,
-                                                  fontWeight: FontWeight.bold),
+                                            Container(
+                                              padding: const EdgeInsets.all(20),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.white,
+                                                    width: 1),
+                                                shape: BoxShape.circle,
+                                                color: const Color(0xff99CA4E),
+                                              ),
+                                              child: Center(
+                                                  child: SvgPicture.asset(
+                                                      'assets/svg/location.svg')),
                                             ),
-                                            MarqueeWidget(
-                                              direction: Axis.horizontal,
-                                              child: CustomText().createText(
-                                                  title:
-                                                      'Avenue ${currentItem.avenue}, Street ${currentItem.street}, House number ${currentItem.houseNumber}',
-                                                  color: Colors.white,
-                                                  size: 12,
-                                                  fontWeight: FontWeight.w500),
+                                            const SizedBox(
+                                              width: 12,
                                             ),
+                                            Flexible(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  MarqueeWidget(
+                                                    direction: Axis.horizontal,
+                                                    child: CustomText().createText(
+                                                        title:
+                                                            '${currentItem.area},${currentItem.block}',
+                                                        color: Colors.white,
+                                                        size: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  MarqueeWidget(
+                                                    direction: Axis.horizontal,
+                                                    child: CustomText().createText(
+                                                        title:
+                                                            'Avenue ${currentItem.avenue}, Street ${currentItem.street}, House number ${currentItem.houseNumber}',
+                                                        color: Colors.white,
+                                                        size: 12,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
                                           ],
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              )
-                            ],
-                          );
-                  },
-                )),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 8,
+                                    )
+                                  ],
+                                );
+                        },
+                      )),
           ),
         ],
       ),

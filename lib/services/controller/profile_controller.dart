@@ -27,10 +27,10 @@ class ProfileController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     user = Get.find<AuthController>().user;
-    editProfileFullName.text = user['name'];
-    editProfileMobile.text = user['mobile'];
-    editProfileDOB.value = user['date_of_birth'];
-    emailTextController.text = user['email'];
+    editProfileFullName.text = user['name'].toString();
+    editProfileMobile.text = user['mobile'].toString();
+    editProfileDOB.value = user['date_of_birth'].toString();
+    emailTextController.text = user['email'].toString();
   }
 
   Future pickImage() async {

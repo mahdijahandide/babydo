@@ -9,6 +9,7 @@ import '../remotes/requests.dart';
 
 class AddressController extends GetxController {
   RxList<AddressModel> addressList = RxList([]);
+  RxBool isEmptyList = false.obs;
   @override
   void onInit() {
     // TODO: implement onInit
@@ -27,6 +28,9 @@ class AddressController extends GetxController {
         addressArray.forEach((element) {
           addressList.add(AddressModel(data: element));
         });
+        if (addressList.isEmpty) {
+          isEmptyList.value = true;
+        }
         update();
         break;
       default:

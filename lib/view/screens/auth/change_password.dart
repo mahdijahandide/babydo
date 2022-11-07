@@ -28,14 +28,14 @@ class ChangePasswordScreen extends GetView<AuthController> {
         backgroundColor: AppColors().green,
         elevation: 0,
         foregroundColor: Colors.white,
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.power_settings_new_rounded,
-                color: Colors.white,
-              ))
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {},
+        //       icon: const Icon(
+        //         Icons.power_settings_new_rounded,
+        //         color: Colors.white,
+        //       ))
+        // ],
       ),
       body: Obx(
         () => SingleChildScrollView(
