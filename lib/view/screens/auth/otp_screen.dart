@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:babydoo/services/controller/auth_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/widgets/snackbar/snackbar.dart';
@@ -43,7 +45,8 @@ class OtpScreen extends GetView<AuthController> {
                     alignment: Alignment.center,
                     child: CustomText().createText(
                         title:
-                            'enter_the_year_you_were_born_this_just_verifies_your_age.'.tr,
+                            'enter_the_year_you_were_born_this_just_verifies_your_age.'
+                                .tr,
                         color: Colors.white,
                         size: 14,
                         fontWeight: FontWeight.w400)),
@@ -73,7 +76,7 @@ class OtpScreen extends GetView<AuthController> {
                         SizedBox(
                           width: 200,
                           child: PinCodeTextField(
-                            length: 4,
+                            length: 5,
                             keyboardType: TextInputType.none,
                             obscureText: false,
                             controller: controller.otpTextController,
@@ -96,11 +99,26 @@ class OtpScreen extends GetView<AuthController> {
                             enableActiveFill: true,
                             onCompleted: (v) {
                               debugPrint("Completed");
-                              if(v==controller.otpVerifyCode){
-                                Get.toNamed('/home');
-                              }else{
-                                Snack().createSnack(title: 'warning'.tr,msg: 'wrong number',icon: const
-                                Icon(Icons.warning,color: Colors.red,));
+                              debugPrint(controller.otpVerifyCode);
+                              if (v == controller.otpVerifyCode) {
+                                if (Get.parameters['status'] == 'forgetPass') {
+                                  Get.toNamed('/reset_password', parameters: {
+                                    "status": "forgetPass",
+                                    "code": v.toString(),
+                                    "num":
+                                        controller.forgotScreenMobileNumber.text
+                                  });
+                                } else {
+                                  Get.toNamed('/home');
+                                }
+                              } else {
+                                Snack().createSnack(
+                                    title: 'warning'.tr,
+                                    msg: 'wrong number',
+                                    icon: const Icon(
+                                      Icons.warning,
+                                      color: Colors.red,
+                                    ));
                               }
                             },
                             onChanged: (value) {
@@ -119,7 +137,10 @@ class OtpScreen extends GetView<AuthController> {
                         IconButton(
                             onPressed: () {
                               controller.otpTextController.text =
-                                  controller.otpTextController.text.substring(0, controller.otpTextController.text.length - 1);
+                                  controller.otpTextController.text.substring(
+                                      0,
+                                      controller.otpTextController.text.length -
+                                          1);
                             },
                             icon: const Icon(
                               Icons.backspace,

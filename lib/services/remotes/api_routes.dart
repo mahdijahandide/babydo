@@ -8,6 +8,10 @@ String apiRoute = 'api/V3/${Get.find<LanguageController>().lang.value}';
 //routes
 String userRegisterRoute = '$baseUrl$apiRoute/user/register';
 String userLoginRoute = '$baseUrl$apiRoute/user/login';
+String getOtpRoute = '$baseUrl$apiRoute/user/sendSms';
+String contactUsRoute = '$baseUrl$apiRoute/user/contactUs';
+String aboutUsRoute = '$baseUrl$apiRoute/about_us';
+String forgetPasswordRoute = '$baseUrl$apiRoute/user/forgetPassword';
 String getSliderRoute = '$baseUrl$apiRoute/getSlider';
 String getBusRoute = '$baseUrl$apiRoute/bus/list';
 String getAddressesRoute = '$baseUrl$apiRoute/getAddresses';

@@ -1,15 +1,25 @@
+import 'package:babydoo/services/controller/profile_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
+import 'package:babydoo/view/dialogs/logout_dialog.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
 import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 
 class DrawerWidgets {
   Widget createUserDrawer() {
+    Get.lazyPut(
+      () => ProfileController(),
+    );
     return Stack(
       children: [
-        SvgPicture.asset('assets/svg/members_drawer_bg.svg',fit: BoxFit.fill,width: Get.width,),
+        SvgPicture.asset(
+          'assets/svg/members_drawer_bg.svg',
+          fit: BoxFit.fill,
+          width: Get.width,
+        ),
         SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
@@ -24,24 +34,45 @@ class DrawerWidgets {
                 const SizedBox(
                   height: 12,
                 ),
-                createCustomTile(ic: Icons.home, title: 'Home', listner: () {}),
+                createCustomTile(
+                    ic: Icons.home,
+                    title: 'Home',
+                    listner: () {
+                      Get.close(1);
+                    }),
                 const Divider(),
                 createCustomTile(
                     ic: Icons.person, title: 'Member', listner: () {}),
                 const Divider(),
                 createCustomTile(
-                    ic: Icons.info, title: 'About Us', listner: () {}),
+                    ic: Icons.info,
+                    title: 'About Us',
+                    listner: () {
+                      Get.find<ProfileController>().handleAboutUsRequest();
+                    }),
                 const Divider(),
                 createCustomTile(
-                    ic: Icons.phone, title: 'Contact Us', listner: () {}),
+                    ic: Icons.phone,
+                    title: 'Contact Us',
+                    listner: () {
+                      Get.toNamed('/contactUs');
+                    }),
                 const Divider(),
                 createCustomTile(
-                    ic: Icons.share, title: 'Share', listner: () {}),
+                    ic: Icons.share,
+                    title: 'Share',
+                    listner: () {
+                      Share.share(
+                          'check out new version of babydo app https://babydobus.com',
+                          subject: 'download babydo app now');
+                    }),
                 const Divider(),
                 createCustomTile(
                     ic: Icons.language,
                     title: 'Change Language',
-                    listner: () {}),
+                    listner: () {
+                      Get.toNamed('/language', arguments: '/home');
+                    }),
                 const Expanded(child: SizedBox()),
                 SizedBox(
                   width: Get.width,
@@ -52,6 +83,9 @@ class DrawerWidgets {
                       textColor: AppColors().green,
                       borderColor: AppColors().green,
                       textSize: 20,
+                      onPress: () {
+                        LogoutDialog.showCustomDialog();
+                      },
                       borderRadius: 10.0,
                       elevation: 0.0),
                 )

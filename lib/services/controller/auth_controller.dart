@@ -1,3 +1,4 @@
+import 'package:babydoo/services/enums/enums.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/dialogs/loading_dialogs.dart';
 import 'package:babydoo/view/widgets/snackbar/snackbar.dart';
@@ -15,6 +16,9 @@ class AuthController extends GetxController {
   RxBool changePassObSecureNewPassField = true.obs;
   RxBool changePassObSecureConfirmPassField = true.obs;
 
+  RxBool resetPassObSecurePassField = true.obs;
+  RxBool resetPassObSecureConfirmPassField = true.obs;
+
   RxBool acceptTerm = false.obs;
 
   TextEditingController mobileTextController = TextEditingController();
@@ -29,7 +33,12 @@ class AuthController extends GetxController {
   TextEditingController changePasswordNewPass = TextEditingController();
   TextEditingController changePasswordConfirmPass = TextEditingController();
 
+  TextEditingController forgotScreenMobileNumber = TextEditingController();
+
   TextEditingController otpTextController = TextEditingController();
+  TextEditingController resetPassTextController = TextEditingController();
+  TextEditingController resetPassConfirmTextController =
+      TextEditingController();
 
   FocusNode otpNode = FocusNode();
 
@@ -81,6 +90,7 @@ class AuthController extends GetxController {
       switch (response.statusCode) {
         case 200:
           var jsonObject = convert.jsonDecode(response.body);
+          Get.log(jsonObject.toString());
           token.value = jsonObject['data']['token'];
           user = jsonObject['data']['user'];
           Get.offAndToNamed('/home');
@@ -121,6 +131,86 @@ class AuthController extends GetxController {
                 color: AppColors().green,
               ));
           Get.close(1);
+          break;
+        default:
+          debugPrint(response.statusCode.toString());
+          Get.close(1);
+          break;
+      }
+    } else {
+      Snack().createSnack(
+          title: 'warning',
+          msg: 'Please Fill the Form Correctly',
+          icon: Icon(
+            Icons.warning,
+            color: AppColors().maroon,
+          ));
+    }
+  }
+
+  handleOtpRequest() async {
+    if (forgotScreenMobileNumber.text.isNotEmpty &&
+        forgotScreenMobileNumber.text.length == 8) {
+      LoadingDialog.showCustomDialog(msg: 'loading');
+      final response = await Request.getOtpRequest(
+        forgotScreenMobileNumber.text,
+      );
+      switch (response.statusCode) {
+        case 200:
+          var jsonObject = convert.jsonDecode(response.body);
+          Snack().createSnack(
+              title: 'Successful',
+              msg: 'Password changed successfuly',
+              icon: Icon(
+                Icons.check,
+                color: AppColors().green,
+              ));
+          Get.close(1);
+          Get.toNamed('/otp', parameters: {
+            "status": "forgetPass",
+            "code": jsonObject['data']['sms_activation_code'].toString(),
+          });
+          otpVerifyCode = jsonObject['data']['sms_activation_code'].toString();
+          print(otpVerifyCode);
+          break;
+        default:
+          debugPrint(response.statusCode.toString());
+          Get.close(1);
+          break;
+      }
+    } else {
+      Snack().createSnack(
+          title: 'warning',
+          msg: 'Please Fill the Form Correctly',
+          icon: Icon(
+            Icons.warning,
+            color: AppColors().maroon,
+          ));
+    }
+  }
+
+  handleForgetPassRequest(String num, pass, confirm, otp) async {
+    if (forgotScreenMobileNumber.text.isNotEmpty &&
+        forgotScreenMobileNumber.text.length == 8 &&
+        resetPassTextController.text.isNotEmpty &&
+        resetPassConfirmTextController.text.isNotEmpty &&
+        resetPassTextController.text == resetPassConfirmTextController.text) {
+      LoadingDialog.showCustomDialog(msg: 'loading');
+      final response =
+          await Request.forgetPasswordRequest(num, pass, confirm, otp);
+      switch (response.statusCode) {
+        case 200:
+          var jsonObject = convert.jsonDecode(response.body);
+          Get.close(1);
+          Snack().createSnack(
+              title: 'Successful',
+              msg: 'Password changed successfuly',
+              icon: Icon(
+                Icons.check,
+                color: AppColors().green,
+              ));
+          Get.toNamed('/auth');
+          print(otpVerifyCode);
           break;
         default:
           debugPrint(response.statusCode.toString());

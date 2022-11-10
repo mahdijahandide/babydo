@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:babydoo/services/controller/language_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/widgets/snackbar/snackbar.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../view/dialogs/loading_dialogs.dart';
 import '../remotes/api_routes.dart';
+import '../remotes/requests.dart';
 import 'auth_controller.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
@@ -17,6 +19,13 @@ class ProfileController extends GetxController {
   TextEditingController editProfileMobile = TextEditingController();
   TextEditingController emailTextController = TextEditingController();
   TextEditingController editProfileFullName = TextEditingController();
+
+  TextEditingController contactUsFullName = TextEditingController();
+  TextEditingController contactUsMobileNumber = TextEditingController();
+  TextEditingController contactUsEmailAddress = TextEditingController();
+  TextEditingController contactUsSubject = TextEditingController();
+  TextEditingController contactUsMsg = TextEditingController();
+
   late File image;
   RxString imgPath = 'select_photo'.tr.obs;
   RxString editProfileDOB = ''.obs;
@@ -79,5 +88,85 @@ class ProfileController extends GetxController {
           Icons.check,
           color: AppColors().green,
         ));
+  }
+
+  handleContactUsRequest() async {
+    if (contactUsFullName.text.isNotEmpty &&
+        contactUsEmailAddress.text.isNotEmpty &&
+        contactUsMobileNumber.text.isNotEmpty &&
+        contactUsSubject.text.isNotEmpty &&
+        contactUsMsg.text.isNotEmpty) {
+      LoadingDialog.showCustomDialog(msg: 'loading');
+      final response = await Request.contactUsRequest(
+          name: contactUsFullName.text,
+          num: contactUsMobileNumber.text,
+          email: contactUsEmailAddress.text,
+          subject: contactUsSubject.text,
+          msg: contactUsMsg.text);
+      switch (response.statusCode) {
+        case 200:
+          // var jsonObject = convert.jsonDecode(response.body);
+          Snack().createSnack(
+              title: 'Successful',
+              msg: 'Message Sent Successfuly',
+              icon: Icon(
+                Icons.check,
+                color: AppColors().green,
+              ));
+          Get.close(1);
+          contactUsFullName.text = '';
+          contactUsMobileNumber.text = '';
+          contactUsEmailAddress.text = '';
+          contactUsSubject.text = '';
+          contactUsMsg.text = '';
+          break;
+        default:
+          debugPrint(response.statusCode.toString());
+          Get.close(1);
+          Snack().createSnack(
+              title: 'Failed',
+              msg: 'Failed To Sent Message',
+              icon: Icon(
+                Icons.warning,
+                color: AppColors().maroon,
+              ));
+          break;
+      }
+    } else {
+      Snack().createSnack(
+          title: 'warning',
+          msg: 'Please Fill the Form Correctly',
+          icon: Icon(
+            Icons.warning,
+            color: AppColors().maroon,
+          ));
+    }
+  }
+
+  handleAboutUsRequest() async {
+    LoadingDialog.showCustomDialog(msg: 'loading');
+    final response = await Request.aboutRequest();
+    switch (response.statusCode) {
+      case 200:
+        var jsonObject = convert.jsonDecode(response.body);
+        String about = Get.find<LanguageController>().lang.value == 'en'
+            ? jsonObject['data']['about_us']['details_en'].toString()
+            : jsonObject['data']['about_us']['details_ar'].toString();
+        Get.close(1);
+        Get.toNamed('/aboutUs', arguments: about);
+
+        break;
+      default:
+        debugPrint(response.statusCode.toString());
+        Get.close(1);
+        Snack().createSnack(
+            title: 'Failed',
+            msg: 'Request Failed',
+            icon: Icon(
+              Icons.warning,
+              color: AppColors().maroon,
+            ));
+        break;
+    }
   }
 }

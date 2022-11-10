@@ -46,43 +46,46 @@ class CustomTextField {
         children: [
           CustomText().createText(
               title: lable ?? '', color: lableColor ?? Colors.black),
-          TextField(
-              textInputAction: textInputAction,
-              onSubmitted: onSubmitted,
-              autofocus: autoFocus ?? false,
-              onTap: onTap,
-              keyboardType: keyboardType,
-              inputFormatters: inputFormatters,
-              focusNode: node,
-              obscureText: obscure ?? false,
-              maxLength: maxLength,
-              controller: controller,
-              maxLines: maxLines ?? 1,
-              textAlign: align ?? TextAlign.start,
-              decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.only(top: 6),
-                  counterText: '',
-                  border: InputBorder.none,
-                  hintText: hint,
-                  hintStyle: hintStyle,
-                  suffixIcon: hasSuffixIcon == true
-                      ? IconButton(
-                          alignment: const Alignment(1.0, -1.0),
-                          onPressed: suffixPress,
-                          icon: Icon(
-                            suffixIcon ?? Icons.search,
-                            color: suffixColor ?? Colors.black,
-                          ),
-                        )
-                      : null,
-                  prefixIcon: hasPrefixIcon == true
-                      ? IconButton(
-                          onPressed: prefixPress,
-                          icon: Icon(
-                            prefixIcon ?? Icons.search,
-                          ),
-                        )
-                      : null)),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+                textInputAction: textInputAction,
+                onSubmitted: onSubmitted,
+                autofocus: autoFocus ?? false,
+                onTap: onTap,
+                keyboardType: keyboardType,
+                inputFormatters: inputFormatters,
+                focusNode: node,
+                obscureText: obscure ?? false,
+                maxLength: maxLength,
+                controller: controller,
+                maxLines: maxLines ?? 1,
+                textAlign: align ?? TextAlign.start,
+                decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.only(top: 6),
+                    counterText: '',
+                    border: InputBorder.none,
+                    hintText: hint,
+                    hintStyle: hintStyle,
+                    suffixIcon: hasSuffixIcon == true
+                        ? IconButton(
+                            alignment: const Alignment(1.0, -1.0),
+                            onPressed: suffixPress,
+                            icon: Icon(
+                              suffixIcon ?? Icons.search,
+                              color: suffixColor ?? Colors.black,
+                            ),
+                          )
+                        : null,
+                    prefixIcon: hasPrefixIcon == true
+                        ? IconButton(
+                            onPressed: prefixPress,
+                            icon: Icon(
+                              prefixIcon ?? Icons.search,
+                            ),
+                          )
+                        : null)),
+          ),
         ],
       ),
     );

@@ -5,9 +5,12 @@ import 'package:babydoo/services/controller/language_controller.dart';
 import 'package:babydoo/services/internationalization/messages.dart';
 import 'package:babydoo/services/remotes/http_config.dart';
 import 'package:babydoo/services/utils/app_statusbar.dart';
+import 'package:babydoo/view/screens/about/about_us.dart';
+import 'package:babydoo/view/screens/about/contact_us_screen.dart';
 import 'package:babydoo/view/screens/address/address_book.dart';
 import 'package:babydoo/view/screens/auth/auth_screen.dart';
 import 'package:babydoo/view/screens/auth/change_password.dart';
+import 'package:babydoo/view/screens/auth/forgot_password.dart';
 import 'package:babydoo/view/screens/auth/otp_screen.dart';
 import 'package:babydoo/view/screens/booking/booking.dart';
 import 'package:babydoo/view/screens/booking/my_booking.dart';
@@ -18,6 +21,8 @@ import 'package:babydoo/view/screens/profile/edit_profile_screen.dart';
 import 'package:babydoo/view/screens/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'view/screens/auth/reset_password.dart';
 
 void main() {
   HttpOverrides.global = MyHttpOverrides();
@@ -50,6 +55,12 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/myBooking', page: () => const MyBooking()),
         GetPage(name: '/editProfile', page: () => const EditProfileScreen()),
         GetPage(name: '/liveStreaming', page: () => const LiveStreaming()),
+        GetPage(name: '/contactUs', page: () => const ContactUsScreen()),
+        GetPage(name: '/aboutUs', page: () => const AboutUsScreen()),
+        GetPage(
+            name: '/forgotPassword', page: () => const ForgotPasswordScreen()),
+        GetPage(
+            name: '/reset_password', page: () => const ResetPasswordScreen()),
         GetPage(
             name: '/changePassword', page: () => const ChangePasswordScreen()),
       ],

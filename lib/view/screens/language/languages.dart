@@ -46,7 +46,8 @@ class Languages extends GetView<LanguageController> {
                           height: 12,
                         ),
                         Obx(
-                          () => Row(textDirection: TextDirection.ltr,
+                          () => Row(
+                            textDirection: TextDirection.ltr,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               languageWidget(
@@ -91,7 +92,11 @@ class Languages extends GetView<LanguageController> {
                               buttonColor: AppColors().green,
                               textColor: Colors.white,
                               onPress: () {
-                                Get.offAndToNamed('/auth');
+                                if (Get.arguments == '/home') {
+                                  Get.offAndToNamed('/home');
+                                } else {
+                                  Get.offAndToNamed('/auth');
+                                }
                               }),
                         ),
                       ],

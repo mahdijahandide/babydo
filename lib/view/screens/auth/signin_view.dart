@@ -74,7 +74,7 @@ class SigninView extends GetView<AuthController> {
                     borderWidth: 2.0,
                     lableColor: AppColors().green,
                     textInputAction: TextInputAction.go,
-                    onSubmitted: (d){
+                    onSubmitted: (d) {
                       controller.handleLogin();
                     },
                     hasSuffixIcon: true,
@@ -86,8 +86,13 @@ class SigninView extends GetView<AuthController> {
                 const SizedBox(
                   height: 6,
                 ),
-                CustomText().createText(
-                    title: 'forget_password'.tr, align: TextAlign.end, size: 12),
+                InkWell(
+                  onTap: (() => Get.toNamed('/forgotPassword')),
+                  child: CustomText().createText(
+                      title: 'forget_password'.tr,
+                      align: TextAlign.end,
+                      size: 12),
+                ),
                 const SizedBox(
                   height: 12,
                 ),
@@ -107,7 +112,8 @@ class SigninView extends GetView<AuthController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CustomText().createText(title: 'don\'t_have_any_account'.tr),
+                    CustomText()
+                        .createText(title: 'don\'t_have_any_account'.tr),
                     InkWell(
                       onTap: () {
                         controller.isSignUp.value = true;

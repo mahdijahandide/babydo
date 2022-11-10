@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import '../../dialogs/logout_dialog.dart';
+
 class ProfileScreen extends GetView<ProfileController> {
   const ProfileScreen({Key? key}) : super(key: key);
 
@@ -27,7 +29,9 @@ class ProfileScreen extends GetView<ProfileController> {
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                LogoutDialog.showCustomDialog();
+              },
               icon: const Icon(
                 Icons.power_settings_new_rounded,
                 color: Colors.white,

@@ -1,4 +1,4 @@
-import 'package:babydoo/services/controller/profile_controller.dart';
+import 'package:babydoo/services/controller/auth_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
 import 'package:babydoo/view/widgets/texts/customText.dart';
@@ -8,24 +8,26 @@ import 'package:get/get.dart';
 
 import '../../widgets/textfields/textfield.dart';
 
-class AboutUsScreen extends GetView<ProfileController> {
-  const AboutUsScreen({Key? key}) : super(key: key);
+class ForgotPasswordScreen extends GetView<AuthController> {
+  const ForgotPasswordScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Get.put(ProfileController());
+    Get.lazyPut(
+      () => AuthController(),
+    );
     return Scaffold(
-      backgroundColor: AppColors().litePink,
+      backgroundColor: AppColors().green,
       appBar: AppBar(
         centerTitle: false,
-        foregroundColor: Colors.white,
         title: CustomText().createText(
-            title: 'about_us'.tr,
+            title: 'forgot_password'.tr,
             size: 14,
             fontWeight: FontWeight.bold,
             color: Colors.white),
-        backgroundColor: AppColors().litePink,
+        backgroundColor: AppColors().green,
         elevation: 0,
+        foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Stack(
@@ -34,7 +36,7 @@ class AboutUsScreen extends GetView<ProfileController> {
                 height: Get.height,
                 width: Get.width,
                 decoration: BoxDecoration(
-                    color: AppColors().litePink,
+                    color: AppColors().green,
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(0),
                       bottomRight: Radius.circular(0),
@@ -78,17 +80,39 @@ class AboutUsScreen extends GetView<ProfileController> {
                             padding: const EdgeInsets.all(18.0),
                             decoration: const BoxDecoration(
                                 shape: BoxShape.circle, color: Colors.white),
-                            child: const Icon(
-                              Icons.info,
-                              size: 55,
+                            child: SvgPicture.asset(
+                              'assets/svg/lock.svg',
+                              color: Colors.orangeAccent,
                             ),
                           ),
                         ),
                         const SizedBox(
                           height: 35,
                         ),
-                        CustomText()
-                            .createText(title: Get.arguments ?? '', size: 22)
+                        CustomTextField().createTextField(
+                          hint: '',
+                          height: 45,
+                          lable: 'mobile_number'.tr,
+                          controller: controller.forgotScreenMobileNumber,
+                          keyboardType: TextInputType.number,
+                          borderColor: AppColors().green,
+                          borderWidth: 2.0,
+                          lableColor: AppColors().green,
+                        ),
+                        const SizedBox(
+                          height: 300,
+                        ),
+                        SizedBox(
+                          width: Get.width,
+                          height: 45,
+                          child: CustomTextButton().createTextButton(
+                              buttonText: 'continue'.tr,
+                              buttonColor: AppColors().green,
+                              onPress: () {
+                                controller.handleOtpRequest();
+                              },
+                              textColor: Colors.white),
+                        )
                       ],
                     ),
                   ),
@@ -97,6 +121,33 @@ class AboutUsScreen extends GetView<ProfileController> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget iconTextWidget({required ic, required txt, dynamic listner}) {
+    return InkWell(
+      onTap: listner ?? () {},
+      child: Row(
+        children: [
+          const SizedBox(
+            width: 50,
+          ),
+          SvgPicture.asset(
+            'assets/svg/$ic.svg',
+            color: Colors.orangeAccent,
+            width: 30,
+            height: 30,
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+          CustomText().createText(
+              title: txt,
+              size: 20,
+              color: AppColors().green,
+              fontWeight: FontWeight.bold)
+        ],
       ),
     );
   }

@@ -154,4 +154,60 @@ class Request {
       }),
     );
   }
+
+  static Future<http.Response> getOtpRequest(String mobile) {
+    return http.post(Uri.parse(getOtpRoute),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json',
+        },
+        body: jsonEncode(<String, String>{'mobile': mobile}));
+  }
+
+  static Future<http.Response> forgetPasswordRequest(
+      String mobile, pass, confirm, otp) {
+    return http.post(Uri.parse(forgetPasswordRoute),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json',
+        },
+        body: jsonEncode(<String, String>{
+          'password': pass,
+          'password_confirmation': confirm,
+          'mobile_number': mobile,
+          'sms_activation_code': otp
+        }));
+  }
+
+  static Future<http.Response> aboutRequest() {
+    return http.post(
+      Uri.parse(aboutUsRoute),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+      },
+    );
+  }
+
+  static Future<http.Response> contactUsRequest({
+    required String name,
+    required String num,
+    required String email,
+    required String subject,
+    required String msg,
+  }) {
+    return http.post(Uri.parse(contactUsRoute),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ${Get.find<AuthController>().token.value}'
+        },
+        body: jsonEncode(<String, String>{
+          'name': name,
+          'email': email,
+          'phone': num,
+          'subject': subject,
+          'message': msg
+        }));
+  }
 }
