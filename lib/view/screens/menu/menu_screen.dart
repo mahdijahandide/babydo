@@ -1,14 +1,9 @@
-import 'package:babydoo/services/controller/auth_controller.dart';
 import 'package:babydoo/services/controller/profile_controller.dart';
-import 'package:babydoo/services/remotes/api_routes.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
-
-import '../../dialogs/logout_dialog.dart';
 
 class MenuScreen extends GetView<ProfileController> {
   const MenuScreen({Key? key}) : super(key: key);
@@ -112,6 +107,9 @@ class MenuScreen extends GetView<ProfileController> {
                             ic: Icons.info_outline,
                             txt: 'About Us',
                             listner: () {
+                              Get.lazyPut(
+                                () => ProfileController(),
+                              );
                               Get.find<ProfileController>()
                                   .handleAboutUsRequest();
                             }),

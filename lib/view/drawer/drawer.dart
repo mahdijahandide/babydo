@@ -10,9 +10,7 @@ import 'package:share_plus/share_plus.dart';
 
 class DrawerWidgets {
   Widget createUserDrawer() {
-    Get.lazyPut(
-      () => ProfileController(),
-    );
+   
     return Stack(
       children: [
         SvgPicture.asset(
@@ -48,6 +46,9 @@ class DrawerWidgets {
                     ic: Icons.info,
                     title: 'About Us',
                     listner: () {
+                       Get.lazyPut(
+      () => ProfileController(),
+    );
                       Get.find<ProfileController>().handleAboutUsRequest();
                     }),
                 const Divider(),
