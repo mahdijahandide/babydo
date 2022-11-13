@@ -1,4 +1,3 @@
-import 'package:babydoo/services/enums/enums.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/dialogs/loading_dialogs.dart';
 import 'package:babydoo/view/widgets/snackbar/snackbar.dart';
@@ -60,13 +59,31 @@ class AuthController extends GetxController {
       switch (response.statusCode) {
         case 200:
           var jsonObject = convert.jsonDecode(response.body);
-          otpVerifyCode =
-              jsonObject['data']['user']['sms_activation_code'].toString();
-          token.value = jsonObject['data']['token'];
-          Get.offAndToNamed('/otp');
+          if (jsonObject['status'].toString() == '200') {
+            otpVerifyCode =
+                jsonObject['data']['user']['sms_activation_code'].toString();
+            token.value = jsonObject['data']['token'];
+            Get.offAndToNamed('/otp');
+          } else {
+            Get.close(1);
+            Snack().createSnack(
+                title: 'warning',
+                msg: jsonObject['message'].toString(),
+                icon: Icon(
+                  Icons.warning,
+                  color: AppColors().maroon,
+                ));
+          }
           break;
         default:
-          debugPrint(response.statusCode.toString());
+          Get.close(1);
+          Snack().createSnack(
+              title: 'Error',
+              msg: 'Server Error',
+              icon: Icon(
+                Icons.warning,
+                color: AppColors().maroon,
+              ));
           break;
       }
     } else {
@@ -91,13 +108,31 @@ class AuthController extends GetxController {
         case 200:
           var jsonObject = convert.jsonDecode(response.body);
           Get.log(jsonObject.toString());
-          token.value = jsonObject['data']['token'];
-          user = jsonObject['data']['user'];
-          Get.offAndToNamed('/home');
+          if (jsonObject['status'].toString() == '200') {
+            token.value = jsonObject['data']['token'];
+            user = jsonObject['data']['user'];
+            Get.offAndToNamed('/home');
+          } else {
+            Get.close(1);
+            Snack().createSnack(
+                title: 'warning',
+                msg: jsonObject['message'].toString(),
+                icon: Icon(
+                  Icons.warning,
+                  color: AppColors().maroon,
+                ));
+          }
+
           break;
         default:
-          debugPrint(response.statusCode.toString());
           Get.close(1);
+          Snack().createSnack(
+              title: 'Error',
+              msg: 'Server Error',
+              icon: Icon(
+                Icons.warning,
+                color: AppColors().maroon,
+              ));
           break;
       }
     } else {
@@ -122,19 +157,36 @@ class AuthController extends GetxController {
           changePasswordConfirmPass.text);
       switch (response.statusCode) {
         case 200:
-          // var jsonObject = convert.jsonDecode(response.body);
-          Snack().createSnack(
-              title: 'Successful',
-              msg: 'Password changed successfuly',
-              icon: Icon(
-                Icons.check,
-                color: AppColors().green,
-              ));
-          Get.close(1);
+          var jsonObject = convert.jsonDecode(response.body);
+          if (jsonObject['status'].toString() == '200') {
+            Snack().createSnack(
+                title: 'Successful',
+                msg: 'Password changed successfuly',
+                icon: Icon(
+                  Icons.check,
+                  color: AppColors().green,
+                ));
+            Get.close(1);
+          } else {
+            Get.close(1);
+            Snack().createSnack(
+                title: 'warning',
+                msg: jsonObject['message'].toString(),
+                icon: Icon(
+                  Icons.warning,
+                  color: AppColors().maroon,
+                ));
+          }
           break;
         default:
-          debugPrint(response.statusCode.toString());
           Get.close(1);
+          Snack().createSnack(
+              title: 'Error',
+              msg: 'Server Error',
+              icon: Icon(
+                Icons.warning,
+                color: AppColors().maroon,
+              ));
           break;
       }
     } else {
@@ -158,24 +210,35 @@ class AuthController extends GetxController {
       switch (response.statusCode) {
         case 200:
           var jsonObject = convert.jsonDecode(response.body);
-          Snack().createSnack(
-              title: 'Successful',
-              msg: 'Password changed successfuly',
-              icon: Icon(
-                Icons.check,
-                color: AppColors().green,
-              ));
-          Get.close(1);
-          Get.toNamed('/otp', parameters: {
-            "status": "forgetPass",
-            "code": jsonObject['data']['sms_activation_code'].toString(),
-          });
-          otpVerifyCode = jsonObject['data']['sms_activation_code'].toString();
-          print(otpVerifyCode);
+          if (jsonObject['status'].toString() == '200') {
+            Get.close(1);
+            Get.toNamed('/otp', parameters: {
+              "status": "forgetPass",
+              "code": jsonObject['data']['sms_activation_code'].toString(),
+            });
+            otpVerifyCode =
+                jsonObject['data']['sms_activation_code'].toString();
+            print(otpVerifyCode);
+          } else {
+            Get.close(1);
+            Snack().createSnack(
+                title: 'warning',
+                msg: jsonObject['message'].toString(),
+                icon: Icon(
+                  Icons.warning,
+                  color: AppColors().maroon,
+                ));
+          }
           break;
         default:
-          debugPrint(response.statusCode.toString());
           Get.close(1);
+          Snack().createSnack(
+              title: 'Error',
+              msg: 'Server Error',
+              icon: Icon(
+                Icons.warning,
+                color: AppColors().maroon,
+              ));
           break;
       }
     } else {
@@ -201,20 +264,37 @@ class AuthController extends GetxController {
       switch (response.statusCode) {
         case 200:
           var jsonObject = convert.jsonDecode(response.body);
-          Get.close(1);
-          Snack().createSnack(
-              title: 'Successful',
-              msg: 'Password changed successfuly',
-              icon: Icon(
-                Icons.check,
-                color: AppColors().green,
-              ));
-          Get.toNamed('/auth');
-          print(otpVerifyCode);
+          if (jsonObject['status'].toString() == '200') {
+            Get.close(1);
+            Snack().createSnack(
+                title: 'Successful',
+                msg: 'Password changed successfuly',
+                icon: Icon(
+                  Icons.check,
+                  color: AppColors().green,
+                ));
+            Get.toNamed('/auth');
+            print(otpVerifyCode);
+          } else {
+            Get.close(1);
+            Snack().createSnack(
+                title: 'warning',
+                msg: jsonObject['message'].toString(),
+                icon: Icon(
+                  Icons.warning,
+                  color: AppColors().maroon,
+                ));
+          }
           break;
         default:
-          debugPrint(response.statusCode.toString());
           Get.close(1);
+          Snack().createSnack(
+              title: 'Error',
+              msg: 'Server Error',
+              icon: Icon(
+                Icons.warning,
+                color: AppColors().maroon,
+              ));
           break;
       }
     } else {

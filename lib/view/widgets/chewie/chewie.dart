@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 // ignore: depend_on_referenced_packages
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
@@ -42,40 +43,40 @@ class _VideoWidgetState extends State<VideoWidget> {
       future: _initializeVideoPlayerFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          return SizedBox(
-            height: 200,
-            child: Card(
-              key: PageStorageKey(widget.url),
-              elevation: 5.0,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Chewie(
-                  key: PageStorageKey(widget.url),
-                  controller: ChewieController(
-                    videoPlayerController: videoPlayerController,
-                    aspectRatio: 3 / 2,
-                    // Prepare the video to be played and display the first frame
-                    autoInitialize: true,
-                    looping: false,
-                    autoPlay: false,
-                    // Errors can occur for example when trying to play a video
-                    // from a non-existent URL
-                    errorBuilder: (context, errorMessage) {
-                      return Center(
-                        child: Text(
-                          errorMessage,
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      );
-                    },
-                  ),
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: SizedBox(
+              height: 185,
+              child: Chewie(
+                key: PageStorageKey(widget.url),
+                controller: ChewieController(
+                  videoPlayerController: videoPlayerController,
+                  aspectRatio: 16 / 9,
+                  // Prepare the video to be played and display the first frame
+                  autoInitialize: true,
+                  looping: false,
+                  autoPlay: false,
+                  // Errors can occur for example when trying to play a video
+                  // from a non-existent URL
+                  errorBuilder: (context, errorMessage) {
+                    return Center(
+                      child: Text(
+                        errorMessage,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
           );
         } else {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return SizedBox(
+            width: Get.width,
+            height: 185,
+            child: const Center(
+              child: CircularProgressIndicator(),
+            ),
           );
         }
       },

@@ -13,8 +13,9 @@ class LogoutDialog {
   static void showCustomDialog() {
     Get.defaultDialog(
         barrierDismissible: true,
-        title: 'Logout'.tr,
-        middleText: 'Are You Sure?\n You will be signing out of application',
+        title: 'logout'.tr,
+        middleText:
+            '${'are_you_sure?'.tr}\n ${'you_will_be_signing_out_of_application'.tr}',
         middleTextStyle: const TextStyle(fontSize: 14),
         backgroundColor: Colors.white,
         cancel: InkWell(
@@ -25,7 +26,7 @@ class LogoutDialog {
                 color: Colors.greenAccent,
                 borderRadius: BorderRadius.circular(6)),
             child: CustomText()
-                .createText(title: 'Stay in App', color: Colors.white),
+                .createText(title: 'stay_in_app'.tr, color: Colors.white),
           ),
         ),
         confirm: InkWell(
@@ -39,8 +40,8 @@ class LogoutDialog {
             decoration: BoxDecoration(
                 color: Colors.redAccent,
                 borderRadius: BorderRadius.circular(6)),
-            child:
-                CustomText().createText(title: 'Logout', color: Colors.white),
+            child: CustomText()
+                .createText(title: 'logout'.tr, color: Colors.white),
           ),
         ));
   }

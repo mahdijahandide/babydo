@@ -48,7 +48,7 @@ class Booking extends GetView<BookController> {
       extendBody: true,
       appBar: AppBar(
         title: CustomText().createText(
-            title: 'Booking', fontWeight: FontWeight.w600, size: 20),
+            title: 'booking'.tr, fontWeight: FontWeight.w600, size: 20),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -73,11 +73,11 @@ class Booking extends GetView<BookController> {
                         ? Row(
                             children: [
                               CustomText().createText(
-                                  title: 'Already have account? ',
+                                  title: 'already_have_an_account?'.tr,
                                   size: 16,
                                   fontWeight: FontWeight.w400),
                               CustomText().createText(
-                                  title: 'Signin',
+                                  title: 'signin'.tr,
                                   color: AppColors().litePink,
                                   fontWeight: FontWeight.w600,
                                   size: 18),
@@ -113,7 +113,7 @@ class Booking extends GetView<BookController> {
                                 width: 8,
                               ),
                               CustomText().createText(
-                                  title: 'Choose Package',
+                                  title: 'choose_package'.tr,
                                   size: 16,
                                   fontWeight: FontWeight.w500),
                             ],
@@ -128,7 +128,8 @@ class Booking extends GetView<BookController> {
                                 borderRadius: BorderRadius.circular(5),
                                 color: AppColors().liteMaroon),
                             child: CustomText().createText(
-                                title: 'Seasons duration 1 hour 30 minute',
+                                title:
+                                    'seasons_duration_one_hour_thirty_min'.tr,
                                 size: 10,
                                 fontWeight: FontWeight.w400,
                                 color: AppColors().maroon),
@@ -218,7 +219,7 @@ class Booking extends GetView<BookController> {
                     ),
                     Center(
                       child: CustomText().createText(
-                          title: 'Choose Schedule',
+                          title: 'choose_schedule'.tr,
                           fontWeight: FontWeight.w600,
                           size: 18),
                     ),
@@ -337,7 +338,7 @@ class Booking extends GetView<BookController> {
                       height: 30,
                       child: ListTile(
                         leading: CustomText().createText(
-                            title: 'Booking Price: ', color: Colors.black),
+                            title: 'booking_price'.tr, color: Colors.black),
                         title: CustomText().createText(
                             title: 'KD ${controller.bookData.bookPrice}',
                             color: AppColors().maroon,
@@ -348,7 +349,7 @@ class Booking extends GetView<BookController> {
                       height: 30,
                       child: ListTile(
                         leading: CustomText().createText(
-                            title: 'Delivery Charge: ', color: Colors.black),
+                            title: 'delivery_charge'.tr, color: Colors.black),
                         title: CustomText().createText(
                             title: 'KD ${controller.bookData.deliveryCharge}',
                             color: AppColors().maroon,
@@ -359,7 +360,7 @@ class Booking extends GetView<BookController> {
                       height: 30,
                       child: ListTile(
                         leading: CustomText()
-                            .createText(title: 'Total: ', color: Colors.black),
+                            .createText(title: 'total'.tr, color: Colors.black),
                         title: CustomText().createText(
                             title:
                                 'KD ${double.parse(controller.bookData.deliveryCharge.toString()) + double.parse(controller.bookData.bookPrice.toString())}',
@@ -372,7 +373,7 @@ class Booking extends GetView<BookController> {
                     ),
                     Center(
                       child: CustomText().createText(
-                          title: 'Contract details',
+                          title: 'contract_details'.tr,
                           fontWeight: FontWeight.w600,
                           size: 16),
                     ),
@@ -382,13 +383,13 @@ class Booking extends GetView<BookController> {
                     Row(
                       children: [
                         createCustomField(
-                            name: 'Name',
+                            name: 'name'.tr,
                             controller: controller.nameTxtController),
                         const SizedBox(
                           width: 8,
                         ),
                         createCustomField(
-                            name: 'Mobile number',
+                            name: 'mobile_number'.tr,
                             controller: controller.mobileTxtController)
                       ],
                     ),
@@ -396,7 +397,7 @@ class Booking extends GetView<BookController> {
                       height: 8,
                     ),
                     CustomText().createText(
-                        title: 'Address',
+                        title: 'address'.tr,
                         size: 10,
                         fontWeight: FontWeight.w600),
                     const SizedBox(
@@ -480,13 +481,13 @@ class Booking extends GetView<BookController> {
                     Row(
                       children: [
                         createCustomField(
-                            name: 'Block',
+                            name: 'block'.tr,
                             controller: controller.blockTxtController),
                         const SizedBox(
                           width: 8,
                         ),
                         createCustomField(
-                            name: 'Street',
+                            name: 'street'.tr,
                             controller: controller.streetTxtController)
                       ],
                     ),
@@ -496,13 +497,13 @@ class Booking extends GetView<BookController> {
                     Row(
                       children: [
                         createCustomField(
-                            name: 'Avenue',
+                            name: 'avenue'.tr,
                             controller: controller.avenueTxtController),
                         const SizedBox(
                           width: 8,
                         ),
                         createCustomField(
-                            name: 'House or building',
+                            name: 'house_or_building'.tr,
                             controller: controller.houseTxtController)
                       ],
                     ),
@@ -516,7 +517,7 @@ class Booking extends GetView<BookController> {
                           width: 12,
                         ),
                         CustomText().createText(
-                            title: 'Location Map',
+                            title: 'location_map'.tr,
                             fontWeight: FontWeight.w600,
                             size: 14),
                       ],
@@ -555,14 +556,14 @@ class Booking extends GetView<BookController> {
                       height: 12,
                     ),
                     CustomText().createText(
-                        title: 'Special note',
+                        title: 'special_note'.tr,
                         size: 16,
                         fontWeight: FontWeight.w400),
                     const SizedBox(
                       height: 12,
                     ),
                     CustomTextField().createCustomTextField(
-                        hint: 'special note here',
+                        hint: 'special_note_here'.tr,
                         height: 100,
                         controller: controller.spNoteTxtController,
                         maxLines: 3,
@@ -592,14 +593,14 @@ class Booking extends GetView<BookController> {
                         //     fontWeight: FontWeight.w500)
                         Text.rich(
                           TextSpan(
-                            text: 'Accept', // default text style
+                            text: 'accept'.tr, // default text style
                             style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 11,
                                 fontWeight: FontWeight.w500),
                             children: [
                               TextSpan(
-                                  text: ' Terms & Conditions',
+                                  text: 'term_and_conditions'.tr,
                                   style: TextStyle(
                                       color: AppColors().green,
                                       fontSize: 11,
@@ -616,7 +617,7 @@ class Booking extends GetView<BookController> {
                       width: Get.width,
                       height: 50,
                       child: CustomTextButton().createTextButton(
-                          buttonText: 'Book Now',
+                          buttonText: 'book_now'.tr,
                           weight: FontWeight.w600,
                           textSize: 16,
                           buttonColor: AppColors().green,

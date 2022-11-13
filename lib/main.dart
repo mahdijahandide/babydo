@@ -8,6 +8,7 @@ import 'package:babydoo/services/utils/app_statusbar.dart';
 import 'package:babydoo/view/screens/about/about_us.dart';
 import 'package:babydoo/view/screens/about/contact_us_screen.dart';
 import 'package:babydoo/view/screens/address/address_book.dart';
+import 'package:babydoo/view/screens/address/create_address.dart';
 import 'package:babydoo/view/screens/auth/auth_screen.dart';
 import 'package:babydoo/view/screens/auth/change_password.dart';
 import 'package:babydoo/view/screens/auth/forgot_password.dart';
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/home', page: () => const DashboardScreen()),
         GetPage(name: '/booking', page: () => const Booking()),
         GetPage(name: '/addressBook', page: () => const AddressBook()),
+        GetPage(name: '/addAddress', page: () => const AddAddressScreen()),
         GetPage(name: '/myBooking', page: () => const MyBooking()),
         GetPage(name: '/editProfile', page: () => const EditProfileScreen()),
         GetPage(name: '/liveStreaming', page: () => const LiveStreaming()),

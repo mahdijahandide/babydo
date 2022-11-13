@@ -1,15 +1,29 @@
 import 'dart:developer';
 
+import 'package:babydoo/services/model/address/address_view_model.dart';
 import 'package:babydoo/services/model/address_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'dart:convert' as convert;
+import '../../view/widgets/snackbar/snackbar.dart';
+import '../model/area_model.dart';
 import '../remotes/requests.dart';
+import '../utils/app_colors.dart';
 
 class AddressController extends GetxController {
   RxList<AddressModel> addressList = RxList([]);
+  RxList<AreaModel> areaList = RxList([]);
   RxBool isEmptyList = false.obs;
+  AddressDataModel addressData =
+      AddressDataModel('', '', '', '', '', '', '', '', '');
+
+  TextEditingController addBlockTxtController = TextEditingController();
+  TextEditingController addStreetTxtController = TextEditingController();
+  TextEditingController addAvenueTxtController = TextEditingController();
+  TextEditingController addHouseNumTxtController = TextEditingController();
+  TextEditingController addSpecialNoteTxtController = TextEditingController();
+
   @override
   void onInit() {
     // TODO: implement onInit
@@ -17,24 +31,78 @@ class AddressController extends GetxController {
     handleGetAddressRequest();
   }
 
+  onCreateInit() {
+    addressData = AddressDataModel('', '', '', '', '', '', '', '', '');
+    handleGetAreasRequest();
+  }
+
   handleGetAddressRequest() async {
     final response = await Request.getAddressesRequest();
     switch (response.statusCode) {
       case 200:
         var jsonObject = convert.jsonDecode(response.body);
-        log(jsonObject.toString());
-        var addressArray = jsonObject['data']['addresses'];
-        addressList.clear();
-        addressArray.forEach((element) {
-          addressList.add(AddressModel(data: element));
-        });
-        if (addressList.isEmpty) {
-          isEmptyList.value = true;
+        if (jsonObject['status'].toString() == '200') {
+          var addressArray = jsonObject['data']['addresses'];
+          addressList.clear();
+          addressArray.forEach((element) {
+            addressList.add(AddressModel(data: element));
+          });
+          if (addressList.isEmpty) {
+            isEmptyList.value = true;
+          }
+          update();
+        } else {
+          Snack().createSnack(
+              title: 'warning',
+              msg: jsonObject['message'].toString(),
+              icon: Icon(
+                Icons.warning,
+                color: AppColors().maroon,
+              ));
         }
-        update();
         break;
       default:
-        debugPrint(response.statusCode.toString());
+        Snack().createSnack(
+            title: 'Error',
+            msg: 'Server Error',
+            icon: Icon(
+              Icons.warning,
+              color: AppColors().maroon,
+            ));
+        break;
+    }
+  }
+
+  handleGetAreasRequest() async {
+    final response = await Request.getAreasRequest();
+    switch (response.statusCode) {
+      case 200:
+        var jsonObject = convert.jsonDecode(response.body);
+        if (jsonObject['status'].toString() == '200') {
+          var areaArray = jsonObject['data']['areas'];
+          areaList.clear();
+          areaArray.forEach((element) {
+            areaList.add(AreaModel(data: element));
+          });
+          update();
+        } else {
+          Snack().createSnack(
+              title: 'warning',
+              msg: jsonObject['message'].toString(),
+              icon: Icon(
+                Icons.warning,
+                color: AppColors().maroon,
+              ));
+        }
+        break;
+      default:
+        Snack().createSnack(
+            title: 'Error',
+            msg: 'Server Error',
+            icon: Icon(
+              Icons.warning,
+              color: AppColors().maroon,
+            ));
         break;
     }
   }

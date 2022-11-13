@@ -1,12 +1,15 @@
+import 'dart:async';
+
+import 'package:babydoo/services/controller/bus_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
-import 'package:babydoo/view/widgets/chewie/chewie.dart';
 import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-class LiveStreaming extends StatelessWidget {
+class LiveStreaming extends GetView<BusController> {
   const LiveStreaming({Key? key}) : super(key: key);
 
   @override
@@ -22,17 +25,9 @@ class LiveStreaming extends StatelessWidget {
             color: Colors.white),
         backgroundColor: AppColors().yellow,
         elevation: 0,
-        // actions: [
-        //   IconButton(
-        //       onPressed: () {},
-        //       icon: const Icon(
-        //         Icons.power_settings_new_rounded,
-        //         color: Colors.white,
-        //       ))
-        // ],
       ),
-      body: SingleChildScrollView(
-        child: Stack(
+      body: Obx(
+        () => Stack(
           children: [
             Container(
                 height: Get.height,
@@ -63,7 +58,7 @@ class LiveStreaming extends StatelessWidget {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Column(
                       children: [
                         Container(
@@ -91,23 +86,107 @@ class LiveStreaming extends StatelessWidget {
                         const SizedBox(
                           height: 35,
                         ),
-                        CustomText().createText(title: 'Circus Bus Camera'),
-                        const VideoWidget(
-                            url:
-                                'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
-                            play: true),
-                        const SizedBox(
-                          height: 250,
+                        Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.grey.withOpacity(0.4),
+                                        offset: const Offset(1, 1),
+                                        blurRadius: 3,
+                                        spreadRadius: 1)
+                                  ],
+                                  borderRadius: BorderRadius.circular(12)),
+                              width: Get.width,
+                              height: Get.height - 430,
+                              child: Stack(
+                                children: [
+                                  WebView(
+                                    initialUrl: 'https://google.com/',
+                                    javascriptMode: JavascriptMode.unrestricted,
+                                    onWebViewCreated:
+                                        (WebViewController webViewController) {
+                                      controller.liveController
+                                          .complete(webViewController);
+                                    },
+                                    onProgress: (int progress) {
+                                      print(
+                                          'WebView is loading (progress : $progress%)');
+                                    },
+                                    javascriptChannels: <JavascriptChannel>{
+                                      controller
+                                          .toasterJavascriptChannel(context),
+                                    },
+                                    navigationDelegate:
+                                        (NavigationRequest request) {
+                                      if (request.url
+                                          .startsWith('https://google.com/')) {
+                                        print(
+                                            'blocking navigation to $request}');
+                                        return NavigationDecision.prevent;
+                                      }
+                                      print('allowing navigation to $request');
+                                      return NavigationDecision.navigate;
+                                    },
+                                    onPageStarted: (String url) {
+                                      print('Page started loading: $url');
+                                      controller.isLiveLoadingDone.value =
+                                          false;
+                                    },
+                                    onPageFinished: (String url) {
+                                      print('Page finished loading: $url');
+                                      controller.isLiveLoadingDone.value = true;
+                                    },
+                                    gestureNavigationEnabled: true,
+                                    backgroundColor: const Color(0x00000000),
+                                  ),
+                                  controller.isLiveLoadingDone.isFalse
+                                      ? Center(
+                                          child: CircularProgressIndicator(
+                                            color: AppColors().yellow,
+                                          ),
+                                        )
+                                      : const SizedBox()
+                                ],
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                CustomTextButton().createTextButton(
+                                    buttonText: '${'camera'.tr} 1',
+                                    buttonColor: AppColors().yellow,
+                                    textColor: Colors.black),
+                                CustomTextButton().createTextButton(
+                                    buttonText: '${'camera'.tr} 2',
+                                    buttonColor: AppColors().yellow,
+                                    textColor: Colors.black),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                CustomTextButton().createTextButton(
+                                    buttonText: '${'camera'.tr} 3',
+                                    buttonColor: AppColors().yellow,
+                                    textColor: Colors.black),
+                                CustomTextButton().createTextButton(
+                                    buttonText: '${'camera'.tr} 4',
+                                    buttonColor: AppColors().yellow,
+                                    textColor: Colors.black),
+                              ],
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          width: Get.width,
-                          height: 45,
-                          child: CustomTextButton().createTextButton(
-                              buttonText: 'back_to_profile'.tr,
-                              buttonColor: AppColors().green,
-                              onPress: () {},
-                              textColor: Colors.white),
-                        )
                       ],
                     ),
                   ),
@@ -116,33 +195,6 @@ class LiveStreaming extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget iconTextWidget({required ic, required txt, dynamic listner}) {
-    return InkWell(
-      onTap: listner ?? () {},
-      child: Row(
-        children: [
-          const SizedBox(
-            width: 50,
-          ),
-          SvgPicture.asset(
-            'assets/svg/$ic.svg',
-            color: Colors.orangeAccent,
-            width: 30,
-            height: 30,
-          ),
-          const SizedBox(
-            width: 20,
-          ),
-          CustomText().createText(
-              title: txt,
-              size: 20,
-              color: AppColors().green,
-              fontWeight: FontWeight.bold)
-        ],
       ),
     );
   }

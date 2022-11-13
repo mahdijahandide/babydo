@@ -20,7 +20,7 @@ class ProfileScreen extends GetView<ProfileController> {
       appBar: AppBar(
         centerTitle: false,
         title: CustomText().createText(
-            title: 'Profile',
+            title: 'profile'.tr,
             size: 14,
             fontWeight: FontWeight.bold,
             color: Colors.white),
@@ -75,23 +75,45 @@ class ProfileScreen extends GetView<ProfileController> {
                         Container(
                           width: 100,
                           height: 100,
-                          decoration:
-                              BoxDecoration(shape: BoxShape.circle, boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.withOpacity(0.4),
-                                offset: const Offset(1, 3),
-                                spreadRadius: 1,
-                                blurRadius: 5)
-                          ]),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey.withOpacity(0.4),
+                                    offset: const Offset(1, 3),
+                                    spreadRadius: 1,
+                                    blurRadius: 5)
+                              ]),
                           margin: const EdgeInsets.only(top: 10),
-                          child: CircleAvatar(
-                            backgroundImage: NetworkImage(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50.0),
+                            child: Image.network(
                               baseUrl +
                                   Get.find<AuthController>()
                                       .user['icon']
                                       .toString(),
+                              fit: BoxFit.fill,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent? loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  ),
+                                );
+                              },
                             ),
                           ),
+                          // NetworkImage(
+
+                          //   )
                         ),
                         const SizedBox(
                           height: 8,
@@ -117,7 +139,7 @@ class ProfileScreen extends GetView<ProfileController> {
                           height: 10,
                         ),
                         CustomText().createText(
-                            title: 'View & Edit profile',
+                            title: 'view_and_edit_profile'.tr,
                             size: 12,
                             fontWeight: FontWeight.w500,
                             color: Colors.orangeAccent),
@@ -126,7 +148,7 @@ class ProfileScreen extends GetView<ProfileController> {
                         ),
                         iconTextWidget(
                             ic: 'person_edit',
-                            txt: 'Edit Profile',
+                            txt: 'edit_profile'.tr,
                             listner: () {
                               Get.toNamed('/editProfile');
                             }),
@@ -135,7 +157,7 @@ class ProfileScreen extends GetView<ProfileController> {
                         ),
                         iconTextWidget(
                             ic: 'phonebook',
-                            txt: 'Address Book',
+                            txt: 'address_book'.tr,
                             listner: () {
                               Get.toNamed('/addressBook');
                             }),
@@ -144,7 +166,7 @@ class ProfileScreen extends GetView<ProfileController> {
                         ),
                         iconTextWidget(
                             ic: 'lock',
-                            txt: 'Change Password',
+                            txt: 'change_password'.tr,
                             listner: () {
                               Get.toNamed('/changePassword');
                             }),
@@ -153,7 +175,7 @@ class ProfileScreen extends GetView<ProfileController> {
                         ),
                         iconTextWidget(
                             ic: 'booking',
-                            txt: 'My Booking',
+                            txt: 'my_booking'.tr,
                             listner: () {
                               Get.toNamed('/myBooking');
                             }),
@@ -162,7 +184,7 @@ class ProfileScreen extends GetView<ProfileController> {
                         ),
                         iconTextWidget(
                             ic: 'streaming',
-                            txt: 'Bus Live Streaming',
+                            txt: 'bus_live_streaming'.tr,
                             listner: () {
                               Get.toNamed('/liveStreaming');
                             }),

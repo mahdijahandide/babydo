@@ -26,7 +26,7 @@ class ProfileController extends GetxController {
   TextEditingController contactUsSubject = TextEditingController();
   TextEditingController contactUsMsg = TextEditingController();
 
-  late File image;
+  File? image;
   RxString imgPath = 'select_photo'.tr.obs;
   RxString editProfileDOB = ''.obs;
   var user;
@@ -55,7 +55,8 @@ class ProfileController extends GetxController {
     }
   }
 
-  editProfileRequest(File image, String dob, email, mobile, name) async {
+  editProfileRequest(dynamic image,
+      {required String dob, email, mobile, name}) async {
     Map<String, String> headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -68,26 +69,41 @@ class ProfileController extends GetxController {
     request.fields['mobile'] = mobile;
     request.fields['email'] = email;
     request.fields['date_of_birth'] = dob;
-    //create multipart using filepath, string or bytes
-    var pic = await http.MultipartFile.fromPath("logo", image.path);
-    //add multipart to request
-    request.files.add(pic);
+
+    if (image != null) {
+//create multipart using filepath, string or bytes
+      var pic = await http.MultipartFile.fromPath("logo", image.path);
+      //add multipart to request
+      request.files.add(pic);
+    }
+
     var response = await request.send();
     //Get the response from the server
     var responseData = await response.stream.toBytes();
     var responseString = String.fromCharCodes(responseData);
     var jsonObject = convert.jsonDecode(responseString);
-    Get.find<AuthController>().user = jsonObject['data']['user'];
-    Get.find<AuthController>().update();
-    update();
-    Get.close(1);
-    Snack().createSnack(
-        title: 'BabyDo',
-        msg: 'Profile Updated Successfully',
-        icon: Icon(
-          Icons.check,
-          color: AppColors().green,
-        ));
+    if (jsonObject['status'].toString() == '200') {
+      Get.find<AuthController>().user = jsonObject['data']['user'];
+      Get.find<AuthController>().update();
+      update();
+      Get.close(1);
+      Snack().createSnack(
+          title: 'BabyDo',
+          msg: 'Profile Updated Successfully',
+          icon: Icon(
+            Icons.check,
+            color: AppColors().green,
+          ));
+    } else {
+      Get.close(1);
+      Snack().createSnack(
+          title: 'warning',
+          msg: jsonObject['message'].toString(),
+          icon: Icon(
+            Icons.warning,
+            color: AppColors().maroon,
+          ));
+    }
   }
 
   handleContactUsRequest() async {
@@ -105,27 +121,38 @@ class ProfileController extends GetxController {
           msg: contactUsMsg.text);
       switch (response.statusCode) {
         case 200:
-          // var jsonObject = convert.jsonDecode(response.body);
-          Snack().createSnack(
-              title: 'Successful',
-              msg: 'Message Sent Successfuly',
-              icon: Icon(
-                Icons.check,
-                color: AppColors().green,
-              ));
-          Get.close(1);
-          contactUsFullName.text = '';
-          contactUsMobileNumber.text = '';
-          contactUsEmailAddress.text = '';
-          contactUsSubject.text = '';
-          contactUsMsg.text = '';
+          var jsonObject = convert.jsonDecode(response.body);
+          if (jsonObject['status'].toString() == '200') {
+            Snack().createSnack(
+                title: 'Successful',
+                msg: 'Message Sent Successfuly',
+                icon: Icon(
+                  Icons.check,
+                  color: AppColors().green,
+                ));
+            Get.close(1);
+            contactUsFullName.text = '';
+            contactUsMobileNumber.text = '';
+            contactUsEmailAddress.text = '';
+            contactUsSubject.text = '';
+            contactUsMsg.text = '';
+          } else {
+            Get.close(1);
+            Snack().createSnack(
+                title: 'warning',
+                msg: jsonObject['message'].toString(),
+                icon: Icon(
+                  Icons.warning,
+                  color: AppColors().maroon,
+                ));
+          }
           break;
         default:
           debugPrint(response.statusCode.toString());
           Get.close(1);
           Snack().createSnack(
-              title: 'Failed',
-              msg: 'Failed To Sent Message',
+              title: 'Error',
+              msg: 'Server Error',
               icon: Icon(
                 Icons.warning,
                 color: AppColors().maroon,
@@ -149,19 +176,28 @@ class ProfileController extends GetxController {
     switch (response.statusCode) {
       case 200:
         var jsonObject = convert.jsonDecode(response.body);
-        String about = Get.find<LanguageController>().lang.value == 'en'
-            ? jsonObject['data']['about_us']['details_en'].toString()
-            : jsonObject['data']['about_us']['details_ar'].toString();
-        Get.close(1);
-        Get.toNamed('/aboutUs', arguments: about);
-
+        if (jsonObject['status'].toString() == '200') {
+          String about = Get.find<LanguageController>().lang.value == 'en'
+              ? jsonObject['data']['about_us']['details_en'].toString()
+              : jsonObject['data']['about_us']['details_ar'].toString();
+          Get.close(1);
+          Get.toNamed('/aboutUs', arguments: about);
+        } else {
+          Get.close(1);
+          Snack().createSnack(
+              title: 'warning',
+              msg: jsonObject['message'].toString(),
+              icon: Icon(
+                Icons.warning,
+                color: AppColors().maroon,
+              ));
+        }
         break;
       default:
-        debugPrint(response.statusCode.toString());
         Get.close(1);
         Snack().createSnack(
-            title: 'Failed',
-            msg: 'Request Failed',
+            title: 'Error',
+            msg: 'Server Error',
             icon: Icon(
               Icons.warning,
               color: AppColors().maroon,

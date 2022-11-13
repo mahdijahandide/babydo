@@ -18,6 +18,7 @@ class Languages extends GetView<LanguageController> {
           SvgPicture.asset(
             'assets/svg/bg.svg',
             fit: BoxFit.fill,
+            width: Get.width,
           ),
           SingleChildScrollView(
             child: Stack(
@@ -36,11 +37,11 @@ class Languages extends GetView<LanguageController> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const SizedBox(
-                          height: 22,
+                          height: 50,
                         ),
                         CustomText().createText(
                             title: 'welcome_to_babydo_bus'.tr,
-                            size: 22,
+                            size: 18,
                             fontWeight: FontWeight.bold),
                         const SizedBox(
                           height: 12,

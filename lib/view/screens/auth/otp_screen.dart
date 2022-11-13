@@ -44,10 +44,9 @@ class OtpScreen extends GetView<AuthController> {
                 Align(
                     alignment: Alignment.center,
                     child: CustomText().createText(
-                        title:
-                            'enter_the_year_you_were_born_this_just_verifies_your_age.'
-                                .tr,
+                        title: 'enter_the_otp_you_received'.tr,
                         color: Colors.white,
+                        align: TextAlign.start,
                         size: 14,
                         fontWeight: FontWeight.w400)),
                 const SizedBox(
@@ -74,7 +73,7 @@ class OtpScreen extends GetView<AuthController> {
                           width: 50,
                         ),
                         SizedBox(
-                          width: 200,
+                          width: 230,
                           child: PinCodeTextField(
                             length: 5,
                             keyboardType: TextInputType.none,
@@ -84,6 +83,8 @@ class OtpScreen extends GetView<AuthController> {
                             focusNode: controller.otpNode,
                             pinTheme: PinTheme(
                                 shape: PinCodeFieldShape.underline,
+                                fieldOuterPadding:
+                                    const EdgeInsets.only(left: 4),
                                 inactiveFillColor: Colors.transparent,
                                 borderRadius: BorderRadius.circular(5),
                                 fieldHeight: 50,
@@ -114,7 +115,7 @@ class OtpScreen extends GetView<AuthController> {
                               } else {
                                 Snack().createSnack(
                                     title: 'warning'.tr,
-                                    msg: 'wrong number',
+                                    msg: 'wrong otp number',
                                     icon: const Icon(
                                       Icons.warning,
                                       color: Colors.red,

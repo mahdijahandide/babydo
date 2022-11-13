@@ -10,7 +10,6 @@ import 'package:share_plus/share_plus.dart';
 
 class DrawerWidgets {
   Widget createUserDrawer() {
-   
     return Stack(
       children: [
         SvgPicture.asset(
@@ -34,34 +33,34 @@ class DrawerWidgets {
                 ),
                 createCustomTile(
                     ic: Icons.home,
-                    title: 'Home',
+                    title: 'home'.tr,
                     listner: () {
                       Get.close(1);
                     }),
                 const Divider(),
                 createCustomTile(
-                    ic: Icons.person, title: 'Member', listner: () {}),
+                    ic: Icons.person, title: 'member'.tr, listner: () {}),
                 const Divider(),
                 createCustomTile(
                     ic: Icons.info,
-                    title: 'About Us',
+                    title: 'about_us'.tr,
                     listner: () {
-                       Get.lazyPut(
-      () => ProfileController(),
-    );
+                      Get.lazyPut(
+                        () => ProfileController(),
+                      );
                       Get.find<ProfileController>().handleAboutUsRequest();
                     }),
                 const Divider(),
                 createCustomTile(
                     ic: Icons.phone,
-                    title: 'Contact Us',
+                    title: 'contact_us'.tr,
                     listner: () {
                       Get.toNamed('/contactUs');
                     }),
                 const Divider(),
                 createCustomTile(
                     ic: Icons.share,
-                    title: 'Share',
+                    title: 'share'.tr,
                     listner: () {
                       Share.share(
                           'check out new version of babydo app https://babydobus.com',
@@ -70,7 +69,7 @@ class DrawerWidgets {
                 const Divider(),
                 createCustomTile(
                     ic: Icons.language,
-                    title: 'Change Language',
+                    title: 'change_language'.tr,
                     listner: () {
                       Get.toNamed('/language', arguments: '/home');
                     }),
@@ -79,7 +78,7 @@ class DrawerWidgets {
                   width: Get.width,
                   height: 50,
                   child: CustomTextButton().createTextButton(
-                      buttonText: 'Logout',
+                      buttonText: 'logout'.tr,
                       buttonColor: Colors.transparent,
                       textColor: AppColors().green,
                       borderColor: AppColors().green,
@@ -101,7 +100,11 @@ class DrawerWidgets {
   Widget createGuestDrawer() {
     return Stack(
       children: [
-        SvgPicture.asset('assets/svg/guest_drawer_bg.svg'),
+        SvgPicture.asset(
+          'assets/svg/guest_drawer_bg.svg',
+          width: Get.width,
+          fit: BoxFit.fill,
+        ),
         SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),

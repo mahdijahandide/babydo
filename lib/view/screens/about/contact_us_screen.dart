@@ -20,7 +20,7 @@ class ContactUsScreen extends GetView<ProfileController> {
         centerTitle: false,
         foregroundColor: Colors.white,
         title: CustomText().createText(
-            title: 'Contact_us'.tr,
+            title: 'contact_us'.tr,
             size: 14,
             fontWeight: FontWeight.bold,
             color: Colors.white),

@@ -14,6 +14,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../remotes/requests.dart';
 import 'dart:convert' as convert;
 
+import '../utils/app_colors.dart';
+
 class BookController extends GetxController {
   RxBool acceptTerm = false.obs;
   RxBool isEmptyList = false.obs;
@@ -52,19 +54,34 @@ class BookController extends GetxController {
     switch (response.statusCode) {
       case 200:
         var jsonObject = convert.jsonDecode(response.body);
-        log(jsonObject.toString());
-        var bookingArray = jsonObject['data']['bookings'];
-        bookingList.clear();
-        bookingArray.forEach((element) {
-          bookingList.add(BookingModel(data: element));
-        });
-        if (bookingList.isEmpty) {
-          isEmptyList.value = true;
+        if (jsonObject['status'].toString() == '200') {
+          var bookingArray = jsonObject['data']['bookings'];
+          bookingList.clear();
+          bookingArray.forEach((element) {
+            bookingList.add(BookingModel(data: element));
+          });
+          if (bookingList.isEmpty) {
+            isEmptyList.value = true;
+          }
+          update();
+        } else {
+          Snack().createSnack(
+              title: 'warning',
+              msg: jsonObject['message'].toString(),
+              icon: Icon(
+                Icons.warning,
+                color: AppColors().maroon,
+              ));
         }
-        update();
         break;
       default:
-        debugPrint(response.statusCode.toString());
+        Snack().createSnack(
+            title: 'Error',
+            msg: 'Server Error',
+            icon: Icon(
+              Icons.warning,
+              color: AppColors().maroon,
+            ));
         break;
     }
   }
@@ -75,38 +92,56 @@ class BookController extends GetxController {
     switch (response.statusCode) {
       case 200:
         var jsonObject = convert.jsonDecode(response.body);
-        Get.close(1);
-        Get.toNamed('/booking');
-        var moonDataArray = jsonObject['data']['moonData'];
-        bookingDetailsList.clear();
-        moonDataArray.forEach((element) {
-          bookingDetailsList.add(BookingDetailsModel(data: element));
-        });
+        if (jsonObject['status'].toString() == '200') {
+          Get.close(1);
+          Get.toNamed('/booking');
+          var moonDataArray = jsonObject['data']['moonData'];
+          bookingDetailsList.clear();
+          moonDataArray.forEach((element) {
+            bookingDetailsList.add(BookingDetailsModel(data: element));
+          });
 
-        startOfPeriod = DateFormat("yyyy-MM-dd hh:mm:ss")
-            .parse('${bookingDetailsList.first.date}');
-        endOfPeriod = DateFormat("yyyy-MM-dd hh:mm:ss")
-            .parse('${bookingDetailsList.last.date}');
-        selectedDate = DateFormat("yyyy-MM-dd hh:mm:ss")
-            .parse('${bookingDetailsList.first.date}');
+          startOfPeriod = DateFormat("yyyy-MM-dd hh:mm:ss")
+              .parse('${bookingDetailsList.first.date}');
+          endOfPeriod = DateFormat("yyyy-MM-dd hh:mm:ss")
+              .parse('${bookingDetailsList.last.date}');
+          selectedDate = DateFormat("yyyy-MM-dd hh:mm:ss")
+              .parse('${bookingDetailsList.first.date}');
 
-        bookData = BookDataModel('', '', '', '', '', '', '', '', '', '', '', '',
-            '', '', '', '', '', '', '');
-        nameTxtController.text = '';
-        mobileTxtController.text = '';
-        blockTxtController.text = '';
-        streetTxtController.text = '';
-        avenueTxtController.text = '';
-        houseTxtController.text = '';
-        spNoteTxtController.text = '';
-        bookData.busId = busId;
-        bookData.dateReserved =
-            '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
-        handleSessionSelection();
-        update();
+          bookData = BookDataModel('', '', '', '', '', '', '', '', '', '', '',
+              '', '', '', '', '', '', '', '');
+          nameTxtController.text = '';
+          mobileTxtController.text = '';
+          blockTxtController.text = '';
+          streetTxtController.text = '';
+          avenueTxtController.text = '';
+          houseTxtController.text = '';
+          spNoteTxtController.text = '';
+          bookData.busId = busId;
+          bookData.dateReserved =
+              '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
+          handleSessionSelection();
+          update();
+        } else {
+          Get.close(1);
+          Snack().createSnack(
+              title: 'warning',
+              msg: jsonObject['message'].toString(),
+              icon: Icon(
+                Icons.warning,
+                color: AppColors().maroon,
+              ));
+        }
         break;
       default:
-        debugPrint(response.statusCode.toString());
+        Get.close(1);
+        Snack().createSnack(
+            title: 'Error',
+            msg: 'Server Error',
+            icon: Icon(
+              Icons.warning,
+              color: AppColors().maroon,
+            ));
         break;
     }
   }
@@ -116,16 +151,32 @@ class BookController extends GetxController {
     switch (response.statusCode) {
       case 200:
         var jsonObject = convert.jsonDecode(response.body);
-        log(jsonObject.toString());
-        var areaArray = jsonObject['data']['areas'];
-        bookingAreaList.clear();
-        areaArray.forEach((element) {
-          bookingAreaList.add(AreaModel(data: element));
-        });
-        update();
+        if (jsonObject['status'].toString() == '200') {
+          log(jsonObject.toString());
+          var areaArray = jsonObject['data']['areas'];
+          bookingAreaList.clear();
+          areaArray.forEach((element) {
+            bookingAreaList.add(AreaModel(data: element));
+          });
+          update();
+        } else {
+          Snack().createSnack(
+              title: 'warning',
+              msg: jsonObject['message'].toString(),
+              icon: Icon(
+                Icons.warning,
+                color: AppColors().maroon,
+              ));
+        }
         break;
       default:
-        debugPrint(response.statusCode.toString());
+        Snack().createSnack(
+            title: 'Error',
+            msg: 'Server Error',
+            icon: Icon(
+              Icons.warning,
+              color: AppColors().maroon,
+            ));
         break;
     }
   }
@@ -174,22 +225,34 @@ class BookController extends GetxController {
     switch (response.statusCode) {
       case 200:
         var jsonObject = convert.jsonDecode(response.body);
-        Get.close(1);
-        Get.log(jsonObject.toString());
-        if (jsonObject['status'] == 200) {
+        if (jsonObject['status'].toString() == '200') {
+          Get.close(1);
+          Get.log(jsonObject.toString());
+
           String url = jsonObject['data']['webViewUrl'].toString();
           _launchUrl(url);
+
+          update();
         } else {
+          Get.close(1);
           Snack().createSnack(
               title: 'warning',
               msg: jsonObject['message'].toString(),
-              duration: 5);
+              icon: Icon(
+                Icons.warning,
+                color: AppColors().maroon,
+              ));
         }
-
-        update();
         break;
       default:
-        debugPrint(response.statusCode.toString());
+        Get.close(1);
+        Snack().createSnack(
+            title: 'Error',
+            msg: 'Server Error',
+            icon: Icon(
+              Icons.warning,
+              color: AppColors().maroon,
+            ));
         break;
     }
   }

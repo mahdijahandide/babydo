@@ -14,7 +14,7 @@ class AuthScreen extends GetView<AuthController> {
     Get.lazyPut(() => LanguageController());
     return Scaffold(
       body: WillPopScope(
-        onWillPop: () async{
+        onWillPop: () async {
           Get.toNamed('/language');
           return true;
         },
@@ -22,6 +22,7 @@ class AuthScreen extends GetView<AuthController> {
           SvgPicture.asset(
             'assets/svg/bg.svg',
             fit: BoxFit.fill,
+            width: Get.width,
           ),
           Obx(() => controller.isSignUp.isFalse
               ? const SigninView()

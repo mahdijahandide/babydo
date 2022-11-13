@@ -23,7 +23,7 @@ class Snack {
         ),
         messageText: Text(
           '$msg',
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.start,
           textDirection: TextDirection.ltr,
           style: TextStyle(
               color: msgColor ?? Colors.white, fontWeight: FontWeight.bold),

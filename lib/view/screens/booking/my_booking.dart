@@ -18,7 +18,7 @@ class MyBooking extends GetView<BookController> {
     return Scaffold(
       appBar: AppBar(
         title: CustomText().createText(
-            title: 'My Booking', size: 18, fontWeight: FontWeight.bold),
+            title: 'my_booking'.tr, size: 18, fontWeight: FontWeight.bold),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -167,7 +167,7 @@ class MyBooking extends GetView<BookController> {
                                                 ListTile(
                                                   leading: CustomText()
                                                       .createText(
-                                                          title: 'Address',
+                                                          title: 'address'.tr,
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           size: 12),
@@ -175,7 +175,7 @@ class MyBooking extends GetView<BookController> {
                                                     direction: Axis.horizontal,
                                                     child: CustomText().createText(
                                                         title:
-                                                            'Area: ${currentItem.area} Avenue: ${currentItem.avenue} Street: ${currentItem.street} Block: ${currentItem.block}',
+                                                            '${'area'.tr}: ${currentItem.area} ${'avenue'.tr}: ${currentItem.avenue} ${'street'.tr}: ${currentItem.street} ${'block'.tr}: ${currentItem.block}',
                                                         fontWeight:
                                                             FontWeight.w400,
                                                         size: 12),
@@ -184,7 +184,8 @@ class MyBooking extends GetView<BookController> {
                                                 ListTile(
                                                   leading: CustomText()
                                                       .createText(
-                                                          title: 'Special note',
+                                                          title:
+                                                              'special_note'.tr,
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           size: 12),

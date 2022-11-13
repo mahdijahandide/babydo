@@ -2,6 +2,7 @@ import 'package:babydoo/services/controller/home_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/drawer/drawer.dart';
 import 'package:babydoo/view/screens/bus/bus_screen.dart';
+import 'package:babydoo/view/screens/bus/live_streaming.dart';
 import 'package:babydoo/view/screens/home/home_screen.dart';
 import 'package:babydoo/view/screens/menu/menu_screen.dart';
 import 'package:babydoo/view/screens/profile/profile_screen.dart';
@@ -49,7 +50,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             _selectedTab.name == 'home'
                 ? const HomeScreen()
                 : _selectedTab.name == 'bus'
-                    ? const BusScreen()
+                    ? const LiveStreaming()
                     : _selectedTab.name == 'profile'
                         ? const ProfileScreen()
                         : const MenuScreen(),

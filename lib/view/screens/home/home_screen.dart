@@ -5,7 +5,6 @@ import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/screens/home/widgets/carusel.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
 import 'package:babydoo/view/widgets/marquee/marquee_widget.dart';
-import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -172,11 +171,14 @@ class HomeScreen extends GetView<HomeController> {
                                       leading: Lottie.asset(index > 3
                                           ? 'assets/json/bus1.json'
                                           : 'assets/json/bus${index + 1}.json'),
-                                      title: CustomText().createText(
-                                          title: current.name.toString(),
-                                          size: 24,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
+                                      title: MarqueeWidget(
+                                        direction: Axis.horizontal,
+                                        child: CustomText().createText(
+                                            title: current.name.toString(),
+                                            size: 24,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                     children: [
                                       Container(
@@ -225,7 +227,6 @@ class HomeScreen extends GetView<HomeController> {
                                                               : cf.featureAr);
                                                 },
                                               ),
-
                                               const SizedBox(
                                                 height: 12,
                                               ),
@@ -259,18 +260,46 @@ class HomeScreen extends GetView<HomeController> {
                                                         vertical: 12),
                                                 child: Stack(
                                                   children: [
-                                                    Obx(
-                                                      () => Image(
-                                                        image: NetworkImage(
-                                                            current
-                                                                .imgBg.value),
-                                                        width: Get.width,
-                                                        height: 170,
-                                                        fit: BoxFit.fill,
-                                                        alignment:
-                                                            Alignment.topCenter,
-                                                      ),
-                                                    ),
+                                                    Obx(() => ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                          child: Image.network(
+                                                            current.imgBg.value,
+                                                            width: Get.width,
+                                                            height: 170,
+                                                            fit: BoxFit.fill,
+                                                            loadingBuilder:
+                                                                (BuildContext
+                                                                        context,
+                                                                    Widget
+                                                                        child,
+                                                                    ImageChunkEvent?
+                                                                        loadingProgress) {
+                                                              if (loadingProgress ==
+                                                                  null) {
+                                                                return child;
+                                                              }
+                                                              return Center(
+                                                                child: SizedBox(
+                                                                  width:
+                                                                      Get.width,
+                                                                  height: 170,
+                                                                  child: Center(
+                                                                    child:
+                                                                        CircularProgressIndicator(
+                                                                      value: loadingProgress.expectedTotalBytes !=
+                                                                              null
+                                                                          ? loadingProgress.cumulativeBytesLoaded /
+                                                                              loadingProgress.expectedTotalBytes!
+                                                                          : null,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            },
+                                                          ),
+                                                        )),
                                                     Container(
                                                       width: 70,
                                                       height: 150,
@@ -335,17 +364,51 @@ class HomeScreen extends GetView<HomeController> {
                                                                     .update();
                                                               },
                                                               child: Container(
-                                                                margin:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        bottom:
-                                                                            6),
                                                                 width: 50,
                                                                 height: 50,
-                                                                decoration: BoxDecoration(
-                                                                    image: DecorationImage(
-                                                                        image: NetworkImage(
-                                                                            cg.url))),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: Colors
+                                                                      .white
+                                                                      .withOpacity(
+                                                                          0.5),
+                                                                ),
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .all(
+                                                                          4.0),
+                                                                  child:
+                                                                      ClipRRect(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(4),
+                                                                    child: Image
+                                                                        .network(
+                                                                      cg.url,
+                                                                      fit: BoxFit
+                                                                          .fill,
+                                                                      loadingBuilder: (BuildContext context,
+                                                                          Widget
+                                                                              child,
+                                                                          ImageChunkEvent?
+                                                                              loadingProgress) {
+                                                                        if (loadingProgress ==
+                                                                            null) {
+                                                                          return child;
+                                                                        }
+                                                                        return Center(
+                                                                          child:
+                                                                              CircularProgressIndicator(
+                                                                            value: loadingProgress.expectedTotalBytes != null
+                                                                                ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                                                                : null,
+                                                                          ),
+                                                                        );
+                                                                      },
+                                                                    ),
+                                                                  ),
+                                                                ),
                                                               ),
                                                             );
                                                           },
@@ -359,12 +422,6 @@ class HomeScreen extends GetView<HomeController> {
                                                   title: current.name,
                                                   fontWeight: FontWeight.w600,
                                                   size: 16),
-                                              // const SizedBox(
-                                              //   height: 12,
-                                              // ),
-                                              // CustomText().createText(
-                                              //     title:
-                                              //         'Bus details text here.Lorem ipsum lorem ipsum lorem lorem lorem lorem lorem ipsum Bus details text here.Lorem ipsum lorem ipsum lorem lorem lorem lorem lorem ipsum Bus details text here.Lorem ipsum lorem ip'),
                                               const SizedBox(
                                                 height: 12,
                                               ),
@@ -374,40 +431,6 @@ class HomeScreen extends GetView<HomeController> {
                                                     .videoGalleryList[0].url,
                                               ),
                                               const SizedBox(height: 20),
-                                              // CustomText().createText(
-                                              //   title: 'Week Days',
-                                              //   size: 18,
-                                              // ),
-                                              // Row(
-                                              //   mainAxisAlignment:
-                                              //       MainAxisAlignment.center,
-                                              //   children: [
-                                              //     createBlueBox(),
-                                              //     const SizedBox(
-                                              //       width: 15,
-                                              //     ),
-                                              //     createBlueBox(),
-                                              //   ],
-                                              // ),
-                                              // const SizedBox(
-                                              //   height: 12,
-                                              // ),
-                                              // CustomText().createText(
-                                              //   title: 'Weekend',
-                                              //   size: 18,
-                                              // ),
-                                              // Row(
-                                              //   mainAxisAlignment:
-                                              //       MainAxisAlignment.center,
-                                              //   children: [
-                                              //     createBlueBox(),
-                                              //     const SizedBox(
-                                              //       width: 15,
-                                              //     ),
-                                              //     createBlueBox(),
-                                              //   ],
-                                              // ),
-                                              // const SizedBox(height: 20),
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -417,7 +440,7 @@ class HomeScreen extends GetView<HomeController> {
                                                     child: CustomTextButton()
                                                         .createTextButton(
                                                             buttonText:
-                                                                'Book Now',
+                                                                'book_now'.tr,
                                                             textSize: 16,
                                                             weight:
                                                                 FontWeight.w600,

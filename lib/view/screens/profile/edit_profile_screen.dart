@@ -6,6 +6,7 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'dart:io' as io;
 
 import '../../widgets/textfields/textfield.dart';
 
@@ -27,14 +28,6 @@ class EditProfileScreen extends GetView<ProfileController> {
             color: Colors.white),
         backgroundColor: AppColors().litePink,
         elevation: 0,
-        // actions: [
-        //   IconButton(
-        //       onPressed: () {},
-        //       icon: const Icon(
-        //         Icons.power_settings_new_rounded,
-        //         color: Colors.white,
-        //       ))
-        // ],
       ),
       body: Obx(
         () => SingleChildScrollView(
@@ -179,7 +172,7 @@ class EditProfileScreen extends GetView<ProfileController> {
                             },
                             child: Container(
                               width: Get.width,
-                              height: 50,
+                              height: 52,
                               padding:
                                   const EdgeInsets.only(right: 8.0, left: 8.0),
                               decoration: BoxDecoration(
@@ -210,13 +203,15 @@ class EditProfileScreen extends GetView<ProfileController> {
                             child: CustomTextButton().createTextButton(
                                 buttonText: 'update_profile'.tr,
                                 buttonColor: AppColors().green,
-                                onPress: () {
+                                onPress: () async {
                                   controller.editProfileRequest(
                                       controller.image,
-                                      controller.editProfileDOB.value,
-                                      controller.emailTextController.text,
-                                      controller.editProfileMobile.text,
-                                      controller.editProfileFullName.text);
+                                      dob: controller.editProfileDOB.value,
+                                      email:
+                                          controller.emailTextController.text,
+                                      mobile: controller.editProfileMobile.text,
+                                      name:
+                                          controller.editProfileFullName.text);
                                 },
                                 textColor: Colors.white),
                           )

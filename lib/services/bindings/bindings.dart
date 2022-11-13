@@ -14,8 +14,8 @@ class AppBindings extends Bindings {
     Get.lazyPut(() => LanguageController());
     Get.lazyPut(() => HomeController());
     Get.lazyPut(() => AddressController());
-    Get.lazyPut(() => BusController());
     Get.lazyPut(() => AuthController());
     Get.lazyPut(() => ProfileController());
+    Get.lazyPut(() => BusController());
   }
 }

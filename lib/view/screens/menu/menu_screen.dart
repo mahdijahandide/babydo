@@ -16,7 +16,7 @@ class MenuScreen extends GetView<ProfileController> {
       appBar: AppBar(
         centerTitle: false,
         title: CustomText().createText(
-            title: 'More Options',
+            title: 'more_options'.tr,
             size: 14,
             fontWeight: FontWeight.bold,
             color: Colors.white),
@@ -80,7 +80,7 @@ class MenuScreen extends GetView<ProfileController> {
                           height: 20,
                         ),
                         CustomText().createText(
-                            title: 'More Options',
+                            title: 'more_options'.tr,
                             size: 12,
                             fontWeight: FontWeight.w500,
                             color: Colors.orangeAccent),
@@ -89,14 +89,14 @@ class MenuScreen extends GetView<ProfileController> {
                         ),
                         iconTextWidget(
                             ic: Icons.group_outlined,
-                            txt: 'Member',
+                            txt: 'member'.tr,
                             listner: () {}),
                         const SizedBox(
                           height: 20,
                         ),
                         iconTextWidget(
                             ic: Icons.contact_phone_outlined,
-                            txt: 'Contact Us',
+                            txt: 'contact_us'.tr,
                             listner: () {
                               Get.toNamed('/contactUs');
                             }),
@@ -105,7 +105,7 @@ class MenuScreen extends GetView<ProfileController> {
                         ),
                         iconTextWidget(
                             ic: Icons.info_outline,
-                            txt: 'About Us',
+                            txt: 'about_us'.tr,
                             listner: () {
                               Get.lazyPut(
                                 () => ProfileController(),
@@ -118,7 +118,7 @@ class MenuScreen extends GetView<ProfileController> {
                         ),
                         iconTextWidget(
                             ic: Icons.share_outlined,
-                            txt: 'Share',
+                            txt: 'share'.tr,
                             listner: () {
                               Share.share(
                                   'check out new version of babydo app https://babydobus.com',

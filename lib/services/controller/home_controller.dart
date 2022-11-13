@@ -7,8 +7,10 @@ import 'package:video_player/video_player.dart';
 
 import 'dart:convert' as convert;
 import '../../view/screens/home/widgets/carusel.dart';
+import '../../view/widgets/snackbar/snackbar.dart';
 import '../model/slider_model.dart';
 import '../remotes/requests.dart';
+import '../utils/app_colors.dart';
 
 class HomeController extends GetxController {
   RxInt caruselIndex = 0.obs;
@@ -36,14 +38,30 @@ class HomeController extends GetxController {
     switch (response.statusCode) {
       case 200:
         var jsonObject = convert.jsonDecode(response.body);
-        var slidersArray = jsonObject['data']['sliders'];
-        imgList.clear();
-        slidersArray.forEach((element) {
-          imgList.add(SliderModel(data: element));
-        });
+        if (jsonObject['status'].toString() == '200') {
+          var slidersArray = jsonObject['data']['sliders'];
+          imgList.clear();
+          slidersArray.forEach((element) {
+            imgList.add(SliderModel(data: element));
+          });
+        } else {
+          Snack().createSnack(
+              title: 'warning',
+              msg: jsonObject['message'].toString(),
+              icon: Icon(
+                Icons.warning,
+                color: AppColors().maroon,
+              ));
+        }
         break;
       default:
-        debugPrint(response.statusCode.toString());
+        Snack().createSnack(
+            title: 'Error',
+            msg: 'Server Error',
+            icon: Icon(
+              Icons.warning,
+              color: AppColors().maroon,
+            ));
         break;
     }
   }
@@ -53,15 +71,31 @@ class HomeController extends GetxController {
     switch (response.statusCode) {
       case 200:
         var jsonObject = convert.jsonDecode(response.body);
-        var busArray = jsonObject['data']['buses'];
-        bussesList.clear();
-        busArray.forEach((element) {
-          bussesList.add(BusModel(data: element));
-        });
-        update();
+        if (jsonObject['status'].toString() == '200') {
+          var busArray = jsonObject['data']['buses'];
+          bussesList.clear();
+          busArray.forEach((element) {
+            bussesList.add(BusModel(data: element));
+          });
+          update();
+        } else {
+          Snack().createSnack(
+              title: 'warning',
+              msg: jsonObject['message'].toString(),
+              icon: Icon(
+                Icons.warning,
+                color: AppColors().maroon,
+              ));
+        }
         break;
       default:
-        debugPrint(response.statusCode.toString());
+        Snack().createSnack(
+            title: 'Error',
+            msg: 'Server Error',
+            icon: Icon(
+              Icons.warning,
+              color: AppColors().maroon,
+            ));
         break;
     }
   }

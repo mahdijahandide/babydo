@@ -17,7 +17,7 @@ class AddressBook extends GetView<AddressController> {
     return Scaffold(
       appBar: AppBar(
         title: CustomText().createText(
-            title: 'Address Book', size: 18, fontWeight: FontWeight.bold),
+            title: 'address_book'.tr, size: 18, fontWeight: FontWeight.bold),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -93,7 +93,7 @@ class AddressBook extends GetView<AddressController> {
                                             icon: Icons.edit,
                                             borderRadius:
                                                 BorderRadius.circular(8),
-                                            label: 'Edit',
+                                            label: 'edit'.tr,
                                           ),
                                           SlidableAction(
                                             onPressed: (v) {},
@@ -102,7 +102,7 @@ class AddressBook extends GetView<AddressController> {
                                             icon: Icons.delete,
                                             borderRadius:
                                                 BorderRadius.circular(8),
-                                            label: 'Delete',
+                                            label: 'delete'.tr,
                                           ),
                                         ],
                                       ),
@@ -163,7 +163,7 @@ class AddressBook extends GetView<AddressController> {
                                                     direction: Axis.horizontal,
                                                     child: CustomText().createText(
                                                         title:
-                                                            'Avenue ${currentItem.avenue}, Street ${currentItem.street}, House number ${currentItem.houseNumber}',
+                                                            '${'avenue'.tr} ${currentItem.avenue}, ${'street'.tr} ${currentItem.street}, ${'house_number'.tr} ${currentItem.houseNumber}',
                                                         color: Colors.white,
                                                         size: 12,
                                                         fontWeight:
@@ -195,7 +195,9 @@ class AddressBook extends GetView<AddressController> {
             size: 30,
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          Get.toNamed('/addAddress');
+        },
       ),
     );
   }
