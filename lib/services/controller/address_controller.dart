@@ -147,4 +147,81 @@ class AddressController extends GetxController {
         break;
     }
   }
+
+  handleUpdateAddressRequest({required String id}) async {
+    LoadingDialog.showCustomDialog(msg: 'loading'.tr);
+    final response = await Request.updateAddressRequest(
+        areaId: addressData.areaId!,
+        block: addBlockTxtController.text,
+        street: addStreetTxtController.text,
+        avenue: addAvenueTxtController.text,
+        houseNumber: addHouseNumTxtController.text,
+        spNote: addSpecialNoteTxtController.text,
+        lat: addressData.lat ?? '',
+        lng: addressData.lng ?? '',
+        id: id);
+    switch (response.statusCode) {
+      case 200:
+        var jsonObject = convert.jsonDecode(response.body);
+        if (jsonObject['status'].toString() == '200') {
+          Get.close(2);
+          handleGetAddressRequest();
+          update();
+        } else {
+          Get.close(1);
+          Snack().createSnack(
+              title: 'warning',
+              msg: jsonObject['message'].toString(),
+              icon: Icon(
+                Icons.warning,
+                color: AppColors().maroon,
+              ));
+        }
+        break;
+      default:
+        Get.close(1);
+        Snack().createSnack(
+            title: 'Error',
+            msg: 'Server Error',
+            icon: Icon(
+              Icons.warning,
+              color: AppColors().maroon,
+            ));
+        break;
+    }
+  }
+
+  handleDeleteAddressRequest({required String id}) async {
+    LoadingDialog.showCustomDialog(msg: 'loading'.tr);
+    final response = await Request.deleteAddressRequest(id: id);
+    switch (response.statusCode) {
+      case 200:
+        var jsonObject = convert.jsonDecode(response.body);
+        if (jsonObject['status'].toString() == '200') {
+          Get.close(1);
+          handleGetAddressRequest();
+          update();
+        } else {
+          Get.close(1);
+          Snack().createSnack(
+              title: 'warning',
+              msg: jsonObject['message'].toString(),
+              icon: Icon(
+                Icons.warning,
+                color: AppColors().maroon,
+              ));
+        }
+        break;
+      default:
+        Get.close(1);
+        Snack().createSnack(
+            title: 'Error',
+            msg: 'Server Error',
+            icon: Icon(
+              Icons.warning,
+              color: AppColors().maroon,
+            ));
+        break;
+    }
+  }
 }

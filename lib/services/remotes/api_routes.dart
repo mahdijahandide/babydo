@@ -25,6 +25,10 @@ String getAddressesRoute({required String lang}) =>
     '$baseUrl$apiRoute/$lang/getAddresses';
 String createAddressRoute({required String lang}) =>
     '$baseUrl$apiRoute/$lang/address/store';
+String updateAddressRoute({required String lang}) =>
+    '$baseUrl$apiRoute/$lang/address/update';
+String deleteAddressRoute({required String lang}) =>
+    '$baseUrl$apiRoute/$lang/address/destroy';
 String getBookingRoute({required String lang}) =>
     '$baseUrl$apiRoute/$lang/bookingList';
 String getBookingNowRoute({required String lang}) =>

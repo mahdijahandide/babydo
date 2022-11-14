@@ -270,7 +270,7 @@ class UpdateAddressScreen extends GetView<AddressController> {
                             width: Get.width,
                             height: 45,
                             child: CustomTextButton().createTextButton(
-                                buttonText: 'update'.tr,
+                                buttonText: 'update_address'.tr,
                                 buttonColor: AppColors().green,
                                 onPress: () {
                                   if (controller
@@ -279,7 +279,8 @@ class UpdateAddressScreen extends GetView<AddressController> {
                                           .isNotEmpty &&
                                       controller.addBlockTxtController.text
                                           .isNotEmpty) {
-                                    controller.handleStoreAddressRequest();
+                                    controller.handleUpdateAddressRequest(
+                                        id: Get.arguments.toString());
                                   } else {
                                     Snack().createSnack(
                                         title: 'warning',

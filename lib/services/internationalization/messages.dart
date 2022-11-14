@@ -93,7 +93,9 @@ class Messages extends Translations {
           'stay_in_app': 'Stay in App',
           'forgot_password': 'Forgot Password',
           'camera': 'Camera',
-          'update_address': 'Update Address'
+          'update_address': 'Update Address',
+          'delete_this_address': 'Delete this Address?',
+          'cancel': 'Cancel'
         },
         'ar_KW': {
           'appName': 'بیبی دو',
@@ -184,7 +186,9 @@ class Messages extends Translations {
           'stay_in_app': 'ابق في التطبيق',
           'forgot_password': 'هل نسيت كلمة السر',
           'camera': 'كاميرا',
-          'update_address': 'تحديث العنوان'
+          'update_address': 'تحديث العنوان',
+          'delete_this_address': 'هل تريد حذف هذا العنوان؟',
+          'cancel': 'يلغي'
         }
       };
 }

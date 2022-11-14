@@ -1,5 +1,6 @@
 import 'package:babydoo/services/controller/address_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
+import 'package:babydoo/view/dialogs/delete_address_dialog.dart';
 import 'package:babydoo/view/widgets/marquee/marquee_widget.dart';
 import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +104,9 @@ class AddressBook extends GetView<AddressController> {
                                                         currentItem.houseNumber,
                                                         currentItem
                                                             .specialNote);
-                                                Get.toNamed('/updateAddress');
+                                                Get.toNamed('/updateAddress',
+                                                    arguments: currentItem.id
+                                                        .toString());
                                               },
                                               backgroundColor: AppColors().blue,
                                               foregroundColor: Colors.white,
@@ -113,7 +116,13 @@ class AddressBook extends GetView<AddressController> {
                                               label: 'edit'.tr,
                                             ),
                                             SlidableAction(
-                                              onPressed: (v) {},
+                                              onPressed: (v) {
+                                                DeleteAddressDialog
+                                                    .showCustomDialog(
+                                                        addressId: currentItem
+                                                            .id
+                                                            .toString());
+                                              },
                                               backgroundColor:
                                                   AppColors().maroon,
                                               foregroundColor: Colors.white,

@@ -255,4 +255,52 @@ class Request {
           'special_note': spNote
         }));
   }
+
+  static Future<http.Response> updateAddressRequest({
+    required String id,
+    required String areaId,
+    required String block,
+    required String street,
+    required String avenue,
+    required String houseNumber,
+    required String spNote,
+    required String lat,
+    required String lng,
+  }) {
+    return http.post(
+        Uri.parse(updateAddressRoute(
+            lang: Get.find<LanguageController>().lang.value)),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ${Get.find<AuthController>().token.value}'
+        },
+        body: jsonEncode(<String, String>{
+          'id': id,
+          'area_id': areaId,
+          'block': block,
+          'street': street,
+          'Avenue': avenue,
+          'latitude': lat,
+          'longitude': lng,
+          'house_number': houseNumber,
+          'special_note': spNote
+        }));
+  }
+
+  static Future<http.Response> deleteAddressRequest({
+    required String id,
+  }) {
+    return http.post(
+        Uri.parse(deleteAddressRoute(
+            lang: Get.find<LanguageController>().lang.value)),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ${Get.find<AuthController>().token.value}'
+        },
+        body: jsonEncode(<String, String>{
+          'id': id,
+        }));
+  }
 }
