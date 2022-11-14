@@ -1,23 +1,39 @@
-import 'package:babydoo/services/controller/language_controller.dart';
-import 'package:get/get.dart';
-
 //BASE URL
 // const String baseUrl = 'https://babydo.gulfweb.ir/';
 const String baseUrl = 'https://test2.babydobus.com/';
-String apiRoute = 'api/V3/${Get.find<LanguageController>().lang.value}';
+String apiRoute = 'api/V3';
 //routes
-String userRegisterRoute = '$baseUrl$apiRoute/user/register';
-String userLoginRoute = '$baseUrl$apiRoute/user/login';
-String getOtpRoute = '$baseUrl$apiRoute/user/sendSms';
-String contactUsRoute = '$baseUrl$apiRoute/user/contactUs';
-String aboutUsRoute = '$baseUrl$apiRoute/about_us';
-String forgetPasswordRoute = '$baseUrl$apiRoute/user/forgetPassword';
-String getSliderRoute = '$baseUrl$apiRoute/getSlider';
-String getBusRoute = '$baseUrl$apiRoute/bus/list';
-String getAddressesRoute = '$baseUrl$apiRoute/getAddresses';
-String getBookingRoute = '$baseUrl$apiRoute/bookingList';
-String getBookingNowRoute = '$baseUrl$apiRoute/bus/get_bookingNow';
-String changePasswordRoute = '$baseUrl$apiRoute/user/changePassword';
-String editProfileRoute = '$baseUrl$apiRoute/user/editPrifile';
-String getAreasRoute = '$baseUrl$apiRoute/getAreas';
-String bookPaymentRoute = '$baseUrl$apiRoute/payment';
+
+String getBusRoute({required String lang}) =>
+    '$baseUrl$apiRoute/$lang/bus/list';
+
+String userRegisterRoute({required String lang}) =>
+    '$baseUrl$apiRoute/$lang/user/register';
+String userLoginRoute({required String lang}) =>
+    '$baseUrl$apiRoute/$lang/user/login';
+String getOtpRoute({required String lang}) =>
+    '$baseUrl$apiRoute/$lang/user/sendSms';
+String contactUsRoute({required String lang}) =>
+    '$baseUrl$apiRoute/$lang/user/contactUs';
+String aboutUsRoute({required String lang}) =>
+    '$baseUrl$apiRoute/$lang/about_us';
+String forgetPasswordRoute({required String lang}) =>
+    '$baseUrl$apiRoute/$lang/user/forgetPassword';
+String getSliderRoute({required String lang}) =>
+    '$baseUrl$apiRoute/$lang/getSlider';
+String getAddressesRoute({required String lang}) =>
+    '$baseUrl$apiRoute/$lang/getAddresses';
+String createAddressRoute({required String lang}) =>
+    '$baseUrl$apiRoute/$lang/address/store';
+String getBookingRoute({required String lang}) =>
+    '$baseUrl$apiRoute/$lang/bookingList';
+String getBookingNowRoute({required String lang}) =>
+    '$baseUrl$apiRoute/$lang/bus/get_bookingNow';
+String changePasswordRoute({required String lang}) =>
+    '$baseUrl$apiRoute/$lang/user/changePassword';
+String editProfileRoute({required String lang}) =>
+    '$baseUrl$apiRoute/$lang/user/editPrifile';
+String getAreasRoute({required String lang}) =>
+    '$baseUrl$apiRoute/$lang/getAreas';
+String bookPaymentRoute({required String lang}) =>
+    '$baseUrl$apiRoute/$lang/payment';

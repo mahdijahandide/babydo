@@ -1,7 +1,6 @@
 import 'package:babydoo/services/controller/address_controller.dart';
 import 'package:babydoo/services/controller/profile_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
-import 'package:babydoo/view/dialogs/loading_dialogs.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
 import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
@@ -13,20 +12,30 @@ import '../../../services/model/area_model.dart';
 import '../../widgets/snackbar/snackbar.dart';
 import '../../widgets/textfields/textfield.dart';
 
-class AddAddressScreen extends GetView<AddressController> {
-  const AddAddressScreen({Key? key}) : super(key: key);
+class UpdateAddressScreen extends GetView<AddressController> {
+  const UpdateAddressScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     ProfileController profileController = Get.put(ProfileController());
     controller.handleGetAreasRequest();
+    controller.addBlockTxtController.text =
+        controller.addressData.block.toString();
+    controller.addStreetTxtController.text =
+        controller.addressData.street.toString();
+    controller.addAvenueTxtController.text =
+        controller.addressData.avenue.toString();
+    controller.addHouseNumTxtController.text =
+        controller.addressData.houseNumber.toString();
+    controller.addSpecialNoteTxtController.text =
+        controller.addressData.specialNote.toString();
     return Scaffold(
       backgroundColor: AppColors().litePink,
       appBar: AppBar(
         centerTitle: false,
         foregroundColor: Colors.white,
         title: CustomText().createText(
-            title: 'add_address'.tr,
+            title: 'update_address'.tr,
             size: 14,
             fontWeight: FontWeight.bold,
             color: Colors.white),
@@ -221,7 +230,11 @@ class AddAddressScreen extends GetView<AddressController> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
                                 child: FlutterLocationPicker(
-                                    // initPosition: LatLong(23, 89),
+                                    initPosition: LatLong(
+                                        double.parse(controller.addressData.lat
+                                            .toString()),
+                                        double.parse(controller.addressData.lng
+                                            .toString())),
                                     selectLocationButtonStyle:
                                         ElevatedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
@@ -235,7 +248,7 @@ class AddAddressScreen extends GetView<AddressController> {
                                     initZoom: 11,
                                     minZoomLevel: 5,
                                     maxZoomLevel: 16,
-                                    trackMyPosition: true,
+                                    trackMyPosition: false,
                                     onError: (e) => print(e),
                                     onPicked: (pickedData) {
                                       print(pickedData.latLong.latitude);
@@ -257,7 +270,7 @@ class AddAddressScreen extends GetView<AddressController> {
                             width: Get.width,
                             height: 45,
                             child: CustomTextButton().createTextButton(
-                                buttonText: 'add'.tr,
+                                buttonText: 'update'.tr,
                                 buttonColor: AppColors().green,
                                 onPress: () {
                                   if (controller

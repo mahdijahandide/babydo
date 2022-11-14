@@ -63,7 +63,10 @@ class ProfileController extends GetxController {
       'Authorization': 'Bearer ${Get.find<AuthController>().token.value}'
     };
     LoadingDialog.showCustomDialog(msg: 'title'.tr);
-    var request = http.MultipartRequest("POST", Uri.parse(editProfileRoute));
+    var request = http.MultipartRequest(
+        "POST",
+        Uri.parse(
+            editProfileRoute(lang: Get.find<LanguageController>().lang.value)));
     request.headers.addAll(headers);
     request.fields['name'] = name;
     request.fields['mobile'] = mobile;

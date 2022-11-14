@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:babydoo/services/controller/language_controller.dart';
 import 'package:http/http.dart' as http;
 
 import '../controller/auth_controller.dart';
@@ -10,7 +11,8 @@ class Request {
   static Future<http.Response> userRegister(
       String mobile, String email, String password, String confirmPassword) {
     return http.post(
-      Uri.parse(userRegisterRoute),
+      Uri.parse(
+          userRegisterRoute(lang: Get.find<LanguageController>().lang.value)),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json'
@@ -28,7 +30,8 @@ class Request {
   static Future<http.Response> userLogin(
       String mobile, String password, String pushyDeviceToken) {
     return http.post(
-      Uri.parse(userLoginRoute),
+      Uri.parse(
+          userLoginRoute(lang: Get.find<LanguageController>().lang.value)),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json'
@@ -42,16 +45,19 @@ class Request {
   }
 
   static Future<http.Response> getSliderRequest() {
-    return http.post(Uri.parse(getSliderRoute));
+    return http.post(Uri.parse(
+        getSliderRoute(lang: Get.find<LanguageController>().lang.value)));
   }
 
   static Future<http.Response> getBusRequest() {
-    return http.post(Uri.parse(getBusRoute));
+    return http.post(Uri.parse(
+        getBusRoute(lang: Get.find<LanguageController>().lang.value)));
   }
 
   static Future<http.Response> getAddressesRequest() {
     return http.post(
-      Uri.parse(getAddressesRoute),
+      Uri.parse(
+          getAddressesRoute(lang: Get.find<LanguageController>().lang.value)),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
@@ -62,7 +68,8 @@ class Request {
 
   static Future<http.Response> getBookingRequest() {
     return http.post(
-      Uri.parse(getBookingRoute),
+      Uri.parse(
+          getBookingRoute(lang: Get.find<LanguageController>().lang.value)),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
@@ -74,7 +81,8 @@ class Request {
   static Future<http.Response> changePasswordRequest(
       String currentPassword, String newPassword, String confirmPassword) {
     return http.post(
-      Uri.parse(changePasswordRoute),
+      Uri.parse(
+          changePasswordRoute(lang: Get.find<LanguageController>().lang.value)),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
@@ -90,7 +98,8 @@ class Request {
 
   static Future<http.Response> getBookingNowRequest(String busId) {
     return http.post(
-      Uri.parse(getBookingNowRoute),
+      Uri.parse(
+          getBookingNowRoute(lang: Get.find<LanguageController>().lang.value)),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
@@ -104,7 +113,7 @@ class Request {
 
   static Future<http.Response> getAreasRequest() {
     return http.post(
-      Uri.parse(getAreasRoute),
+      Uri.parse(getAreasRoute(lang: Get.find<LanguageController>().lang.value)),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
@@ -128,7 +137,8 @@ class Request {
       delivery,
       bookingType) {
     return http.post(
-      Uri.parse(bookPaymentRoute),
+      Uri.parse(
+          bookPaymentRoute(lang: Get.find<LanguageController>().lang.value)),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
@@ -156,7 +166,8 @@ class Request {
   }
 
   static Future<http.Response> getOtpRequest(String mobile) {
-    return http.post(Uri.parse(getOtpRoute),
+    return http.post(
+        Uri.parse(getOtpRoute(lang: Get.find<LanguageController>().lang.value)),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
@@ -166,7 +177,9 @@ class Request {
 
   static Future<http.Response> forgetPasswordRequest(
       String mobile, pass, confirm, otp) {
-    return http.post(Uri.parse(forgetPasswordRoute),
+    return http.post(
+        Uri.parse(forgetPasswordRoute(
+            lang: Get.find<LanguageController>().lang.value)),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
@@ -181,7 +194,7 @@ class Request {
 
   static Future<http.Response> aboutRequest() {
     return http.post(
-      Uri.parse(aboutUsRoute),
+      Uri.parse(aboutUsRoute(lang: Get.find<LanguageController>().lang.value)),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
@@ -196,7 +209,9 @@ class Request {
     required String subject,
     required String msg,
   }) {
-    return http.post(Uri.parse(contactUsRoute),
+    return http.post(
+        Uri.parse(
+            contactUsRoute(lang: Get.find<LanguageController>().lang.value)),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
@@ -208,6 +223,36 @@ class Request {
           'phone': num,
           'subject': subject,
           'message': msg
+        }));
+  }
+
+  static Future<http.Response> storeAddressRequest({
+    required String areaId,
+    required String block,
+    required String street,
+    required String avenue,
+    required String houseNumber,
+    required String spNote,
+    required String lat,
+    required String lng,
+  }) {
+    return http.post(
+        Uri.parse(createAddressRoute(
+            lang: Get.find<LanguageController>().lang.value)),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ${Get.find<AuthController>().token.value}'
+        },
+        body: jsonEncode(<String, String>{
+          'area_id': areaId,
+          'block': block,
+          'street': street,
+          'Avenue': avenue,
+          'latitude': lat,
+          'longitude': lng,
+          'house_number': houseNumber,
+          'special_note': spNote
         }));
   }
 }

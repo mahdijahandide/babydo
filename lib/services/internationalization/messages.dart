@@ -92,7 +92,8 @@ class Messages extends Translations {
               'You will be signing out of application',
           'stay_in_app': 'Stay in App',
           'forgot_password': 'Forgot Password',
-          'camera': 'Camera'
+          'camera': 'Camera',
+          'update_address': 'Update Address'
         },
         'ar_KW': {
           'appName': 'بیبی دو',
@@ -182,7 +183,8 @@ class Messages extends Translations {
               'سوف تقوم بتسجيل الخروج من التطبيق',
           'stay_in_app': 'ابق في التطبيق',
           'forgot_password': 'هل نسيت كلمة السر',
-          'camera': 'كاميرا'
+          'camera': 'كاميرا',
+          'update_address': 'تحديث العنوان'
         }
       };
 }

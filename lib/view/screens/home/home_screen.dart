@@ -18,6 +18,7 @@ class HomeScreen extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(HomeController());
     controller.onInit();
     return SafeArea(
       child: Scaffold(

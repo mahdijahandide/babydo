@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../services/controller/home_controller.dart';
+import '../../../services/remotes/api_routes.dart';
+
 class Languages extends GetView<LanguageController> {
   const Languages({Key? key}) : super(key: key);
 
@@ -94,7 +97,9 @@ class Languages extends GetView<LanguageController> {
                               textColor: Colors.white,
                               onPress: () {
                                 if (Get.arguments == '/home') {
-                                  Get.offAndToNamed('/home');
+                                  Get.back();
+                                  // Get.offAndToNamed('/home');
+                                  Get.find<HomeController>().handleBusRequest();
                                 } else {
                                   Get.offAndToNamed('/auth');
                                 }

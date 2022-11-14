@@ -4,12 +4,15 @@ import 'package:babydoo/view/dialogs/logout_dialog.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
 import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../services/controller/home_controller.dart';
+
 class DrawerWidgets {
-  Widget createUserDrawer() {
+  Widget createUserDrawer(BuildContext context) {
     return Stack(
       children: [
         SvgPicture.asset(
@@ -72,6 +75,7 @@ class DrawerWidgets {
                     title: 'change_language'.tr,
                     listner: () {
                       Get.toNamed('/language', arguments: '/home');
+                      Phoenix.rebirth(context);
                     }),
                 const Expanded(child: SizedBox()),
                 SizedBox(

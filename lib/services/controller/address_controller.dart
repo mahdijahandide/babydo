@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:babydoo/services/model/address/address_view_model.dart';
 import 'package:babydoo/services/model/address_model.dart';
+import 'package:babydoo/view/dialogs/loading_dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -96,6 +95,48 @@ class AddressController extends GetxController {
         }
         break;
       default:
+        Snack().createSnack(
+            title: 'Error',
+            msg: 'Server Error',
+            icon: Icon(
+              Icons.warning,
+              color: AppColors().maroon,
+            ));
+        break;
+    }
+  }
+
+  handleStoreAddressRequest() async {
+    LoadingDialog.showCustomDialog(msg: 'loading'.tr);
+    final response = await Request.storeAddressRequest(
+        areaId: addressData.areaId!,
+        block: addBlockTxtController.text,
+        street: addStreetTxtController.text,
+        avenue: addAvenueTxtController.text,
+        houseNumber: addHouseNumTxtController.text,
+        spNote: addSpecialNoteTxtController.text,
+        lat: addressData.lat ?? '',
+        lng: addressData.lng ?? '');
+    switch (response.statusCode) {
+      case 200:
+        var jsonObject = convert.jsonDecode(response.body);
+        if (jsonObject['status'].toString() == '200') {
+          Get.close(2);
+          handleGetAddressRequest();
+          update();
+        } else {
+          Get.close(1);
+          Snack().createSnack(
+              title: 'warning',
+              msg: jsonObject['message'].toString(),
+              icon: Icon(
+                Icons.warning,
+                color: AppColors().maroon,
+              ));
+        }
+        break;
+      default:
+        Get.close(1);
         Snack().createSnack(
             title: 'Error',
             msg: 'Server Error',

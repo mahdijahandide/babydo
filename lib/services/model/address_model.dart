@@ -1,3 +1,8 @@
+import 'package:babydoo/services/model/area_model.dart';
+import 'dart:convert' as convert;
+
+import 'package:get/get.dart';
+
 class AddressModel {
   // {
   //           "id": 172,
@@ -25,6 +30,7 @@ class AddressModel {
       createdAt,
       updatedAt,
       area;
+  AreaModel? areaObj;
   double? lat, lng;
   AddressModel({data}) {
     id = data['id'];
@@ -40,6 +46,8 @@ class AddressModel {
     primaryAddress = data['primary_address'];
     createdAt = data['created_at'];
     updatedAt = data['updated_at'];
-    area = data['area'];
+
+    areaObj = AreaModel(data: data['area']);
+    area = areaObj!.name.toString();
   }
 }

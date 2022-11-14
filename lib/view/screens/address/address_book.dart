@@ -8,6 +8,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../services/model/address/address_view_model.dart';
+
 class AddressBook extends GetView<AddressController> {
   const AddressBook({super.key});
 
@@ -31,161 +33,188 @@ class AddressBook extends GetView<AddressController> {
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          SvgPicture.asset(
-            'assets/svg/shaped_bg.svg',
-            width: Get.width,
-            fit: BoxFit.fill,
-          ),
-          Obx(
-            () => Padding(
-                padding: const EdgeInsets.all(12),
-                child: controller.isEmptyList.isTrue
-                    ? const Center(
-                        child:
-                            Image(image: AssetImage('assets/png/nodata.png')),
-                      )
-                    : ListView.builder(
-                        itemCount: controller.addressList.isEmpty
-                            ? 4
-                            : controller.addressList.length,
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12, horizontal: 12),
-                        itemBuilder: (BuildContext context, int index) {
-                          var currentItem;
-                          if (controller.addressList.isNotEmpty) {
-                            currentItem = controller.addressList[index];
-                          }
-                          return controller.addressList.isEmpty
-                              ? SizedBox(
-                                  width: Get.width,
-                                  height: 100,
-                                  child: Shimmer.fromColors(
-                                    baseColor: Colors.grey,
-                                    highlightColor:
-                                        Colors.black.withOpacity(0.8),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey.withOpacity(0.4),
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 20),
-                                      margin: const EdgeInsets.fromLTRB(
-                                          12, 0, 12, 8),
-                                    ),
-                                  ),
-                                )
-                              : Column(
-                                  children: [
-                                    Slidable(
-                                      key: const ValueKey(0),
-                                      endActionPane: ActionPane(
-                                        motion: const ScrollMotion(),
-                                        children: [
-                                          SlidableAction(
-                                            // An action can be bigger than the others.
-
-                                            onPressed: (v) {},
-                                            backgroundColor: AppColors().blue,
-                                            foregroundColor: Colors.white,
-                                            icon: Icons.edit,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            label: 'edit'.tr,
-                                          ),
-                                          SlidableAction(
-                                            onPressed: (v) {},
-                                            backgroundColor: AppColors().maroon,
-                                            foregroundColor: Colors.white,
-                                            icon: Icons.delete,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            label: 'delete'.tr,
-                                          ),
-                                        ],
-                                      ),
+      body: GetBuilder(builder: (AddressController ac) {
+        return Stack(
+          children: [
+            SvgPicture.asset(
+              'assets/svg/shaped_bg.svg',
+              width: Get.width,
+              fit: BoxFit.fill,
+            ),
+            Obx(
+              () => Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: controller.isEmptyList.isTrue
+                      ? const Center(
+                          child:
+                              Image(image: AssetImage('assets/png/nodata.png')),
+                        )
+                      : ListView.builder(
+                          itemCount: controller.addressList.isEmpty
+                              ? 4
+                              : controller.addressList.length,
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 12),
+                          itemBuilder: (BuildContext context, int index) {
+                            var currentItem;
+                            if (controller.addressList.isNotEmpty) {
+                              currentItem = controller.addressList[index];
+                            }
+                            return controller.addressList.isEmpty
+                                ? SizedBox(
+                                    width: Get.width,
+                                    height: 100,
+                                    child: Shimmer.fromColors(
+                                      baseColor: Colors.grey,
+                                      highlightColor:
+                                          Colors.black.withOpacity(0.8),
                                       child: Container(
-                                        height: 100,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 12),
                                         decoration: BoxDecoration(
-                                            color: AppColors().green,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.4),
-                                                  offset: const Offset(1, 1),
-                                                  spreadRadius: 1,
-                                                  blurRadius: 3)
-                                            ],
+                                            color: Colors.grey.withOpacity(0.4),
                                             borderRadius:
-                                                BorderRadius.circular(8)),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                                BorderRadius.circular(20)),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 20),
+                                        margin: const EdgeInsets.fromLTRB(
+                                            12, 0, 12, 8),
+                                      ),
+                                    ),
+                                  )
+                                : Column(
+                                    children: [
+                                      Slidable(
+                                        key: const ValueKey(0),
+                                        endActionPane: ActionPane(
+                                          motion: const ScrollMotion(),
                                           children: [
-                                            Container(
-                                              padding: const EdgeInsets.all(20),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: Colors.white,
-                                                    width: 1),
-                                                shape: BoxShape.circle,
-                                                color: const Color(0xff99CA4E),
-                                              ),
-                                              child: Center(
-                                                  child: SvgPicture.asset(
-                                                      'assets/svg/location.svg')),
+                                            SlidableAction(
+                                              // An action can be bigger than the others.
+
+                                              onPressed: (v) {
+                                                controller.addressData =
+                                                    AddressDataModel(
+                                                        currentItem.block,
+                                                        currentItem.street,
+                                                        currentItem.avenue,
+                                                        currentItem.areaId,
+                                                        currentItem.area,
+                                                        currentItem.lat,
+                                                        currentItem.lng,
+                                                        currentItem.houseNumber,
+                                                        currentItem
+                                                            .specialNote);
+                                                Get.toNamed('/updateAddress');
+                                              },
+                                              backgroundColor: AppColors().blue,
+                                              foregroundColor: Colors.white,
+                                              icon: Icons.edit,
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              label: 'edit'.tr,
                                             ),
-                                            const SizedBox(
-                                              width: 12,
+                                            SlidableAction(
+                                              onPressed: (v) {},
+                                              backgroundColor:
+                                                  AppColors().maroon,
+                                              foregroundColor: Colors.white,
+                                              icon: Icons.delete,
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              label: 'delete'.tr,
                                             ),
-                                            Flexible(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  MarqueeWidget(
-                                                    direction: Axis.horizontal,
-                                                    child: CustomText().createText(
-                                                        title:
-                                                            '${currentItem.area},${currentItem.block}',
-                                                        color: Colors.white,
-                                                        size: 18,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  MarqueeWidget(
-                                                    direction: Axis.horizontal,
-                                                    child: CustomText().createText(
-                                                        title:
-                                                            '${'avenue'.tr} ${currentItem.avenue}, ${'street'.tr} ${currentItem.street}, ${'house_number'.tr} ${currentItem.houseNumber}',
-                                                        color: Colors.white,
-                                                        size: 12,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                ],
-                                              ),
-                                            )
                                           ],
                                         ),
+                                        child: Container(
+                                          height: 100,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 12),
+                                          decoration: BoxDecoration(
+                                              color: AppColors().green,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.4),
+                                                    offset: const Offset(1, 1),
+                                                    spreadRadius: 1,
+                                                    blurRadius: 3)
+                                              ],
+                                              borderRadius:
+                                                  BorderRadius.circular(8)),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                padding:
+                                                    const EdgeInsets.all(20),
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Colors.white,
+                                                      width: 1),
+                                                  shape: BoxShape.circle,
+                                                  color:
+                                                      const Color(0xff99CA4E),
+                                                ),
+                                                child: Center(
+                                                    child: SvgPicture.asset(
+                                                        'assets/svg/location.svg')),
+                                              ),
+                                              const SizedBox(
+                                                width: 12,
+                                              ),
+                                              Flexible(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    MarqueeWidget(
+                                                      direction:
+                                                          Axis.horizontal,
+                                                      child: CustomText()
+                                                          .createText(
+                                                              title:
+                                                                  '${currentItem.area},${currentItem.block}',
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                    ),
+                                                    MarqueeWidget(
+                                                      direction:
+                                                          Axis.horizontal,
+                                                      child: CustomText()
+                                                          .createText(
+                                                              title:
+                                                                  '${'avenue'.tr} ${currentItem.avenue}, ${'street'.tr} ${currentItem.street}, ${'house_number'.tr} ${currentItem.houseNumber}',
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 12,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      height: 8,
-                                    )
-                                  ],
-                                );
-                        },
-                      )),
-          ),
-        ],
-      ),
+                                      const SizedBox(
+                                        height: 8,
+                                      )
+                                    ],
+                                  );
+                          },
+                        )),
+            ),
+          ],
+        );
+      }),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors().green,
         child: const Center(
@@ -196,6 +225,13 @@ class AddressBook extends GetView<AddressController> {
           ),
         ),
         onPressed: () {
+          controller.addressData =
+              AddressDataModel('', '', '', '', '', '', '', '', '');
+          controller.addBlockTxtController.text = '';
+          controller.addStreetTxtController.text = '';
+          controller.addAvenueTxtController.text = '';
+          controller.addHouseNumTxtController.text = '';
+          controller.addSpecialNoteTxtController.text = '';
           Get.toNamed('/addAddress');
         },
       ),

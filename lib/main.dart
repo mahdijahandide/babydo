@@ -9,6 +9,7 @@ import 'package:babydoo/view/screens/about/about_us.dart';
 import 'package:babydoo/view/screens/about/contact_us_screen.dart';
 import 'package:babydoo/view/screens/address/address_book.dart';
 import 'package:babydoo/view/screens/address/create_address.dart';
+import 'package:babydoo/view/screens/address/update_address_screen.dart';
 import 'package:babydoo/view/screens/auth/auth_screen.dart';
 import 'package:babydoo/view/screens/auth/change_password.dart';
 import 'package:babydoo/view/screens/auth/forgot_password.dart';
@@ -21,6 +22,7 @@ import 'package:babydoo/view/screens/language/languages.dart';
 import 'package:babydoo/view/screens/profile/edit_profile_screen.dart';
 import 'package:babydoo/view/screens/splash/splash.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get/get.dart';
 
 import 'view/screens/auth/reset_password.dart';
@@ -28,7 +30,11 @@ import 'view/screens/auth/reset_password.dart';
 void main() {
   HttpOverrides.global = MyHttpOverrides();
   AppStatusbar().statusbarColor(color: Colors.transparent);
-  runApp(const MyApp());
+  runApp(
+    Phoenix(
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -54,6 +60,8 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/booking', page: () => const Booking()),
         GetPage(name: '/addressBook', page: () => const AddressBook()),
         GetPage(name: '/addAddress', page: () => const AddAddressScreen()),
+        GetPage(
+            name: '/updateAddress', page: () => const UpdateAddressScreen()),
         GetPage(name: '/myBooking', page: () => const MyBooking()),
         GetPage(name: '/editProfile', page: () => const EditProfileScreen()),
         GetPage(name: '/liveStreaming', page: () => const LiveStreaming()),

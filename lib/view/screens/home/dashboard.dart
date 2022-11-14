@@ -39,7 +39,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: Scaffold(
         key: Get.find<HomeController>().drawerKey,
         extendBody: true,
-        endDrawer: Drawer(child: DrawerWidgets().createUserDrawer()),
+        endDrawer: Drawer(child: DrawerWidgets().createUserDrawer(context)),
         body: Stack(
           children: [
             SvgPicture.asset(
