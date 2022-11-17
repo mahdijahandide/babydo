@@ -1,3 +1,4 @@
+import 'package:babydoo/services/controller/auth_controller.dart';
 import 'package:babydoo/services/controller/home_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/drawer/drawer.dart';
@@ -8,10 +9,12 @@ import 'package:babydoo/view/screens/menu/menu_screen.dart';
 import 'package:babydoo/view/screens/profile/profile_screen.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../services/enums/enums.dart';
+import '../auth/auth_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -32,6 +35,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(HomeController());
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return WillPopScope(
       onWillPop: () async {
         return false;
@@ -39,7 +45,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: Scaffold(
         key: Get.find<HomeController>().drawerKey,
         extendBody: true,
-        endDrawer: Drawer(child: DrawerWidgets().createUserDrawer(context)),
+        endDrawer: Drawer(
+            child: Get.find<AuthController>().user['user_type'] == 'guest'
+                ? DrawerWidgets().createGuestDrawer(context)
+                : DrawerWidgets().createUserDrawer(context)),
         body: Stack(
           children: [
             SvgPicture.asset(
@@ -50,7 +59,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             _selectedTab.name == 'home'
                 ? const HomeScreen()
                 : _selectedTab.name == 'bus'
-                    ? const LiveStreaming()
+                    ? Get.find<AuthController>().user['user_type'] == 'guest'?const AuthScreen(): const LiveStreaming()
                     : _selectedTab.name == 'profile'
                         ? const ProfileScreen()
                         : const MenuScreen(),

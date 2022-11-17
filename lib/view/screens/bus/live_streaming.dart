@@ -9,11 +9,23 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../../services/controller/auth_controller.dart';
+import '../../widgets/snackbar/snackbar.dart';
+
 class LiveStreaming extends GetView<BusController> {
   const LiveStreaming({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Get.put(BusController());
+    if(Get.find<AuthController>().user['user_type']=='guest'){
+      Snack().createSnack(
+          icon: const Icon(Icons.warning,color: Colors.yellow,),
+          title: 'warning',msg: 'please login first to use this part');
+    }
+    if(Get.find<AuthController>().user['user_type']!='guest'){
+      controller.handleGetCameraRequest();
+    }
     return Scaffold(
       backgroundColor: AppColors().yellow,
       appBar: AppBar(
@@ -105,7 +117,7 @@ class LiveStreaming extends GetView<BusController> {
                               child: Stack(
                                 children: [
                                   WebView(
-                                    initialUrl: 'https://google.com/',
+                                    initialUrl: controller.mainCamera.value,
                                     javascriptMode: JavascriptMode.unrestricted,
                                     onWebViewCreated:
                                         (WebViewController webViewController) {
@@ -123,7 +135,7 @@ class LiveStreaming extends GetView<BusController> {
                                     navigationDelegate:
                                         (NavigationRequest request) {
                                       if (request.url
-                                          .startsWith('https://google.com/')) {
+                                          .startsWith(controller.mainCamera.value)) {
                                         print(
                                             'blocking navigation to $request}');
                                         return NavigationDecision.prevent;
@@ -162,10 +174,12 @@ class LiveStreaming extends GetView<BusController> {
                                 CustomTextButton().createTextButton(
                                     buttonText: '${'camera'.tr} 1',
                                     buttonColor: AppColors().yellow,
+                                    onPress: ()=>controller.mainCamera.value=controller.camera1.value,
                                     textColor: Colors.black),
                                 CustomTextButton().createTextButton(
                                     buttonText: '${'camera'.tr} 2',
                                     buttonColor: AppColors().yellow,
+                                    onPress: ()=>controller.mainCamera.value=controller.camera2.value,
                                     textColor: Colors.black),
                               ],
                             ),
@@ -178,9 +192,11 @@ class LiveStreaming extends GetView<BusController> {
                                 CustomTextButton().createTextButton(
                                     buttonText: '${'camera'.tr} 3',
                                     buttonColor: AppColors().yellow,
+                                    onPress: ()=>controller.mainCamera.value=controller.camera3.value,
                                     textColor: Colors.black),
                                 CustomTextButton().createTextButton(
                                     buttonText: '${'camera'.tr} 4',
+                                    onPress: ()=>controller.mainCamera.value=controller.camera4.value,
                                     buttonColor: AppColors().yellow,
                                     textColor: Colors.black),
                               ],

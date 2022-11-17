@@ -44,6 +44,17 @@ class Request {
     );
   }
 
+  static Future<http.Response> guestLogin() {
+    return http.post(
+        Uri.parse(guestRegisterRoute(
+            lang: Get.find<LanguageController>().lang.value)),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: jsonEncode(<String, String>{'device_type': 'android'}));
+  }
+
   static Future<http.Response> getSliderRequest() {
     return http.post(Uri.parse(
         getSliderRoute(lang: Get.find<LanguageController>().lang.value)));
@@ -121,8 +132,8 @@ class Request {
     );
   }
 
-  static Future<http.Response> bookingPaymentRequest(
-      String busId,
+  static Future<http.Response> bookingPaymentRequest({
+      required String busId,
       dateReserved,
       startTime,
       endTime,
@@ -130,12 +141,13 @@ class Request {
       phoneNumber,
       block,
       street,
+      lat,lng,
       avenue,
       areaId,
       houseNum,
       spNote,
       delivery,
-      bookingType) {
+      bookingType}) {
     return http.post(
       Uri.parse(
           bookPaymentRoute(lang: Get.find<LanguageController>().lang.value)),
@@ -155,8 +167,8 @@ class Request {
         'street': street,
         'avenue': avenue,
         'area_id': areaId,
-        'latitude': '19.0000',
-        'longitude': '18,00000',
+        'latitude': lat,
+        'longitude': lng,
         'house_number': houseNum,
         'special_note': spNote,
         'delivery_charge': delivery,
@@ -302,5 +314,30 @@ class Request {
         body: jsonEncode(<String, String>{
           'id': id,
         }));
+  }
+
+  static Future<http.Response> termAndConditionsRequest() {
+    return http.post(
+      Uri.parse(termsAndConditionRoute(
+          lang: Get.find<LanguageController>().lang.value)),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${Get.find<AuthController>().token.value}'
+      },
+    );
+  }
+
+  static Future<http.Response> getCameraRequest() {
+    return http.post(
+      Uri.parse(getCameraRoute(
+          lang: Get.find<LanguageController>().lang.value)),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${Get.find<AuthController>().token.value}'
+      },
+
+    );
   }
 }

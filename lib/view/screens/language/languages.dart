@@ -1,3 +1,4 @@
+import 'package:babydoo/services/controller/auth_controller.dart';
 import 'package:babydoo/services/controller/language_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
@@ -7,7 +8,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../services/controller/home_controller.dart';
-import '../../../services/remotes/api_routes.dart';
 
 class Languages extends GetView<LanguageController> {
   const Languages({Key? key}) : super(key: key);
@@ -61,10 +61,8 @@ class Languages extends GetView<LanguageController> {
                                       ? AppColors().green
                                       : AppColors().gray,
                                   onClick: () {
-                                    Get.find<LanguageController>()
-                                        .changeLocalization(
-                                            languageCode: 'en',
-                                            countryCode: 'US');
+                                    controller.lang.value='en';
+
                                   }),
                               const SizedBox(
                                 width: 30,
@@ -76,10 +74,8 @@ class Languages extends GetView<LanguageController> {
                                       ? AppColors().green
                                       : AppColors().gray,
                                   onClick: () {
-                                    Get.find<LanguageController>()
-                                        .changeLocalization(
-                                            languageCode: 'ar',
-                                            countryCode: 'KW');
+controller.lang.value='ar';
+
                                   })
                             ],
                           ),
@@ -96,12 +92,35 @@ class Languages extends GetView<LanguageController> {
                               buttonColor: AppColors().green,
                               textColor: Colors.white,
                               onPress: () {
+                                if(controller.lang.value=='en'){
+                                  controller
+                                      .changeLocalization(
+                                          languageCode: 'en',
+                                          countryCode: 'US');
+                                  Get.find<AuthController>()
+                                      .dataStorage
+                                      .write('lang', 'en');
+                                  Get.find<AuthController>()
+                                      .dataStorage
+                                      .write('country', 'US');
+                                }else{
+                                  controller
+                                      .changeLocalization(
+                                          languageCode: 'ar',
+                                          countryCode: 'KW');
+                                  Get.find<AuthController>()
+                                      .dataStorage
+                                      .write('lang', 'ar');
+                                  Get.find<AuthController>()
+                                      .dataStorage
+                                      .write('country', 'KW');
+                                }
+
                                 if (Get.arguments == '/home') {
                                   Get.back();
-                                  // Get.offAndToNamed('/home');
                                   Get.find<HomeController>().handleBusRequest();
                                 } else {
-                                  Get.offAndToNamed('/auth');
+                                  Get.find<AuthController>().handleGuestLogin();
                                 }
                               }),
                         ),

@@ -2,6 +2,7 @@ import 'package:babydoo/services/controller/profile_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -87,12 +88,75 @@ class MenuScreen extends GetView<ProfileController> {
                         const SizedBox(
                           height: 25,
                         ),
-                        iconTextWidget(
-                            ic: Icons.group_outlined,
-                            txt: 'member'.tr,
-                            listner: () {}),
-                        const SizedBox(
-                          height: 20,
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 50),
+                          child: Theme(
+                            data: Theme.of(context)
+                                .copyWith(dividerColor: Colors.transparent),
+                            child: ExpansionTile(
+                                leading: const Icon(
+                                  Icons.group_outlined,
+                                  color: Colors.orangeAccent,
+                                  size: 30,
+                                ),
+                                tilePadding: const EdgeInsets.all(0),
+                                title: CustomText().createText(
+                                  title: 'member'.tr,
+                                  size: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                collapsedBackgroundColor: Colors.transparent,
+                                textColor: AppColors().yellow,
+                                collapsedTextColor: AppColors().green,
+                                collapsedIconColor: Colors.green,
+                                children: [
+                                  subIconTextWidget(
+                                      ic: 'person_edit',
+                                      txt: 'edit_profile'.tr,
+                                      listner: () {
+                                        Get.toNamed('/editProfile');
+                                      }),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  subIconTextWidget(
+                                      ic: 'phonebook',
+                                      txt: 'address_book'.tr,
+                                      listner: () {
+                                        Get.toNamed('/addressBook');
+                                      }),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  subIconTextWidget(
+                                      ic: 'lock',
+                                      txt: 'change_password'.tr,
+                                      listner: () {
+                                        Get.toNamed('/changePassword');
+                                      }),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  subIconTextWidget(
+                                      ic: 'booking',
+                                      txt: 'my_booking'.tr,
+                                      listner: () {
+                                        Get.toNamed('/myBooking');
+                                      }),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  subIconTextWidget(
+                                      ic: 'streaming',
+                                      txt: 'bus_live_streaming'.tr,
+                                      listner: () {
+                                        Get.toNamed('/liveStreaming');
+                                      }),
+                                  const SizedBox(
+                                    height: 12,
+                                  )
+                                ]),
+                          ),
                         ),
                         iconTextWidget(
                             ic: Icons.contact_phone_outlined,
@@ -150,13 +214,40 @@ class MenuScreen extends GetView<ProfileController> {
             size: 30,
           ),
           const SizedBox(
-            width: 20,
+            width: 28,
           ),
           CustomText().createText(
               title: txt,
               size: 20,
               color: AppColors().green,
               fontWeight: FontWeight.bold)
+        ],
+      ),
+    );
+  }
+
+  Widget subIconTextWidget({required ic, required txt, dynamic listner}) {
+    return InkWell(
+      onTap: listner ?? () {},
+      child: Row(
+        children: [
+          // const SizedBox(
+          //   width: 50,
+          // ),
+          SvgPicture.asset(
+            'assets/svg/$ic.svg',
+            color: Colors.orangeAccent,
+            width: 22,
+            height: 22,
+          ),
+          const SizedBox(
+            width: 37,
+          ),
+          CustomText().createText(
+              title: txt,
+              size: 16,
+              color: AppColors().green,
+              fontWeight: FontWeight.normal)
         ],
       ),
     );

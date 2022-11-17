@@ -1,18 +1,19 @@
 import 'package:babydoo/services/controller/profile_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
-import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
+
 import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
+import 'package:flutter/services.dart';
 
-import '../../widgets/textfields/textfield.dart';
+import 'package:get/get.dart';
 
 class AboutUsScreen extends GetView<ProfileController> {
   const AboutUsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     Get.put(ProfileController());
     return Scaffold(
       backgroundColor: AppColors().litePink,

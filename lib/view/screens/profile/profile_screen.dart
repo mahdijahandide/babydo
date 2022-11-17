@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../dialogs/logout_dialog.dart';
+import '../../widgets/snackbar/snackbar.dart';
 
 class ProfileScreen extends GetView<ProfileController> {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -28,9 +29,9 @@ class ProfileScreen extends GetView<ProfileController> {
         elevation: 0,
         automaticallyImplyLeading: false,
         actions: [
-          IconButton(
+        Get.find<AuthController>().user['user_type']=='guest'?const SizedBox():  IconButton(
               onPressed: () {
-                LogoutDialog.showCustomDialog();
+                LogoutDialog.showCustomDialog(context);
               },
               icon: const Icon(
                 Icons.power_settings_new_rounded,
@@ -186,7 +187,9 @@ class ProfileScreen extends GetView<ProfileController> {
                             ic: 'streaming',
                             txt: 'bus_live_streaming'.tr,
                             listner: () {
-                              Get.toNamed('/liveStreaming');
+                              Get.find<AuthController>().user['user_type']=='guest'? Snack().createSnack(
+                                  icon: const Icon(Icons.warning,color: Colors.yellow,),
+                                  title: 'warning',msg: 'please login first to use this part') :  Get.toNamed('/liveStreaming');
                             }),
                       ],
                     ),

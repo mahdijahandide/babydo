@@ -1,19 +1,27 @@
+import 'package:babydoo/services/controller/address_controller.dart';
 import 'package:babydoo/services/controller/auth_controller.dart';
 import 'package:babydoo/services/controller/booking_controller.dart';
+import 'package:babydoo/services/controller/home_controller.dart';
+import 'package:babydoo/services/model/address/address_view_model.dart';
 import 'package:babydoo/services/model/area_model.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
+import 'package:babydoo/view/widgets/marquee/marquee_widget.dart';
 import 'package:babydoo/view/widgets/snackbar/snackbar.dart';
 import 'package:babydoo/view/widgets/textfields/textfield.dart';
 import 'package:flutter_date_pickers/flutter_date_pickers.dart' as dp;
 import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_date_pickers/flutter_date_pickers.dart';
-import 'package:flutter_map/flutter_map.dart';
+
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
-import 'package:latlong2/latlong.dart';
+
+import 'package:location_picker_flutter_map/location_picker_flutter_map.dart';
+
+import '../../../services/model/address_model.dart';
+import '../../drawer/drawer.dart';
 
 class Booking extends GetView<BookController> {
   const Booking({super.key});
@@ -24,6 +32,7 @@ class Booking extends GetView<BookController> {
       () => BookController(),
     );
     controller.handleGetBookingAreasRequest();
+    Get.find<AddressController>().handleGetAddressRequest();
 
     // add selected colors to default settings
     dp.DatePickerRangeStyles styles = dp.DatePickerRangeStyles(
@@ -46,14 +55,28 @@ class Booking extends GetView<BookController> {
 
     return Scaffold(
       extendBody: true,
+      key: controller.drawerKey,
       appBar: AppBar(
         title: CustomText().createText(
             title: 'booking'.tr, fontWeight: FontWeight.w600, size: 20),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.menu))],
+        actions: [
+          IconButton(
+              onPressed: () {
+                controller.drawerKey.currentState!.openEndDrawer();
+              },
+              icon: const Icon(
+                Icons.menu,
+                size: 35,
+              ))
+        ],
       ),
+      endDrawer: Drawer(
+          child: Get.find<AuthController>().user['user_type'] == 'guest'
+              ? DrawerWidgets().createGuestDrawer(context)
+              : DrawerWidgets().createUserDrawer(context)),
       body: Stack(
         children: [
           SvgPicture.asset(
@@ -69,18 +92,21 @@ class Booking extends GetView<BookController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Get.find<AuthController>().token.value == ''
+                    Get.find<AuthController>().user['user_type'] == 'guest'
                         ? Row(
                             children: [
                               CustomText().createText(
-                                  title: 'already_have_an_account?'.tr,
+                                  title: 'already_have_an_account'.tr,
                                   size: 16,
                                   fontWeight: FontWeight.w400),
-                              CustomText().createText(
-                                  title: 'signin'.tr,
-                                  color: AppColors().litePink,
-                                  fontWeight: FontWeight.w600,
-                                  size: 18),
+                              InkWell(
+                                onTap: () => Get.toNamed('/auth'),
+                                child: CustomText().createText(
+                                    title: 'signin'.tr,
+                                    color: AppColors().litePink,
+                                    fontWeight: FontWeight.w600,
+                                    size: 18),
+                              ),
                             ],
                           )
                         : const SizedBox(),
@@ -338,8 +364,11 @@ class Booking extends GetView<BookController> {
                       height: 30,
                       child: ListTile(
                         leading: CustomText().createText(
-                            title: 'booking_price'.tr, color: Colors.black),
+                            size: 16,
+                            title: 'booking_price'.tr,
+                            color: Colors.black),
                         title: CustomText().createText(
+                            size: 16,
                             title: 'KD ${controller.bookData.bookPrice}',
                             color: AppColors().maroon,
                             fontWeight: FontWeight.bold),
@@ -349,8 +378,11 @@ class Booking extends GetView<BookController> {
                       height: 30,
                       child: ListTile(
                         leading: CustomText().createText(
-                            title: 'delivery_charge'.tr, color: Colors.black),
+                            size: 16,
+                            title: 'delivery_charge'.tr,
+                            color: Colors.black),
                         title: CustomText().createText(
+                            size: 16,
                             title: 'KD ${controller.bookData.deliveryCharge}',
                             color: AppColors().maroon,
                             fontWeight: FontWeight.bold),
@@ -359,9 +391,13 @@ class Booking extends GetView<BookController> {
                     SizedBox(
                       height: 30,
                       child: ListTile(
-                        leading: CustomText()
-                            .createText(title: 'total'.tr, color: Colors.black),
+                        leading: CustomText().createText(
+                          title: 'total'.tr,
+                          color: Colors.black,
+                          size: 16,
+                        ),
                         title: CustomText().createText(
+                            size: 16,
                             title:
                                 'KD ${double.parse(controller.bookData.deliveryCharge.toString()) + double.parse(controller.bookData.bookPrice.toString())}',
                             color: AppColors().maroon,
@@ -380,136 +416,251 @@ class Booking extends GetView<BookController> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Row(
-                      children: [
-                        createCustomField(
-                            name: 'name'.tr,
-                            controller: controller.nameTxtController),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        createCustomField(
-                            name: 'mobile_number'.tr,
-                            controller: controller.mobileTxtController)
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    CustomText().createText(
-                        title: 'address'.tr,
-                        size: 10,
-                        fontWeight: FontWeight.w600),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    controller.bookingAreaList.isEmpty
-                        ? Container(
-                            width: Get.width,
-                            height: 45,
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: AppColors().green, width: 1),
-                                borderRadius: BorderRadius.circular(8)),
-                            child: const Center(
-                                child: CircularProgressIndicator()))
-                        : Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: AppColors().green, width: 1),
-                                borderRadius: BorderRadius.circular(8)),
-                            child: DropdownButtonHideUnderline(
-                              child: Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: DropdownButton<String>(
-                                  focusColor: Colors.white,
-                                  isExpanded: true,
-                                  hint: Text(
-                                      controller.bookData.areaName.toString()),
-                                  onChanged: (val) {
-                                    AreaModel areaModel = controller
-                                        .bookingAreaList
-                                        .where((p0) => p0.id.toString() == val)
-                                        .first;
-                                    controller.bookData.areaName =
-                                        areaModel.name.toString();
-                                    controller.bookData.areaId = val;
-                                    String pName =
-                                        controller.bookData.packageType ==
-                                                'Fullday'
-                                            ? 'fullday'
-                                            : 'session';
-                                    if (areaModel.type.toString() != pName) {
-                                      if (areaModel.type.toString() != 'both') {
-                                        Snack().createSnack(
-                                            title: 'warning',
-                                            msg:
-                                                'you can only select ${areaModel.type} package for ${areaModel.name} area');
-                                        if (areaModel.type == 'fullday') {
-                                          controller.handleFulldaySelection();
-                                        } else if (areaModel.type ==
-                                            'session') {
-                                          controller.handleSessionSelection();
-                                        }
-                                      } else {
-                                        controller.bookData.deliveryCharge =
-                                            areaModel.deliveryCharge.toString();
-                                        controller.update();
-                                      }
-                                    } else {
-                                      controller.bookData.deliveryCharge =
-                                          areaModel.deliveryCharge.toString();
-                                      controller.update();
-                                    }
-                                  },
-                                  items: controller.bookingAreaList
-                                      .map((AreaModel value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value.id.toString(),
-                                      child: Text(value.name.toString()),
-                                    );
-                                  }).toList(),
-                                ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(7),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.grey.withOpacity(0.1),
+                                offset: const Offset(1, 1),
+                                spreadRadius: 1,
+                                blurRadius: 1)
+                          ]),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              createCustomField(
+                                  name: 'name'.tr,
+                                  type: TextInputType.text,
+                                  controller: controller.nameTxtController),
+                              const SizedBox(
+                                width: 8,
                               ),
+                              createCustomField(
+                                  name: 'mobile_number'.tr,
+                                  type: TextInputType.number,
+                                  controller: controller.mobileTxtController)
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Get.find<AddressController>().addressList.isEmpty
+                                    ? const SizedBox()
+                                    :  CustomText().createText(
+                                    title: 'saved_address'.tr,
+                                    size: 14,
+                                    fontWeight: FontWeight.w600),
+                                Get.find<AddressController>().addressList.isEmpty
+                                    ? const SizedBox()
+                                    : const SizedBox(
+                                  height: 8,
+                                ),
+                                Get.find<AddressController>().addressList.isEmpty
+                                    ? const SizedBox()
+                                    : Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: AppColors().green,
+                                          width: 1),
+                                      borderRadius:
+                                      BorderRadius.circular(8)),
+                                  child: DropdownButtonHideUnderline(
+                                    child: Directionality(
+                                      textDirection: TextDirection.rtl,
+                                      child: DropdownButton<String>(
+                                        focusColor: Colors.white,
+                                        isExpanded: true,
+                                        hint: Text(Get.find<AddressController>().addressData.areaName.toString()),
+                                        onChanged: (val) {
+                                          AddressModel addressModel = Get.find<AddressController>().addressList.where((p0) => p0.id.toString() == val).first;
+                                          Get.find<AddressController>().addressData.areaName = addressModel.area.toString();
+                                          controller.bookData.areaName=addressModel.area.toString();
+                                          Get.find<AddressController>().addressData.areaId = val;
+                                          controller.bookData.areaId=val;
+                                          controller.nameTxtController.text=Get.find<AuthController>().user['name'].toString();
+                                          controller.mobileTxtController.text=Get.find<AuthController>().user['mobile'].toString();
+                                          controller.blockTxtController.text=addressModel.block.toString();
+                                          controller.streetTxtController.text=addressModel.street.toString();
+                                          controller.avenueTxtController.text=addressModel.avenue.toString();
+                                          controller.houseTxtController.text=addressModel.houseNumber.toString();
+                                          controller.spNoteTxtController.text=addressModel.specialNote.toString();
+                                          controller.bookData.lat=addressModel.lat.toString();
+                                          controller.bookData.lng=addressModel.lng.toString();
+
+
+
+                                          AreaModel areaModel = controller.bookingAreaList.where((p0) => p0.id.toString() == addressModel.areaId).first;
+                                          String pName = controller.bookData.packageType == 'Fullday' ? 'fullday' : 'session';
+                                          if (areaModel.type.toString() != pName) {
+                                            if (areaModel.type.toString() != 'both') {
+                                              Snack().createSnack(title: 'warning', msg: 'you can only select ${areaModel.type} package for ${areaModel.name} area');
+                                              if (areaModel.type == 'fullday') {
+                                                controller.handleFulldaySelection();
+                                              } else if (areaModel.type == 'session') {
+                                                controller.handleSessionSelection();
+                                              }
+                                            } else {
+                                              controller.bookData.deliveryCharge = areaModel.deliveryCharge.toString();
+                                              controller.update();
+                                            }
+                                          } else {
+                                            controller.bookData.deliveryCharge = areaModel.deliveryCharge.toString();
+                                            controller.update();
+                                          }
+
+                                          controller.
+                                          controller.update();
+                                        },
+                                        items: Get.find<AddressController>().addressList.map((AddressModel value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value.id.toString(),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                               CustomText().createText(title: value.area.toString(),fontWeight: FontWeight.bold),
+                                                MarqueeWidget(
+                                                    direction: Axis.horizontal,
+                                                    child: CustomText().createText(title: 'Ave: ${value.avenue} St: ${value.street} Block: ${value.block}'))
+                                              ],
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height:12),
+                                CustomText().createText(
+                                    title: 'address'.tr,
+                                    size: 14,
+                                    fontWeight: FontWeight.w600),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                controller.bookingAreaList.isEmpty
+                                    ? Container(
+                                        width: Get.width,
+                                        height: 45,
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: AppColors().green,
+                                                width: 1),
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                        child: const Center(
+                                            child: CircularProgressIndicator()))
+                                    : Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: AppColors().green,
+                                                width: 1),
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                        child: DropdownButtonHideUnderline(
+                                          child: Directionality(
+                                            textDirection: TextDirection.rtl,
+                                            child: DropdownButton<String>(
+                                              focusColor: Colors.white,
+                                              isExpanded: true,
+                                              hint: Text(controller
+                                                  .bookData.areaName
+                                                  .toString()),
+                                              onChanged: (val) {
+                                                AreaModel areaModel = controller.bookingAreaList.where((p0) => p0.id.toString() == val).first;
+                                                controller.bookData.areaName = areaModel.name.toString();
+                                                controller.bookData.areaId = val;
+                                                String pName = controller.bookData.packageType == 'Fullday' ? 'fullday' : 'session';
+                                                if (areaModel.type.toString() != pName) {
+                                                  if (areaModel.type.toString() != 'both') {
+                                                    Snack().createSnack(title: 'warning', msg: 'you can only select ${areaModel.type} package for ${areaModel.name} area');
+                                                    if (areaModel.type == 'fullday') {
+                                                      controller.handleFulldaySelection();
+                                                    } else if (areaModel.type == 'session') {
+                                                      controller.handleSessionSelection();
+                                                    }
+                                                  } else {
+                                                    controller.bookData.deliveryCharge = areaModel.deliveryCharge.toString();
+                                                    controller.update();
+                                                  }
+                                                } else {
+                                                  controller.bookData.deliveryCharge = areaModel.deliveryCharge.toString();
+                                                  controller.update();
+                                                }
+                                              },
+                                              items: controller.bookingAreaList.map((AreaModel value) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value.id.toString(),
+                                                  child: Text(value.name.toString()),
+                                                );
+                                              }).toList(),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                              ],
                             ),
                           ),
-                    const SizedBox(
-                      height: 8,
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              createCustomField(
+                                  name: 'block'.tr,
+                                  controller: controller.blockTxtController,
+                                  type: TextInputType.text),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              createCustomField(
+                                  name: 'street'.tr,
+                                  type: TextInputType.text,
+                                  controller: controller.streetTxtController)
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              createCustomField(
+                                  name: 'avenue'.tr,
+                                  controller: controller.avenueTxtController,
+                                  type: TextInputType.text),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              createCustomField(
+                                  name: 'house_or_building'.tr,
+                                  type: TextInputType.text,
+                                  controller: controller.houseTxtController)
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                        ],
+                      ),
                     ),
-                    Row(
-                      children: [
-                        createCustomField(
-                            name: 'block'.tr,
-                            controller: controller.blockTxtController),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        createCustomField(
-                            name: 'street'.tr,
-                            controller: controller.streetTxtController)
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        createCustomField(
-                            name: 'avenue'.tr,
-                            controller: controller.avenueTxtController),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        createCustomField(
-                            name: 'house_or_building'.tr,
-                            controller: controller.houseTxtController)
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    const SizedBox(height: 12,),
                     Row(
                       children: [
                         SvgPicture.asset('assets/svg/location_tick.svg'),
@@ -526,32 +677,36 @@ class Booking extends GetView<BookController> {
                       height: 20,
                     ),
                     Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12)),
-                      width: Get.width,
-                      height: 300,
-                      child: FlutterMap(
-                        options: MapOptions(
-                          center: LatLng(51.5, -0.09),
-                          zoom: 5,
-                        ),
-                        nonRotatedChildren: [
-                          AttributionWidget.defaultWidget(
-                            source: 'OpenStreetMap contributors',
-                            onSourceTapped: () {},
-                          ),
-                        ],
-                        children: [
-                          TileLayer(
-                            urlTemplate:
-                                'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                            userAgentPackageName:
-                                'dev.fleaflet.flutter_map.example',
-                          ),
-                          // MarkerLayer(markers: markers),
-                        ],
-                      ),
-                    ),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12)),
+                        width: Get.width,
+                        height: 200,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: FlutterLocationPicker(
+                              selectLocationButtonStyle:
+                                  ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50.0),
+                                ),
+                              ),
+                              showSearchBar: false,
+                              showZoomController: false,
+                              selectLocationButtonText: 'Set',
+                              initZoom: 11,
+                              minZoomLevel: 5,
+                              maxZoomLevel: 16,
+                              trackMyPosition: true,
+                              onError: (e) => print(e),
+                              onPicked: (pickedData) {
+                                print(pickedData.latLong.latitude);
+                                print(pickedData.latLong.longitude);
+                                print(pickedData.address);
+                                print(pickedData.addressData['country']);
+                                controller.bookData.lat=pickedData.latLong.latitude.toString();
+                                controller.bookData.lng=pickedData.latLong.longitude.toString();
+                              }),
+                        )),
                     const SizedBox(
                       height: 12,
                     ),
@@ -577,6 +732,7 @@ class Booking extends GetView<BookController> {
                           value: controller.acceptTerm.value,
                           onChanged: (v) {
                             controller.acceptTerm.value = v!;
+                            controller.update();
                           },
                           checkColor: Colors.white,
                           fillColor: MaterialStateProperty.resolveWith<Color>(
@@ -587,25 +743,26 @@ class Booking extends GetView<BookController> {
                             return AppColors().green;
                           }),
                         ),
-                        // CustomText().createText(
-                        //     title: 'Accept Terms & Conditions',
-                        //     size: 11,
-                        //     fontWeight: FontWeight.w500)
-                        Text.rich(
-                          TextSpan(
-                            text: 'accept'.tr, // default text style
-                            style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 11,
-                                fontWeight: FontWeight.w500),
-                            children: [
-                              TextSpan(
-                                  text: 'term_and_conditions'.tr,
-                                  style: TextStyle(
-                                      color: AppColors().green,
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w500)),
-                            ],
+                        InkWell(
+                          onTap: () {
+                            controller.handleTermAndConditionsRequest();
+                          },
+                          child: Text.rich(
+                            TextSpan(
+                              text: 'accept'.tr, // default text style
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w500),
+                              children: [
+                                TextSpan(
+                                    text: 'term_and_conditions'.tr,
+                                    style: TextStyle(
+                                        color: AppColors().green,
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w500)),
+                              ],
+                            ),
                           ),
                         )
                       ],
@@ -650,7 +807,7 @@ class Booking extends GetView<BookController> {
                                 controller.bookData.areaId != '' &&
                                 controller.bookData.houseNumber != '' &&
                                 controller.bookData.packageType != '' &&
-                                controller.bookData.deliveryCharge != '') {
+                                controller.bookData.deliveryCharge != ''&&controller.acceptTerm.isTrue) {
                               controller.handlePaymentRequest();
                             } else {
                               Snack().createSnack(
@@ -673,14 +830,15 @@ class Booking extends GetView<BookController> {
     );
   }
 
-  Widget createCustomField({required name, required controller}) {
+  Widget createCustomField(
+      {required name, required controller, required type}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
             CustomText()
-                .createText(title: name, fontWeight: FontWeight.w600, size: 10),
+                .createText(title: name, fontWeight: FontWeight.w600, size: 14),
             CustomText()
                 .createText(title: '*', color: AppColors().maroon, size: 20),
           ],
@@ -690,6 +848,7 @@ class Booking extends GetView<BookController> {
           child: CustomTextField().createCustomTextField(
             hint: '',
             height: 45,
+            keyboardType: type,
             controller: controller,
             bg: Colors.transparent,
             borderColor: AppColors().green,

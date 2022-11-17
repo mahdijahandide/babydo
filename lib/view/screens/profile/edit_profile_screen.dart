@@ -92,8 +92,9 @@ class EditProfileScreen extends GetView<ProfileController> {
                             height: 35,
                           ),
                           CustomTextField().createTextField(
-                              hint: '',
-                              height: 45,
+                              hint: 'full_name'.tr,
+                              height: 50,
+                              hintStyle: TextStyle(color: AppColors().green),
                               lable: 'full_name'.tr,
                               controller: controller.editProfileFullName,
                               borderColor: AppColors().green,
@@ -104,8 +105,9 @@ class EditProfileScreen extends GetView<ProfileController> {
                             height: 12,
                           ),
                           CustomTextField().createTextField(
-                              hint: '',
-                              height: 45,
+                              hint: 'mobile_number'.tr,
+                              height: 50,
+                              hintStyle: TextStyle(color: AppColors().green),
                               lable: 'mobile_number'.tr,
                               controller: controller.editProfileMobile,
                               borderColor: AppColors().green,
@@ -116,8 +118,9 @@ class EditProfileScreen extends GetView<ProfileController> {
                             height: 12,
                           ),
                           CustomTextField().createTextField(
-                              hint: '',
-                              height: 45,
+                              hint: 'email_address'.tr,
+                              height: 50,
+                              hintStyle: TextStyle(color: AppColors().green),
                               lable: 'email_address'.tr,
                               controller: controller.emailTextController,
                               borderColor: AppColors().green,
@@ -144,7 +147,7 @@ class EditProfileScreen extends GetView<ProfileController> {
                                     align: TextAlign.start,
                                     color: AppColors().green),
                                 SizedBox(
-                                  height: 20,
+                                  height: 25,
                                   child: DateTimePicker(
                                     initialValue:
                                         controller.editProfileDOB.value,

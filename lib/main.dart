@@ -21,15 +21,19 @@ import 'package:babydoo/view/screens/home/dashboard.dart';
 import 'package:babydoo/view/screens/language/languages.dart';
 import 'package:babydoo/view/screens/profile/edit_profile_screen.dart';
 import 'package:babydoo/view/screens/splash/splash.dart';
+import 'package:babydoo/view/screens/webview/payment_webview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'view/screens/auth/reset_password.dart';
 
-void main() {
+void main() async {
   HttpOverrides.global = MyHttpOverrides();
   AppStatusbar().statusbarColor(color: Colors.transparent);
+  await GetStorage.init();
+
   runApp(
     Phoenix(
       child: const MyApp(),
@@ -58,6 +62,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/otp', page: () => const OtpScreen()),
         GetPage(name: '/home', page: () => const DashboardScreen()),
         GetPage(name: '/booking', page: () => const Booking()),
+        GetPage(name: '/payment', page: () => const PaymentWebview()),
         GetPage(name: '/addressBook', page: () => const AddressBook()),
         GetPage(name: '/addAddress', page: () => const AddAddressScreen()),
         GetPage(
@@ -76,8 +81,8 @@ class MyApp extends StatelessWidget {
       ],
       initialRoute: '/splash',
       initialBinding: AppBindings(),
-      unknownRoute:
-          GetPage(name: '/nothingFound', page: () => const Languages()),
+      // unknownRoute:
+      //     GetPage(name: '/nothingFound', page: () => const Languages()),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:babydoo/services/controller/auth_controller.dart';
 import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get/get.dart';
 
 class LogoutDialog {
@@ -10,7 +11,7 @@ class LogoutDialog {
 
   factory LogoutDialog() => _instance;
 
-  static void showCustomDialog() {
+  static void showCustomDialog(BuildContext context) {
     Get.defaultDialog(
         barrierDismissible: true,
         title: 'logout'.tr,
@@ -31,9 +32,9 @@ class LogoutDialog {
         ),
         confirm: InkWell(
           onTap: () {
-            Get.close(2);
-            Get.find<AuthController>().token.value = '';
-            Get.toNamed('/auth');
+            // Get.close(1);
+            // Phoenix.rebirth(context);
+            Get.find<AuthController>().handleGuestLogin();
           },
           child: Container(
             padding: const EdgeInsets.all(8.0),

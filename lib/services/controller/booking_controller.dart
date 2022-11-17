@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:babydoo/services/model/area_model.dart';
@@ -5,16 +6,19 @@ import 'package:babydoo/services/model/bookDetailsModel/book_data_model.dart';
 import 'package:babydoo/services/model/bookDetailsModel/booking_details_model.dart';
 import 'package:babydoo/services/model/booking_model.dart';
 import 'package:babydoo/view/dialogs/loading_dialogs.dart';
+import 'package:babydoo/view/dialogs/term_dialog.dart';
 import 'package:babydoo/view/widgets/snackbar/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../remotes/requests.dart';
 import 'dart:convert' as convert;
 
 import '../utils/app_colors.dart';
+import 'language_controller.dart';
 
 class BookController extends GetxController {
   RxBool acceptTerm = false.obs;
@@ -22,6 +26,7 @@ class BookController extends GetxController {
   late DateTime startOfPeriod;
   late DateTime endOfPeriod;
   DateTime selectedDate = DateTime.now();
+  GlobalKey<ScaffoldState> drawerKey = GlobalKey();
 
   RxList<BookingModel> bookingList = RxList([]);
   RxList<BookingDetailsModel> bookingDetailsList = RxList([]);
@@ -37,6 +42,21 @@ class BookController extends GetxController {
 
   BookDataModel bookData = BookDataModel('', '', '', '', '', '', '', '', '', '',
       '', '', '', '', '', '', '', '', '');
+
+  final Completer<WebViewController> liveController =
+  Completer<WebViewController>();
+  RxBool isLiveLoadingDone = false.obs;
+
+
+  JavascriptChannel toasterJavascriptChannel(BuildContext context) {
+    return JavascriptChannel(
+        name: 'Toaster',
+        onMessageReceived: (JavascriptMessage message) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(message.message)),
+          );
+        });
+  }
 
   @override
   void onInit() {
@@ -208,20 +228,23 @@ class BookController extends GetxController {
   handlePaymentRequest() async {
     LoadingDialog.showCustomDialog(msg: 'title'.tr);
     final response = await Request.bookingPaymentRequest(
-        bookData.busId.toString(),
-        bookData.dateReserved.toString(),
-        bookData.startTime.toString(),
-        bookData.endTime.toString(),
-        bookData.name.toString(),
-        bookData.phoneNumber.toString(),
-        bookData.block.toString(),
-        bookData.street.toString(),
-        bookData.avenue.toString(),
-        bookData.areaId.toString(),
-        bookData.houseNumber.toString(),
-        bookData.specialNote.toString(),
-        bookData.deliveryCharge.toString(),
-        bookData.packageType.toString());
+
+      busId:  bookData.busId.toString(),
+       dateReserved: bookData.dateReserved.toString(),
+       startTime: bookData.startTime.toString(),
+       endTime: bookData.endTime.toString(),
+       name: bookData.name.toString(),
+       phoneNumber: bookData.phoneNumber.toString(),
+       block: bookData.block.toString(),
+        street:bookData.street.toString(),
+        avenue:bookData.avenue.toString(),
+        areaId:bookData.areaId.toString(),
+        lat:bookData.lat.toString(),
+        lng:bookData.lng.toString(),
+        houseNum:bookData.houseNumber.toString(),
+        spNote:bookData.specialNote.toString(),
+        delivery: bookData.deliveryCharge.toString(),
+        bookingType:bookData.packageType.toString());
     switch (response.statusCode) {
       case 200:
         var jsonObject = convert.jsonDecode(response.body);
@@ -230,7 +253,50 @@ class BookController extends GetxController {
           Get.log(jsonObject.toString());
 
           String url = jsonObject['data']['webViewUrl'].toString();
-          _launchUrl(url);
+          Get.toNamed('/payment',arguments: url.toString());
+          // _launchUrl(url);
+
+          update();
+        } else {
+          Get.close(1);
+          Snack().createSnack(
+              title: 'warning',
+              msg: jsonObject['message'].toString(),
+              icon: Icon(
+                Icons.warning,
+                color: AppColors().maroon,
+              ));
+        }
+        break;
+      default:
+        Get.close(1);
+        Snack().createSnack(
+            title: 'Error',
+            msg: 'Server Error',
+            icon: Icon(
+              Icons.warning,
+              color: AppColors().maroon,
+            ));
+        break;
+    }
+  }
+
+  handleTermAndConditionsRequest() async {
+    LoadingDialog.showCustomDialog(msg: 'title'.tr);
+    final response = await Request.termAndConditionsRequest();
+    switch (response.statusCode) {
+      case 200:
+        var jsonObject = convert.jsonDecode(response.body);
+        if (jsonObject['status'].toString() == '200') {
+          Get.close(1);
+
+          TermAndConditionDialog.showCustomDialog(
+              title: jsonObject['data']['terms_and_conditions']
+                      ['title_${Get.find<LanguageController>().lang.value}']
+                  .toString(),
+              text: jsonObject['data']['terms_and_conditions']
+                      ['details_${Get.find<LanguageController>().lang.value}']
+                  .toString());
 
           update();
         } else {

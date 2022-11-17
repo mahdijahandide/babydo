@@ -4,6 +4,7 @@ import 'package:babydoo/view/dialogs/delete_address_dialog.dart';
 import 'package:babydoo/view/widgets/marquee/marquee_widget.dart';
 import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -16,6 +17,8 @@ class AddressBook extends GetView<AddressController> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     Get.put(AddressController());
     return Scaffold(
       appBar: AppBar(

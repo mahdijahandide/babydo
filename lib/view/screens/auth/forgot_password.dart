@@ -3,6 +3,7 @@ import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
 import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -13,6 +14,8 @@ class ForgotPasswordScreen extends GetView<AuthController> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     Get.lazyPut(
       () => AuthController(),
     );
@@ -90,8 +93,9 @@ class ForgotPasswordScreen extends GetView<AuthController> {
                           height: 35,
                         ),
                         CustomTextField().createTextField(
-                          hint: '',
-                          height: 45,
+                          hint: 'mobile_number'.tr,
+                          height: 50,
+                          hintStyle: TextStyle(color: AppColors().green),
                           lable: 'mobile_number'.tr,
                           controller: controller.forgotScreenMobileNumber,
                           keyboardType: TextInputType.number,

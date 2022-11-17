@@ -1,25 +1,37 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:babydoo/services/controller/auth_controller.dart';
+import 'package:babydoo/services/controller/language_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-
-class Splash extends StatelessWidget {
+class Splash extends GetView<AuthController> {
   const Splash({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-     Timer(
-      const Duration(seconds: 3),
-          () {
-        Get.offAndToNamed('/language');
-      },
+    controller.handleSplashView();
 
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              'assets/svg/logo.svg',
+              width: Get.width,
+              fit: BoxFit.fill,
+            ),
+            const CircularProgressIndicator(
+              color: Colors.yellow,
+            )
+          ],
+        ),
+      ),
     );
-    return Scaffold(body: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Center(child: SvgPicture.asset('assets/svg/logo.svg',),),
-    ),);
   }
 }

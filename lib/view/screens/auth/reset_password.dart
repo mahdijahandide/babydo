@@ -3,6 +3,7 @@ import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
 import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -13,6 +14,8 @@ class ResetPasswordScreen extends GetView<AuthController> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     Get.lazyPut(
       () => AuthController(),
     );
@@ -92,8 +95,9 @@ class ResetPasswordScreen extends GetView<AuthController> {
                             height: 35,
                           ),
                           CustomTextField().createTextField(
-                              hint: '',
-                              height: 45,
+                              hint: 'new_password'.tr,
+                              hintStyle: TextStyle(color: AppColors().green),
+                              height: 50,
                               lable: 'new_password'.tr,
                               controller: controller.resetPassTextController,
                               obscure:
@@ -112,8 +116,9 @@ class ResetPasswordScreen extends GetView<AuthController> {
                             height: 12,
                           ),
                           CustomTextField().createTextField(
-                              hint: '',
-                              height: 45,
+                              hint: 'confirm_password'.tr,
+                              height: 50,
+                              hintStyle: TextStyle(color: AppColors().green),
                               lable: 'confirm_password'.tr,
                               controller:
                                   controller.resetPassConfirmTextController,
@@ -159,33 +164,6 @@ class ResetPasswordScreen extends GetView<AuthController> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget iconTextWidget({required ic, required txt, dynamic listner}) {
-    return InkWell(
-      onTap: listner ?? () {},
-      child: Row(
-        children: [
-          const SizedBox(
-            width: 50,
-          ),
-          SvgPicture.asset(
-            'assets/svg/$ic.svg',
-            color: Colors.orangeAccent,
-            width: 30,
-            height: 30,
-          ),
-          const SizedBox(
-            width: 20,
-          ),
-          CustomText().createText(
-              title: txt,
-              size: 20,
-              color: AppColors().green,
-              fontWeight: FontWeight.bold)
-        ],
       ),
     );
   }

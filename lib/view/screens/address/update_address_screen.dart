@@ -4,6 +4,7 @@ import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
 import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:location_picker_flutter_map/location_picker_flutter_map.dart';
@@ -17,6 +18,8 @@ class UpdateAddressScreen extends GetView<AddressController> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     ProfileController profileController = Get.put(ProfileController());
     controller.handleGetAreasRequest();
     controller.addBlockTxtController.text =
@@ -161,8 +164,9 @@ class UpdateAddressScreen extends GetView<AddressController> {
                             height: 12,
                           ),
                           CustomTextField().createTextField(
-                              hint: '',
-                              height: 45,
+                              hint: 'block'.tr,
+                              height: 50,
+                              hintStyle: TextStyle(color: AppColors().green),
                               lable: 'block'.tr,
                               controller: controller.addBlockTxtController,
                               borderColor: AppColors().green,
@@ -173,8 +177,9 @@ class UpdateAddressScreen extends GetView<AddressController> {
                             height: 12,
                           ),
                           CustomTextField().createTextField(
-                              hint: '',
-                              height: 45,
+                              hint: 'street'.tr,
+                              hintStyle: TextStyle(color: AppColors().green),
+                              height: 50,
                               lable: 'street'.tr,
                               controller: controller.addStreetTxtController,
                               borderColor: AppColors().green,
@@ -185,8 +190,9 @@ class UpdateAddressScreen extends GetView<AddressController> {
                             height: 12,
                           ),
                           CustomTextField().createTextField(
-                              hint: '',
-                              height: 45,
+                              hint: 'avenue'.tr,
+                              height: 50,
+                              hintStyle: TextStyle(color: AppColors().green),
                               lable: 'avenue'.tr,
                               controller: controller.addAvenueTxtController,
                               borderColor: AppColors().green,
@@ -197,8 +203,9 @@ class UpdateAddressScreen extends GetView<AddressController> {
                             height: 12,
                           ),
                           CustomTextField().createTextField(
-                              hint: '',
-                              height: 45,
+                              hint: 'house_number'.tr,
+                              hintStyle: TextStyle(color: AppColors().green),
+                              height: 50,
                               lable: 'house_number'.tr,
                               controller: controller.addHouseNumTxtController,
                               borderColor: AppColors().green,
@@ -209,8 +216,9 @@ class UpdateAddressScreen extends GetView<AddressController> {
                             height: 12,
                           ),
                           CustomTextField().createTextField(
-                              hint: '',
+                              hint: 'special_note'.tr,
                               height: 120,
+                              hintStyle: TextStyle(color: AppColors().green),
                               lable: 'special_note'.tr,
                               controller:
                                   controller.addSpecialNoteTxtController,

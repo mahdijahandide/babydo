@@ -243,17 +243,17 @@ class MyBooking extends GetView<BookController> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors().green,
-        child: const Center(
-          child: Icon(
-            Icons.add,
-            color: Colors.black,
-            size: 30,
-          ),
-        ),
-        onPressed: () {},
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: AppColors().green,
+      //   child: const Center(
+      //     child: Icon(
+      //       Icons.add,
+      //       color: Colors.black,
+      //       size: 30,
+      //     ),
+      //   ),
+      //   onPressed: () {},
+      // ),
     );
   }
 }

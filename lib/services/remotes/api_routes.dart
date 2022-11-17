@@ -9,6 +9,8 @@ String getBusRoute({required String lang}) =>
 
 String userRegisterRoute({required String lang}) =>
     '$baseUrl$apiRoute/$lang/user/register';
+String guestRegisterRoute({required String lang}) =>
+    '$baseUrl$apiRoute/$lang/user/registerGuest';
 String userLoginRoute({required String lang}) =>
     '$baseUrl$apiRoute/$lang/user/login';
 String getOtpRoute({required String lang}) =>
@@ -41,3 +43,7 @@ String getAreasRoute({required String lang}) =>
     '$baseUrl$apiRoute/$lang/getAreas';
 String bookPaymentRoute({required String lang}) =>
     '$baseUrl$apiRoute/$lang/payment';
+String termsAndConditionRoute({required String lang}) =>
+    '$baseUrl$apiRoute/$lang/terms_and_conditions';
+String getCameraRoute({required String lang}) =>
+    '$baseUrl$apiRoute/$lang/bus/camera';

@@ -2,6 +2,7 @@ import 'package:babydoo/services/controller/auth_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/widgets/textfields/textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -13,19 +14,26 @@ class SignupView extends GetView<AuthController> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: AppColors().blue));
     return Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(672),
-        child: Stack(children: [
-          SvgPicture.asset(
-            'assets/svg/sign_up_header.svg',
-            fit: BoxFit.fill,
-            width: Get.width,
-          )
-        ]),
-      ),
+      // appBar: PreferredSize(
+      //   preferredSize: const Size.fromHeight(672),
+      //   child: Stack(children: [
+      //     SvgPicture.asset(
+      //       'assets/svg/sign_up_header.svg',
+      //       fit: BoxFit.fill,
+      //       width: Get.width,
+      //     )
+      //   ]),
+      // ),
       body: ListView(children: [
+        SvgPicture.asset(
+          'assets/svg/sign_up_header.svg',
+          fit: BoxFit.fill,
+          width: Get.width,
+        ),
         Center(
           child: CustomText().createText(
               title: 'signup_with_babydo_bus'.tr,
@@ -42,8 +50,9 @@ class SignupView extends GetView<AuthController> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 CustomTextField().createTextField(
-                    hint: '',
-                    height: 45,
+                    hint: 'mobile_number'.tr,
+                    hintStyle: TextStyle(color: AppColors().green),
+                    height: 50,
                     lable: 'mobile_number'.tr,
                     controller: controller.mobileTextController,
                     borderColor: AppColors().green,
@@ -54,8 +63,9 @@ class SignupView extends GetView<AuthController> {
                   height: 12,
                 ),
                 CustomTextField().createTextField(
-                    hint: '',
-                    height: 45,
+                    hint: 'email_address'.tr,
+                    height: 50,
+                    hintStyle: TextStyle(color: AppColors().green),
                     lable: 'email_address'.tr,
                     controller: controller.emailTextController,
                     borderColor: AppColors().green,
@@ -66,8 +76,9 @@ class SignupView extends GetView<AuthController> {
                   height: 12,
                 ),
                 CustomTextField().createTextField(
-                    hint: '',
-                    height: 45,
+                    hint: 'password'.tr,
+                    height: 50,
+                    hintStyle: TextStyle(color: AppColors().green),
                     lable: 'password'.tr,
                     controller: controller.passwordTextController,
                     obscure: controller.obSecurePassField.value,
@@ -84,8 +95,9 @@ class SignupView extends GetView<AuthController> {
                   height: 12,
                 ),
                 CustomTextField().createTextField(
-                    hint: '',
-                    height: 45,
+                    hint: 'confirm_password'.tr,
+                    height: 50,
+                    hintStyle: TextStyle(color: AppColors().green),
                     lable: 'confirm_password'.tr,
                     controller: controller.confirmPasswordTextController,
                     obscure: controller.obSecurePassField.value,
@@ -117,7 +129,13 @@ class SignupView extends GetView<AuthController> {
                         return AppColors().green;
                       }),
                     ),
-                    CustomText().createText(title: 'accept_term_and_conditions'.tr)
+                    InkWell(
+                      onTap: () {
+                        controller.handleTermAndConditionsRequest();
+                      },
+                      child: CustomText()
+                          .createText(title: 'accept_term_and_conditions'.tr),
+                    )
                   ],
                 ),
                 const SizedBox(
@@ -133,17 +151,18 @@ class SignupView extends GetView<AuthController> {
                         buttonColor: AppColors().green,
                         textColor: Colors.white,
                         onPress: () {
-                          // controller.handleRegister();
-                          Get.toNamed('/otp');
+                          controller.handleRegisterOtpRequest();
                         })),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CustomText().createText(title: 'already_have_an_account'.tr),
+                    CustomText()
+                        .createText(title: 'already_have_an_account'.tr),
                     InkWell(
                       onTap: () => controller.isSignUp.value = false,
                       child: CustomText().createText(
-                          title: 'please_login_here'.tr, color: AppColors().green),
+                          title: 'please_login_here'.tr,
+                          color: AppColors().green),
                     ),
                   ],
                 )

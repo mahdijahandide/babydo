@@ -100,8 +100,9 @@ class ChangePasswordScreen extends GetView<AuthController> {
                             height: 35,
                           ),
                           CustomTextField().createTextField(
-                              hint: '',
-                              height: 45,
+                              hint: 'current_password'.tr,
+                              height: 50,
+                              hintStyle: TextStyle(color: AppColors().green),
                               lable: 'current_password'.tr,
                               controller: controller.changePasswordCurrentPass,
                               obscure: controller
@@ -122,8 +123,9 @@ class ChangePasswordScreen extends GetView<AuthController> {
                             height: 12,
                           ),
                           CustomTextField().createTextField(
-                              hint: '',
-                              height: 45,
+                              hint: 'new_password'.tr,
+                              hintStyle: TextStyle(color: AppColors().green),
+                              height: 50,
                               lable: 'new_password'.tr,
                               controller: controller.changePasswordNewPass,
                               obscure: controller
@@ -143,8 +145,9 @@ class ChangePasswordScreen extends GetView<AuthController> {
                             height: 12,
                           ),
                           CustomTextField().createTextField(
-                              hint: '',
-                              height: 45,
+                              hint: 'confirm_password'.tr,
+                              height: 50,
+                              hintStyle: TextStyle(color: AppColors().green),
                               lable: 'confirm_password'.tr,
                               controller: controller.changePasswordConfirmPass,
                               obscure: controller

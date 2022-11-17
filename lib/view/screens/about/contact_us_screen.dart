@@ -3,6 +3,7 @@ import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
 import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -13,6 +14,8 @@ class ContactUsScreen extends GetView<ProfileController> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     Get.put(ProfileController());
     return Scaffold(
       backgroundColor: AppColors().litePink,
@@ -88,8 +91,9 @@ class ContactUsScreen extends GetView<ProfileController> {
                           height: 35,
                         ),
                         CustomTextField().createTextField(
-                            hint: '',
-                            height: 45,
+                            hint: 'full_name'.tr,
+                            hintStyle: TextStyle(color: AppColors().green),
+                            height: 50,
                             lable: 'full_name'.tr,
                             controller: controller.contactUsFullName,
                             borderColor: AppColors().green,
@@ -100,8 +104,9 @@ class ContactUsScreen extends GetView<ProfileController> {
                           height: 12,
                         ),
                         CustomTextField().createTextField(
-                            hint: '',
-                            height: 45,
+                            hint: 'mobile_number'.tr,
+                            height: 50,
+                            hintStyle: TextStyle(color: AppColors().green),
                             lable: 'mobile_number'.tr,
                             controller: controller.contactUsMobileNumber,
                             borderColor: AppColors().green,
@@ -112,8 +117,9 @@ class ContactUsScreen extends GetView<ProfileController> {
                           height: 12,
                         ),
                         CustomTextField().createTextField(
-                            hint: '',
-                            height: 45,
+                            hint: 'email_address'.tr,
+                            height: 50,
+                            hintStyle: TextStyle(color: AppColors().green),
                             lable: 'email_address'.tr,
                             controller: controller.contactUsEmailAddress,
                             borderColor: AppColors().green,
@@ -124,8 +130,9 @@ class ContactUsScreen extends GetView<ProfileController> {
                           height: 12,
                         ),
                         CustomTextField().createTextField(
-                            hint: '',
-                            height: 45,
+                            hint: 'subject'.tr,
+                            height: 50,
+                            hintStyle: TextStyle(color: AppColors().green),
                             lable: 'subject'.tr,
                             controller: controller.contactUsSubject,
                             borderColor: AppColors().green,
@@ -136,8 +143,9 @@ class ContactUsScreen extends GetView<ProfileController> {
                           height: 12,
                         ),
                         CustomTextField().createTextField(
-                            hint: '',
+                            hint: 'message'.tr,
                             height: 120,
+                            hintStyle: TextStyle(color: AppColors().green),
                             lable: 'message'.tr,
                             controller: controller.contactUsMsg,
                             borderColor: AppColors().green,

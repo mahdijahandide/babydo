@@ -6,6 +6,7 @@ import 'package:babydoo/view/screens/home/widgets/carusel.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
 import 'package:babydoo/view/widgets/marquee/marquee_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
@@ -57,7 +58,7 @@ class HomeScreen extends GetView<HomeController> {
                 Colors.transparent,
                 Colors.grey
               ],
-              stops: [0.0, 0.05, 0.9, 1.0],
+              stops: [0.0, 0.01, 0.95, 1.0],
             ).createShader(rect);
           },
           blendMode: BlendMode.dstOut,
@@ -176,7 +177,7 @@ class HomeScreen extends GetView<HomeController> {
                                         direction: Axis.horizontal,
                                         child: CustomText().createText(
                                             title: current.name.toString(),
-                                            size: 24,
+                                            size: 22,
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -191,13 +192,29 @@ class HomeScreen extends GetView<HomeController> {
                                             children: [
                                               SizedBox(
                                                 width: Get.width,
-                                                child: CustomText().createText(
-                                                    title:
-                                                        '${current.kidsCount} ${'kids'.tr}',
-                                                    color: Colors.white,
-                                                    size: 18,
-                                                    fontWeight: FontWeight.w500,
-                                                    align: TextAlign.center),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    CustomText().createText(
+                                                        title:
+                                                            '${current.kidsCount} ${'kids'.tr}',
+                                                        color: Colors.white,
+                                                        size: 16,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        align:
+                                                            TextAlign.center),
+                                                    const SizedBox(
+                                                      width: 6,
+                                                    ),
+                                                    SvgPicture.asset(
+                                                      'assets/svg/kid.svg',
+                                                      width: 25,
+                                                      height: 25,
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                               const SizedBox(
                                                 height: 8,
@@ -236,19 +253,31 @@ class HomeScreen extends GetView<HomeController> {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  CustomText().createText(
-                                                      title:
-                                                          'KD ${current.sessionPrice} /Session',
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      size: 14,
-                                                      color: Colors.white),
+                                                  Row(
+                                                    children: [
+                                                      CustomText().createText(
+                                                          title:
+                                                              'KD ${current.sessionPrice} /Session',
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          size: 16,
+                                                          color: Colors.white),
+                                                      const SizedBox(
+                                                        width: 6,
+                                                      ),
+                                                      SvgPicture.asset(
+                                                        'assets/svg/session.svg',
+                                                        width: 25,
+                                                        height: 25,
+                                                      )
+                                                    ],
+                                                  ),
                                                   CustomText().createText(
                                                       title:
                                                           '${current.startAge} yr to ${current.endAge} yr',
                                                       fontWeight:
                                                           FontWeight.w500,
-                                                      size: 14,
+                                                      size: 16,
                                                       color: Colors.white),
                                                 ],
                                               ),
@@ -494,7 +523,7 @@ class HomeScreen extends GetView<HomeController> {
               title: '$title',
               color: Colors.pinkAccent,
               align: TextAlign.center,
-              size: 13,
+              size: 16,
               fontWeight: FontWeight.w400),
         ),
       ),

@@ -10,11 +10,14 @@ import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:vk/vk.dart';
 
+import '../../../services/utils/app_statusbar.dart';
+
 class OtpScreen extends GetView<AuthController> {
   const OtpScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    AppStatusbar().statusbarColor(color: AppColors().green);
     return Scaffold(
       backgroundColor: AppColors().green,
       body: Stack(
@@ -110,7 +113,7 @@ class OtpScreen extends GetView<AuthController> {
                                         controller.forgotScreenMobileNumber.text
                                   });
                                 } else {
-                                  Get.toNamed('/home');
+                                  controller.handleRegister();
                                 }
                               } else {
                                 Snack().createSnack(

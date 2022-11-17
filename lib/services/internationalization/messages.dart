@@ -95,7 +95,10 @@ class Messages extends Translations {
           'camera': 'Camera',
           'update_address': 'Update Address',
           'delete_this_address': 'Delete this Address?',
-          'cancel': 'Cancel'
+          'cancel': 'Cancel',
+          'reset_password': 'Reset Password',
+          'payment':'Payment',
+          'saved_address':'Saved Address'
         },
         'ar_KW': {
           'appName': 'بیبی دو',
@@ -188,7 +191,10 @@ class Messages extends Translations {
           'camera': 'كاميرا',
           'update_address': 'تحديث العنوان',
           'delete_this_address': 'هل تريد حذف هذا العنوان؟',
-          'cancel': 'يلغي'
+          'cancel': 'يلغي',
+          'reset_password': 'إعادة تعيين كلمة المرور',
+          'payment':'دفع',
+          'saved_address':'العنوان المحفوظ'
         }
       };
 }
