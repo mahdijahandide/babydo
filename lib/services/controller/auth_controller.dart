@@ -53,17 +53,8 @@ class AuthController extends GetxController {
   String otpVerifyCode = '';
   RxString token = ''.obs;
 
-  // Rx<FocusNode> signInNumFocus = Rx(FocusNode());
-  // Rx<FocusNode> signInPassFocus = Rx(FocusNode());
-
   FocusNode signInNumFocus = FocusNode();
   FocusNode signInPassFocus = FocusNode();
-
-  // Rx<FocusNode> signUpNameFocus = Rx(FocusNode());
-  // Rx<FocusNode> signUpMobileFocus = Rx(FocusNode());
-  // Rx<FocusNode> signUpEmailFocus = Rx(FocusNode());
-  // Rx<FocusNode> signUpPassFocus = Rx(FocusNode());
-  // Rx<FocusNode> signUpConfirmPassFocus = Rx(FocusNode());
 
   var user;
 

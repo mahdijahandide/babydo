@@ -15,7 +15,7 @@ class DeleteAddressDialog {
     Get.defaultDialog(
         barrierDismissible: true,
         title: 'delete'.tr,
-        middleText: '${'are_you_sure?'.tr}\n ${'delete_this_address?'.tr}',
+        middleText: '${'are_you_sure?'.tr}\n ${'delete_this_address'.tr}',
         middleTextStyle: const TextStyle(fontSize: 14),
         backgroundColor: Colors.white,
         cancel: InkWell(

@@ -238,7 +238,7 @@ class UpdateAddressScreen extends GetView<AddressController> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
                                 child: FlutterLocationPicker(
-                                    initPosition: LatLong(
+                                    initPosition: controller.addressData.lat.toString()=='null'?LatLong(19.00000,18.00000) :LatLong(
                                         double.parse(controller.addressData.lat
                                             .toString()),
                                         double.parse(controller.addressData.lng

@@ -28,9 +28,13 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'view/screens/auth/reset_password.dart';
+import 'package:flutter/services.dart';
+import 'package:pushy_flutter/pushy_flutter.dart';
+
 
 void main() async {
   HttpOverrides.global = MyHttpOverrides();
+  Pushy.listen();
   AppStatusbar().statusbarColor(color: Colors.transparent);
   await GetStorage.init();
 
@@ -47,6 +51,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(LanguageController());
+    // Start the Pushy service
+    Pushy.listen();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Babydo',

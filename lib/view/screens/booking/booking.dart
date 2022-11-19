@@ -520,7 +520,7 @@ class Booking extends GetView<BookController> {
                                             controller.update();
                                           }
 
-                                          controller.
+
                                           controller.update();
                                         },
                                         items: Get.find<AddressController>().addressList.map((AddressModel value) {
