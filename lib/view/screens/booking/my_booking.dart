@@ -9,12 +9,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../services/controller/address_controller.dart';
+
 class MyBooking extends GetView<BookController> {
   const MyBooking({super.key});
 
   @override
   Widget build(BuildContext context) {
     Get.put(BookController());
+    Get.lazyPut(() => AddressController(),);
     return Scaffold(
       appBar: AppBar(
         title: CustomText().createText(

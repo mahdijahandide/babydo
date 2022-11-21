@@ -5,13 +5,17 @@ import 'package:babydoo/view/dialogs/loading_dialogs.dart';
 import 'package:babydoo/view/widgets/snackbar/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:pushy_flutter/pushy_flutter.dart';
 
 import '../../view/dialogs/term_dialog.dart';
 import '../remotes/requests.dart';
 import 'dart:convert' as convert;
 
+import 'booking_controller.dart';
+import 'home_controller.dart';
 import 'language_controller.dart';
 
 class AuthController extends GetxController {
@@ -58,17 +62,42 @@ class AuthController extends GetxController {
 
   var user;
 
-  handleRegister() async {
+  Future pushyRegister() async {
     if (mobileTextController.text.isNotEmpty &&
         emailTextController.text.isNotEmpty &&
         passwordTextController.text.isNotEmpty &&
         confirmPasswordTextController.text.isNotEmpty) {
       LoadingDialog.showCustomDialog(msg: 'loading');
+      try {
+        // Register the user for push notifications
+        String deviceToken = await Pushy.register();
+
+        // Print token to console/logcat
+        print('Device token: $deviceToken');
+
+        // Optionally send the token to your backend server via an HTTP GET request
+        handleRegister(pushy: deviceToken);
+      } on PlatformException catch (error) {
+        Get.log(error.message.toString());
+      }
+      } else {
+        Snack().createSnack(
+            title: 'warning',
+            msg: 'Please Fill the Form',
+            icon: Icon(
+              Icons.warning,
+              color: AppColors().maroon,
+            ));
+      }
+  }
+
+  handleRegister({required String pushy}) async {
+
       final response = await Request.userRegister(
           mobileTextController.text,
           emailTextController.text,
           passwordTextController.text,
-          confirmPasswordTextController.text);
+          confirmPasswordTextController.text,pushy);
       switch (response.statusCode) {
         case 200:
           var jsonObject = convert.jsonDecode(response.body);
@@ -101,23 +130,13 @@ class AuthController extends GetxController {
               ));
           break;
       }
-    } else {
-      Snack().createSnack(
-          title: 'warning',
-          msg: 'Please Fill the Form',
-          icon: Icon(
-            Icons.warning,
-            color: AppColors().maroon,
-          ));
-    }
+
   }
 
-  handleLogin() async {
-    if (loginMobileTextController.text.isNotEmpty &&
-        loginPasswordTextController.text.isNotEmpty) {
-      LoadingDialog.showCustomDialog(msg: 'loading');
+  handleLogin({required String pushy}) async {
+
       final response = await Request.userLogin(
-          loginMobileTextController.text, loginPasswordTextController.text, '');
+          loginMobileTextController.text, loginPasswordTextController.text, pushy);
       Get.log(response.body.toString());
       switch (response.statusCode) {
         case 200:
@@ -152,6 +171,25 @@ class AuthController extends GetxController {
               ));
           break;
       }
+
+  }
+
+  Future pushyLogin() async {
+    if (loginMobileTextController.text.isNotEmpty &&
+        loginPasswordTextController.text.isNotEmpty) {
+      LoadingDialog.showCustomDialog(msg: 'loading');
+    try {
+      // Register the user for push notifications
+      String deviceToken = await Pushy.register();
+
+      // Print token to console/logcat
+      print('Device token: $deviceToken');
+
+      // Optionally send the token to your backend server via an HTTP GET request
+      handleLogin(pushy: deviceToken);
+    } on PlatformException catch (error) {
+      Get.log(error.message.toString());
+    }
     } else {
       Snack().createSnack(
           title: 'warning',
@@ -177,13 +215,20 @@ class AuthController extends GetxController {
         if (jsonObject['status'].toString() == '200') {
           if (noLoader != true) {
             Get.close(1);
+            Get.put(HomeController());
+            Get.lazyPut(() => BookController(),);
           }
 
           token.value = jsonObject['data']['token'];
           user = jsonObject['data']['user'];
           dataStorage.write('user', jsonEncode(user));
           dataStorage.write('token', token.value);
-          Get.toNamed('/home');
+          if (noLoader != true) {
+            Get.offAndToNamed('/home');
+          }else{
+            Get.toNamed('/home');
+          }
+
         } else {
           Get.close(1);
           Snack().createSnack(
@@ -275,12 +320,12 @@ class AuthController extends GetxController {
           var jsonObject = convert.jsonDecode(response.body);
           if (jsonObject['status'].toString() == '200') {
             Get.close(1);
-            if(register==true){
+            if (register == true) {
               Get.toNamed('/otp', parameters: {
                 "status": "register",
                 "code": jsonObject['data']['sms_activation_code'].toString(),
               });
-            }else {
+            } else {
               Get.toNamed('/otp', parameters: {
                 "status": "forgetPass",
                 "code": jsonObject['data']['sms_activation_code'].toString(),
@@ -325,7 +370,8 @@ class AuthController extends GetxController {
   handleRegisterOtpRequest({dynamic register}) async {
     if (mobileTextController.text.isNotEmpty &&
         emailTextController.text.isNotEmpty &&
-        passwordTextController.text.isNotEmpty &&acceptTerm.isTrue&&
+        passwordTextController.text.isNotEmpty &&
+        acceptTerm.isTrue &&
         confirmPasswordTextController.text.isNotEmpty) {
       LoadingDialog.showCustomDialog(msg: 'loading');
       final response = await Request.getOtpRequest(
@@ -336,10 +382,10 @@ class AuthController extends GetxController {
           var jsonObject = convert.jsonDecode(response.body);
           if (jsonObject['status'].toString() == '200') {
             Get.close(1);
-              Get.toNamed('/otp', parameters: {
-                "status": "register",
-                "code": jsonObject['data']['sms_activation_code'].toString(),
-              });
+            Get.toNamed('/otp', parameters: {
+              "status": "register",
+              "code": jsonObject['data']['sms_activation_code'].toString(),
+            });
 
             otpVerifyCode =
                 jsonObject['data']['sms_activation_code'].toString();
@@ -475,20 +521,20 @@ class AuthController extends GetxController {
     }
   }
 
-  handleSplashView(){
+  handleSplashView() {
     if (dataStorage.hasData('user')) {
       Get.log('read from storage');
-      user =jsonDecode(dataStorage.read('user')) ;
+      user = jsonDecode(dataStorage.read('user'));
       token.value = dataStorage.read('token');
       if (dataStorage.hasData('lang')) {
-        Get.find<LanguageController>().changeLocalization(languageCode: dataStorage.read('lang'), countryCode: dataStorage.read('country'));
-        Get.find<LanguageController>().lang.value =
-            dataStorage.read('lang');
+        Get.find<LanguageController>().changeLocalization(
+            languageCode: dataStorage.read('lang'),
+            countryCode: dataStorage.read('country'));
+        Get.find<LanguageController>().lang.value = dataStorage.read('lang');
       }
       SchedulerBinding.instance.addPostFrameCallback((_) {
         Get.toNamed('/home');
       });
-
     } else {
       handleGuestLogin(noLoader: true);
     }

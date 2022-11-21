@@ -28,11 +28,9 @@ class Booking extends GetView<BookController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(
-      () => BookController(),
-    );
+    Get.lazyPut(() => BookController(),);
     controller.handleGetBookingAreasRequest();
-    Get.find<AddressController>().handleGetAddressRequest();
+    Get.put(AddressController());
 
     // add selected colors to default settings
     dp.DatePickerRangeStyles styles = dp.DatePickerRangeStyles(
@@ -505,7 +503,10 @@ class Booking extends GetView<BookController> {
                                           String pName = controller.bookData.packageType == 'Fullday' ? 'fullday' : 'session';
                                           if (areaModel.type.toString() != pName) {
                                             if (areaModel.type.toString() != 'both') {
-                                              Snack().createSnack(title: 'warning', msg: 'you can only select ${areaModel.type} package for ${areaModel.name} area');
+                                              Snack().createSnack(title: 'warning', msg: 'you can only select ${areaModel.type} package for ${areaModel.name} area',icon: Icon(
+                                                Icons.warning,
+                                                color: AppColors().maroon,
+                                              ));
                                               if (areaModel.type == 'fullday') {
                                                 controller.handleFulldaySelection();
                                               } else if (areaModel.type == 'session') {
@@ -588,7 +589,10 @@ class Booking extends GetView<BookController> {
                                                 String pName = controller.bookData.packageType == 'Fullday' ? 'fullday' : 'session';
                                                 if (areaModel.type.toString() != pName) {
                                                   if (areaModel.type.toString() != 'both') {
-                                                    Snack().createSnack(title: 'warning', msg: 'you can only select ${areaModel.type} package for ${areaModel.name} area');
+                                                    Snack().createSnack(title: 'warning', msg: 'you can only select ${areaModel.type} package for ${areaModel.name} area',icon: Icon(
+                                                      Icons.warning,
+                                                      color: AppColors().maroon,
+                                                    ));
                                                     if (areaModel.type == 'fullday') {
                                                       controller.handleFulldaySelection();
                                                     } else if (areaModel.type == 'session') {
@@ -813,7 +817,10 @@ class Booking extends GetView<BookController> {
                               Snack().createSnack(
                                   title: 'warning',
                                   msg:
-                                      'you need to fill all the fields correctly to continue');
+                                      'you need to fill all the fields correctly to continue',icon: Icon(
+                                Icons.warning,
+                                color: AppColors().maroon,
+                              ));
                             }
                           }),
                     ),

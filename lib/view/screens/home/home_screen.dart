@@ -19,6 +19,7 @@ class HomeScreen extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => BookController(),);
     Get.put(HomeController());
     controller.onInit();
     return SafeArea(
@@ -192,28 +193,33 @@ class HomeScreen extends GetView<HomeController> {
                                             children: [
                                               SizedBox(
                                                 width: Get.width,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    CustomText().createText(
-                                                        title:
-                                                            '${current.kidsCount} ${'kids'.tr}',
-                                                        color: Colors.white,
-                                                        size: 16,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        align:
-                                                            TextAlign.center),
-                                                    const SizedBox(
-                                                      width: 6,
-                                                    ),
-                                                    SvgPicture.asset(
-                                                      'assets/svg/kid.svg',
-                                                      width: 25,
-                                                      height: 25,
-                                                    ),
-                                                  ],
+                                                child: Directionality(
+                                                  textDirection:
+                                                      TextDirection.ltr,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      SvgPicture.asset(
+                                                        'assets/svg/kids.svg',
+                                                        width: 25,
+                                                        height: 25,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 6,
+                                                      ),
+                                                      CustomText().createText(
+                                                          title:
+                                                              '${current.kidsCount} ${'kids'.tr}',
+                                                          color: Colors.white,
+                                                          size: 16,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          align:
+                                                              TextAlign.center),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                               const SizedBox(
@@ -253,32 +259,54 @@ class HomeScreen extends GetView<HomeController> {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Row(
-                                                    children: [
-                                                      CustomText().createText(
-                                                          title:
-                                                              'KD ${current.sessionPrice} /Session',
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          size: 16,
-                                                          color: Colors.white),
-                                                      const SizedBox(
-                                                        width: 6,
-                                                      ),
-                                                      SvgPicture.asset(
-                                                        'assets/svg/session.svg',
-                                                        width: 25,
-                                                        height: 25,
-                                                      )
-                                                    ],
+                                                  Directionality(
+                                                    textDirection:
+                                                        TextDirection.ltr,
+                                                    child: Row(
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                          'assets/svg/price.svg',
+                                                          width: 25,
+                                                          height: 25,
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 6,
+                                                        ),
+                                                        CustomText().createText(
+                                                            title:
+                                                                'KD ${current.sessionPrice} /Session',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            size: 16,
+                                                            color:
+                                                                Colors.white),
+                                                      ],
+                                                    ),
                                                   ),
-                                                  CustomText().createText(
-                                                      title:
-                                                          '${current.startAge} yr to ${current.endAge} yr',
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      size: 16,
-                                                      color: Colors.white),
+                                                  Directionality(
+                                                    textDirection:
+                                                        TextDirection.ltr,
+                                                    child: Row(
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                          'assets/svg/kids_age.svg',
+                                                          width: 25,
+                                                          height: 25,
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 6,
+                                                        ),
+                                                        CustomText().createText(
+                                                            title:
+                                                                '${current.startAge} yr to ${current.endAge} yr',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            size: 16,
+                                                            color:
+                                                                Colors.white),
+                                                      ],
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
                                               const SizedBox(

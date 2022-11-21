@@ -12,6 +12,7 @@ class AuthScreen extends GetView<AuthController> {
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => LanguageController());
+    Get.put(AuthController());
     return Scaffold(
       body: WillPopScope(
         onWillPop: () async {

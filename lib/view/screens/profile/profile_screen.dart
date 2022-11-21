@@ -189,7 +189,7 @@ class ProfileScreen extends GetView<ProfileController> {
                             listner: () {
                               Get.find<AuthController>().user['user_type']=='guest'? Snack().createSnack(
                                   icon: const Icon(Icons.warning,color: Colors.yellow,),
-                                  title: 'warning',msg: 'please login first to use this part') :  Get.toNamed('/liveStreaming');
+                                  title: 'warning',msg: 'please login first to use this part') :  Get.toNamed('/liveStreaming',);
                             }),
                       ],
                     ),
@@ -218,7 +218,7 @@ class ProfileScreen extends GetView<ProfileController> {
             height: 30,
           ),
           const SizedBox(
-            width: 20,
+            width: 28,
           ),
           CustomText().createText(
               title: txt,

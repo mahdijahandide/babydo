@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 
 class Request {
   static Future<http.Response> userRegister(
-      String mobile, String email, String password, String confirmPassword) {
+      String mobile, String email, String password, String confirmPassword,String pushy) {
     return http.post(
       Uri.parse(
           userRegisterRoute(lang: Get.find<LanguageController>().lang.value)),
@@ -22,7 +22,8 @@ class Request {
         'email': email,
         'password': password,
         'confirm_password': confirmPassword,
-        'device_type': 'android'
+        'device_type': 'android',
+        'pushy_device_token':pushy
       }),
     );
   }

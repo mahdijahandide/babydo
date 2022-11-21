@@ -12,6 +12,7 @@ class LogoutDialog {
   factory LogoutDialog() => _instance;
 
   static void showCustomDialog(BuildContext context) {
+    Get.lazyPut(() => AuthController());
     Get.defaultDialog(
         barrierDismissible: true,
         title: 'logout'.tr,
@@ -32,8 +33,7 @@ class LogoutDialog {
         ),
         confirm: InkWell(
           onTap: () {
-            // Get.close(1);
-            // Phoenix.rebirth(context);
+            Get.close(1);
             Get.find<AuthController>().handleGuestLogin();
           },
           child: Container(

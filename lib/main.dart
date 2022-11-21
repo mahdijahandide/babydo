@@ -34,9 +34,10 @@ import 'package:pushy_flutter/pushy_flutter.dart';
 
 void main() async {
   HttpOverrides.global = MyHttpOverrides();
-  Pushy.listen();
+  // Pushy.listen();
   AppStatusbar().statusbarColor(color: Colors.transparent);
   await GetStorage.init();
+
 
   runApp(
     Phoenix(
@@ -45,14 +46,26 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Pushy.listen();
+  }
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     Get.put(LanguageController());
-    // Start the Pushy service
-    Pushy.listen();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Babydo',
@@ -71,19 +84,15 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/payment', page: () => const PaymentWebview()),
         GetPage(name: '/addressBook', page: () => const AddressBook()),
         GetPage(name: '/addAddress', page: () => const AddAddressScreen()),
-        GetPage(
-            name: '/updateAddress', page: () => const UpdateAddressScreen()),
+        GetPage(name: '/updateAddress', page: () => const UpdateAddressScreen()),
         GetPage(name: '/myBooking', page: () => const MyBooking()),
         GetPage(name: '/editProfile', page: () => const EditProfileScreen()),
         GetPage(name: '/liveStreaming', page: () => const LiveStreaming()),
         GetPage(name: '/contactUs', page: () => const ContactUsScreen()),
         GetPage(name: '/aboutUs', page: () => const AboutUsScreen()),
-        GetPage(
-            name: '/forgotPassword', page: () => const ForgotPasswordScreen()),
-        GetPage(
-            name: '/reset_password', page: () => const ResetPasswordScreen()),
-        GetPage(
-            name: '/changePassword', page: () => const ChangePasswordScreen()),
+        GetPage(name: '/forgotPassword', page: () => const ForgotPasswordScreen()),
+        GetPage(name: '/reset_password', page: () => const ResetPasswordScreen()),
+        GetPage(name: '/changePassword', page: () => const ChangePasswordScreen()),
       ],
       initialRoute: '/splash',
       initialBinding: AppBindings(),

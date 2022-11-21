@@ -113,7 +113,7 @@ class OtpScreen extends GetView<AuthController> {
                                         controller.forgotScreenMobileNumber.text
                                   });
                                 } else {
-                                  controller.handleRegister();
+                                  controller.pushyRegister();
                                 }
                               } else {
                                 Snack().createSnack(

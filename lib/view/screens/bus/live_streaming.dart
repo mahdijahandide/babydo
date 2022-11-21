@@ -21,7 +21,7 @@ class LiveStreaming extends GetView<BusController> {
     if(Get.find<AuthController>().user['user_type']=='guest'){
       Snack().createSnack(
           icon: const Icon(Icons.warning,color: Colors.yellow,),
-          title: 'warning',msg: 'please login first to use this part');
+          title: 'warning',msg: 'please login first to use this part',);
     }
     if(Get.find<AuthController>().user['user_type']!='guest'){
       controller.handleGetCameraRequest();

@@ -98,7 +98,7 @@ class SigninView extends GetView<AuthController> {
                         if (Get.arguments == true) {
                           Phoenix.rebirth(context);
                         }
-                        controller.handleLogin();
+                        controller.pushyLogin();
                       },
                       hasSuffixIcon: true,
                       suffixIcon: Icons.remove_red_eye,
@@ -137,7 +137,7 @@ class SigninView extends GetView<AuthController> {
                           if (Get.arguments == true) {
                             Phoenix.rebirth(context);
                           }
-                          controller.handleLogin();
+                          controller.pushyLogin();
                           // Get.offAndToNamed('/home');
                         })),
                 Row(

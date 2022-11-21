@@ -2,7 +2,6 @@ import 'package:babydoo/services/controller/auth_controller.dart';
 import 'package:babydoo/services/controller/home_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/drawer/drawer.dart';
-import 'package:babydoo/view/screens/bus/bus_screen.dart';
 import 'package:babydoo/view/screens/bus/live_streaming.dart';
 import 'package:babydoo/view/screens/home/home_screen.dart';
 import 'package:babydoo/view/screens/menu/menu_screen.dart';
@@ -36,6 +35,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     Get.put(HomeController());
+    Get.put(AuthController());
     SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return WillPopScope(

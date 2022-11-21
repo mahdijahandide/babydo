@@ -39,7 +39,7 @@ class DrawerWidgets {
                     shrinkWrap: true,
                     children: [
                       createCustomTile(
-                          ic: Icons.home,
+                          ic: 'drawer_home',
                           title: 'home'.tr,
                           listner: () {
                             Get.close(1);
@@ -51,10 +51,10 @@ class DrawerWidgets {
                           data: Theme.of(context)
                               .copyWith(dividerColor: Colors.transparent),
                           child: ExpansionTile(
-                              leading: const Icon(
-                                Icons.group_outlined,
-                                color: Colors.grey,
-                                size: 30,
+                              leading: SvgPicture.asset(
+                                'assets/svg/member.svg',
+                                width: 30,
+                                height: 30,
                               ),
                               tilePadding: const EdgeInsets.all(0),
                               title: CustomText().createText(
@@ -115,7 +115,7 @@ class DrawerWidgets {
                       ),
                       const Divider(),
                       createCustomTile(
-                          ic: Icons.info,
+                          ic: 'aboutus',
                           title: 'about_us'.tr,
                           listner: () {
                             Get.lazyPut(
@@ -126,14 +126,14 @@ class DrawerWidgets {
                           }),
                       const Divider(),
                       createCustomTile(
-                          ic: Icons.phone,
+                          ic: 'contactus',
                           title: 'contact_us'.tr,
                           listner: () {
                             Get.toNamed('/contactUs');
                           }),
                       const Divider(),
                       createCustomTile(
-                          ic: Icons.share,
+                          ic: 'share',
                           title: 'share'.tr,
                           listner: () {
                             Share.share(
@@ -142,7 +142,7 @@ class DrawerWidgets {
                           }),
                       const Divider(),
                       createCustomTile(
-                          ic: Icons.language,
+                          ic: 'change_language',
                           title: 'change_language'.tr,
                           listner: () {
                             Get.back();
@@ -164,7 +164,7 @@ class DrawerWidgets {
                       borderColor: AppColors().green,
                       textSize: 20,
                       onPress: () {
-                        Get.close(1);
+                        Get.back();
                         LogoutDialog.showCustomDialog(context);
                       },
                       borderRadius: 10.0,
@@ -194,10 +194,7 @@ class DrawerWidgets {
               children: [
                 IconButton(
                     onPressed: () {
-                      Get.find<HomeController>()
-                          .drawerKey
-                          .currentState!
-                          .closeDrawer();
+                      Get.back();
                     },
                     icon: const Icon(Icons.arrow_back)),
                 const SizedBox(
@@ -239,7 +236,7 @@ class DrawerWidgets {
                       elevation: 0.0),
                 ),
                 createCustomTile(
-                    ic: Icons.info,
+                    ic: 'aboutus',
                     title: 'about_us'.tr,
                     listner: () {
                       Get.lazyPut(
@@ -249,14 +246,14 @@ class DrawerWidgets {
                     }),
                 const Divider(),
                 createCustomTile(
-                    ic: Icons.phone,
+                    ic: 'contactus',
                     title: 'contact_us'.tr,
                     listner: () {
                       Get.toNamed('/contactUs');
                     }),
                 const Divider(),
                 createCustomTile(
-                    ic: Icons.share,
+                    ic: 'share',
                     title: 'share'.tr,
                     listner: () {
                       Share.share(
@@ -265,13 +262,17 @@ class DrawerWidgets {
                     }),
                 const Divider(),
                 createCustomTile(
-                    ic: Icons.language,
+                    ic: 'change_language',
                     title: 'change_language'.tr,
                     listner: () {
                       Get.back();
                       Get.offAndToNamed('/languages', arguments: '/home');
                     }),
                 const Expanded(child: SizedBox()),
+                SvgPicture.asset(
+                  'assets/svg/dragon.svg',
+                  width: Get.width,
+                ),
               ],
             ),
           ),
@@ -282,7 +283,12 @@ class DrawerWidgets {
 
   Widget createCustomTile({required ic, required title, dynamic listner}) {
     return ListTile(
-      leading: Icon(ic),
+      leading: SvgPicture.asset(
+        'assets/svg/$ic.svg',
+        // color: Colors.grey,
+        width: 30,
+        height: 30,
+      ),
       title: CustomText().createText(title: title),
       onTap: listner ?? () {},
     );
@@ -295,7 +301,7 @@ class DrawerWidgets {
         children: [
           SvgPicture.asset(
             'assets/svg/$ic.svg',
-            color: Colors.grey,
+            color: Colors.lightBlueAccent,
             width: 22,
             height: 22,
           ),

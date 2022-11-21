@@ -94,11 +94,7 @@ class MenuScreen extends GetView<ProfileController> {
                             data: Theme.of(context)
                                 .copyWith(dividerColor: Colors.transparent),
                             child: ExpansionTile(
-                                leading: const Icon(
-                                  Icons.group_outlined,
-                                  color: Colors.orangeAccent,
-                                  size: 30,
-                                ),
+                                leading: SvgPicture.asset('assets/svg/member.svg',width: 30,height: 30,color: Colors.orangeAccent,),
                                 tilePadding: const EdgeInsets.all(0),
                                 title: CustomText().createText(
                                   title: 'member'.tr,
@@ -159,7 +155,7 @@ class MenuScreen extends GetView<ProfileController> {
                           ),
                         ),
                         iconTextWidget(
-                            ic: Icons.contact_phone_outlined,
+                            ic: 'contactus',
                             txt: 'contact_us'.tr,
                             listner: () {
                               Get.toNamed('/contactUs');
@@ -168,7 +164,7 @@ class MenuScreen extends GetView<ProfileController> {
                           height: 20,
                         ),
                         iconTextWidget(
-                            ic: Icons.info_outline,
+                            ic: 'aboutus',
                             txt: 'about_us'.tr,
                             listner: () {
                               Get.lazyPut(
@@ -181,7 +177,7 @@ class MenuScreen extends GetView<ProfileController> {
                           height: 20,
                         ),
                         iconTextWidget(
-                            ic: Icons.share_outlined,
+                            ic: 'share',
                             txt: 'share'.tr,
                             listner: () {
                               Share.share(
@@ -208,10 +204,11 @@ class MenuScreen extends GetView<ProfileController> {
           const SizedBox(
             width: 50,
           ),
-          Icon(
-            ic,
+          SvgPicture.asset(
+            'assets/svg/$ic.svg',
             color: Colors.orangeAccent,
-            size: 30,
+            width: 30,
+            height: 30,
           ),
           const SizedBox(
             width: 28,
