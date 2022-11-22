@@ -34,7 +34,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(HomeController());
+    Get.lazyPut(()=>HomeController());
     Get.put(AuthController());
     SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
@@ -59,62 +59,71 @@ class _DashboardScreenState extends State<DashboardScreen> {
             _selectedTab.name == 'home'
                 ? const HomeScreen()
                 : _selectedTab.name == 'bus'
-                    ? Get.find<AuthController>().user['user_type'] == 'guest'?const AuthScreen(): const LiveStreaming()
+                    ? Get.find<AuthController>().user['user_type'] == 'guest'?const Padding(
+                      padding: EdgeInsets.only(bottom: 50),
+                      child: AuthScreen(),
+                    ): const LiveStreaming()
                     : _selectedTab.name == 'profile'
-                        ? const ProfileScreen()
+                        ?Get.find<AuthController>().user['user_type'] == 'guest'?const Padding(
+                          padding: EdgeInsets.only(bottom: 50),
+                          child: AuthScreen(),
+                        ): const ProfileScreen()
                         : const MenuScreen(),
           ],
         ),
-        bottomNavigationBar: DotNavigationBar(
-          currentIndex: SelectedTab.values.indexOf(_selectedTab),
-          marginR: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          borderRadius: 15,
-          boxShadow: [
-            BoxShadow(
-                color: Colors.grey.withOpacity(0.8),
-                offset: const Offset(1, 1),
-                spreadRadius: 1,
-                blurRadius: 5)
-          ],
-          onTap: _handleIndexChanged,
-          items: [
-            DotNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/svg/home.svg',
-                color: _selectedTab.name == 'home'
-                    ? AppColors().yellow
-                    : Colors.black,
+        bottomNavigationBar: Directionality(
+          textDirection: TextDirection.ltr,
+          child: DotNavigationBar(
+            currentIndex: SelectedTab.values.indexOf(_selectedTab),
+            marginR: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            borderRadius: 15,
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.grey.withOpacity(0.8),
+                  offset: const Offset(1, 1),
+                  spreadRadius: 1,
+                  blurRadius: 5)
+            ],
+            onTap: _handleIndexChanged,
+            items: [
+              DotNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/svg/home.svg',
+                  color: _selectedTab.name == 'home'
+                      ? AppColors().yellow
+                      : Colors.black,alignment: Alignment.center,
+                ),
+                selectedColor: AppColors().yellow,
               ),
-              selectedColor: AppColors().yellow,
-            ),
-            DotNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/svg/bus.svg',
-                color: _selectedTab.name == 'bus'
-                    ? AppColors().yellow
-                    : Colors.black,
+              DotNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/svg/bus.svg',
+                  color: _selectedTab.name == 'bus'
+                      ? AppColors().yellow
+                      : Colors.black,alignment: Alignment.center,
+                ),
+                selectedColor: AppColors().yellow,
               ),
-              selectedColor: AppColors().yellow,
-            ),
-            DotNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/svg/profile.svg',
-                color: _selectedTab.name == 'profile'
-                    ? AppColors().yellow
-                    : Colors.black,
+              DotNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/svg/profile.svg',
+                  color: _selectedTab.name == 'profile'
+                      ? AppColors().yellow
+                      : Colors.black,alignment: Alignment.center,
+                ),
+                selectedColor: AppColors().yellow,
               ),
-              selectedColor: AppColors().yellow,
-            ),
-            DotNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/svg/more.svg',
-                color: _selectedTab.name == 'menu'
-                    ? AppColors().yellow
-                    : Colors.black,
+              DotNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/svg/more.svg',
+                  color: _selectedTab.name == 'menu'
+                      ? AppColors().yellow
+                      : Colors.black,alignment: Alignment.center,
+                ),
+                selectedColor: AppColors().yellow,
               ),
-              selectedColor: AppColors().yellow,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

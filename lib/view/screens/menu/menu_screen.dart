@@ -6,6 +6,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../services/controller/auth_controller.dart';
+
 class MenuScreen extends GetView<ProfileController> {
   const MenuScreen({Key? key}) : super(key: key);
 
@@ -88,7 +90,7 @@ class MenuScreen extends GetView<ProfileController> {
                         const SizedBox(
                           height: 25,
                         ),
-                        Container(
+                        Get.find<AuthController>().user['user_type'] == 'guest'?const SizedBox(): Container(
                           margin: const EdgeInsets.symmetric(horizontal: 50),
                           child: Theme(
                             data: Theme.of(context)

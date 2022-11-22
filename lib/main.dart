@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:babydoo/services/bindings/bindings.dart';
+import 'package:babydoo/services/controller/auth_controller.dart';
+import 'package:babydoo/services/controller/home_controller.dart';
 import 'package:babydoo/services/controller/language_controller.dart';
 import 'package:babydoo/services/internationalization/messages.dart';
 import 'package:babydoo/services/remotes/http_config.dart';
@@ -66,12 +68,14 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     Get.put(LanguageController());
+    Get.put(AuthController());
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Babydo',
       translations: Messages(),
       locale: Get.deviceLocale,
       fallbackLocale: const Locale('en', 'US'),
+
       theme: ThemeData(primarySwatch: Colors.yellow, fontFamily: 'Poppins'),
       defaultTransition: Transition.cupertino,
       getPages: [

@@ -1,12 +1,7 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:babydoo/services/controller/auth_controller.dart';
-import 'package:babydoo/services/controller/language_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class Splash extends GetView<AuthController> {
   const Splash({Key? key}) : super(key: key);

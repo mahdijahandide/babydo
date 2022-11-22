@@ -6,6 +6,7 @@ import 'package:babydoo/view/dialogs/logout_dialog.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
 import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -145,8 +146,11 @@ class DrawerWidgets {
                           ic: 'change_language',
                           title: 'change_language'.tr,
                           listner: () {
-                            Get.back();
-                            Get.offAndToNamed('/languages', arguments: '/home');
+                            // Get.back();
+                            Get.find<HomeController>().drawerKey.currentState!.closeEndDrawer();
+                            SchedulerBinding.instance.addPostFrameCallback((_) {
+                            Get.toNamed('/languages');
+                            });
                           }),
                     ],
                   ),
@@ -265,8 +269,10 @@ class DrawerWidgets {
                     ic: 'change_language',
                     title: 'change_language'.tr,
                     listner: () {
-                      Get.back();
-                      Get.offAndToNamed('/languages', arguments: '/home');
+                      Get.find<HomeController>().drawerKey.currentState!.closeEndDrawer();
+                      // SchedulerBinding.instance.addPostFrameCallback((_) {
+                        Get.toNamed('/languages');
+                      // });
                     }),
                 const Expanded(child: SizedBox()),
                 SvgPicture.asset(

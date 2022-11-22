@@ -95,9 +95,9 @@ class SigninView extends GetView<AuthController> {
                       lableColor: AppColors().green,
                       textInputAction: TextInputAction.go,
                       onSubmitted: (d) {
-                        if (Get.arguments == true) {
-                          Phoenix.rebirth(context);
-                        }
+                        // if (Get.arguments == true) {
+                        //   Phoenix.rebirth(context);
+                        // }
                         controller.pushyLogin();
                       },
                       hasSuffixIcon: true,
@@ -133,10 +133,9 @@ class SigninView extends GetView<AuthController> {
                         buttonColor: AppColors().green,
                         textColor: Colors.white,
                         onPress: () {
-                          print(Get.arguments);
-                          if (Get.arguments == true) {
-                            Phoenix.rebirth(context);
-                          }
+                          // if (Get.arguments == true) {
+                          //   Phoenix.rebirth(context);
+                          // }
                           controller.pushyLogin();
                           // Get.offAndToNamed('/home');
                         })),

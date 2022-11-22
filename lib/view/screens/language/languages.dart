@@ -14,7 +14,9 @@ class Languages extends GetView<LanguageController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(LanguageController());
+    Get.lazyPut(() => LanguageController());
+    Get.lazyPut(() => AuthController());
+    Get.lazyPut(() => HomeController());
     return Scaffold(
       body: Stack(
         children: [
@@ -61,8 +63,7 @@ class Languages extends GetView<LanguageController> {
                                       ? AppColors().green
                                       : AppColors().gray,
                                   onClick: () {
-                                    controller.lang.value='en';
-
+                                    controller.lang.value = 'en';
                                   }),
                               const SizedBox(
                                 width: 30,
@@ -74,8 +75,7 @@ class Languages extends GetView<LanguageController> {
                                       ? AppColors().green
                                       : AppColors().gray,
                                   onClick: () {
-controller.lang.value='ar';
-
+                                    controller.lang.value = 'ar';
                                   })
                             ],
                           ),
@@ -83,47 +83,22 @@ controller.lang.value='ar';
                         const SizedBox(
                           height: 80,
                         ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 12),
-                          width: Get.width,
-                          height: 45,
-                          child: CustomTextButton().createTextButton(
-                              buttonText: 'continue'.tr,
-                              buttonColor: AppColors().green,
-                              textColor: Colors.white,
-                              onPress: () {
-                                if(controller.lang.value=='en'){
-                                  controller
-                                      .changeLocalization(
-                                          languageCode: 'en',
-                                          countryCode: 'US');
-                                  Get.find<AuthController>()
-                                      .dataStorage
-                                      .write('lang', 'en');
-                                  Get.find<AuthController>()
-                                      .dataStorage
-                                      .write('country', 'US');
-                                }else{
-                                  controller
-                                      .changeLocalization(
-                                          languageCode: 'ar',
-                                          countryCode: 'KW');
-                                  Get.find<AuthController>()
-                                      .dataStorage
-                                      .write('lang', 'ar');
-                                  Get.find<AuthController>()
-                                      .dataStorage
-                                      .write('country', 'KW');
-                                }
-
-                                if (Get.arguments == '/home') {
-                                  Get.back();
-                                  Get.find<HomeController>().handleBusRequest();
-                                } else {
-                                  Get.find<AuthController>().handleGuestLogin();
-                                }
-                              }),
-                        ),
+                         Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 12),
+                              width: Get.width,
+                              height: 45,
+                              child: CustomTextButton().createTextButton(
+                                  buttonText: 'continue'.tr,
+                                  buttonColor: AppColors().green,
+                                  textColor: Colors.white,
+                                  onPress: () {
+                                    if (controller.lang.value == 'en') {
+                                      controller.changeLocalization(languageCode: 'en', countryCode: 'US');
+                                    } else {
+                                      controller.changeLocalization(languageCode: 'ar', countryCode: 'KW');
+                                    }
+                                  }),
+                            )
                       ],
                     ),
                   ],

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:babydoo/services/utils/app_colors.dart';
@@ -49,8 +50,7 @@ class AuthController extends GetxController {
 
   TextEditingController otpTextController = TextEditingController();
   TextEditingController resetPassTextController = TextEditingController();
-  TextEditingController resetPassConfirmTextController =
-      TextEditingController();
+  TextEditingController resetPassConfirmTextController = TextEditingController();
 
   FocusNode otpNode = FocusNode();
 
@@ -137,17 +137,21 @@ class AuthController extends GetxController {
 
       final response = await Request.userLogin(
           loginMobileTextController.text, loginPasswordTextController.text, pushy);
-      Get.log(response.body.toString());
       switch (response.statusCode) {
         case 200:
           var jsonObject = convert.jsonDecode(response.body);
-          Get.log(jsonObject.toString());
           if (jsonObject['status'].toString() == '200') {
             token.value = jsonObject['data']['token'];
             user = jsonObject['data']['user'];
             dataStorage.write('user', jsonEncode(user));
             dataStorage.write('token', token.value);
-            Get.offAndToNamed('/home');
+            Future.delayed(
+                const Duration(milliseconds:100),
+                    () {
+                      // Get.offAndToNamed('/home');
+                  Get.offAllNamed('/home');
+                });
+
           } else {
             Get.close(1);
             Snack().createSnack(
@@ -213,9 +217,9 @@ class AuthController extends GetxController {
         var jsonObject = convert.jsonDecode(response.body);
         Get.log(jsonObject.toString());
         if (jsonObject['status'].toString() == '200') {
+
           if (noLoader != true) {
             Get.close(1);
-            Get.put(HomeController());
             Get.lazyPut(() => BookController(),);
           }
 
@@ -223,11 +227,14 @@ class AuthController extends GetxController {
           user = jsonObject['data']['user'];
           dataStorage.write('user', jsonEncode(user));
           dataStorage.write('token', token.value);
-          if (noLoader != true) {
-            Get.offAndToNamed('/home');
-          }else{
-            Get.toNamed('/home');
-          }
+          Future.delayed(
+              const Duration(milliseconds:100),
+                  () {
+                Get.offAllNamed('/home');
+              });
+          // Get.offAndToNamed('/home');
+          // Get.put(HomeController());
+          // Get.toNamed('/home');
 
         } else {
           Get.close(1);
@@ -527,14 +534,18 @@ class AuthController extends GetxController {
       user = jsonDecode(dataStorage.read('user'));
       token.value = dataStorage.read('token');
       if (dataStorage.hasData('lang')) {
-        Get.find<LanguageController>().changeLocalization(
-            languageCode: dataStorage.read('lang'),
-            countryCode: dataStorage.read('country'));
         Get.find<LanguageController>().lang.value = dataStorage.read('lang');
+        if(Get.find<LanguageController>().lang.value=='en'){
+          Get.find<LanguageController>().changeLocalization(languageCode: 'en', countryCode: 'US');
+        }else{
+          Get.find<LanguageController>().changeLocalization(languageCode: 'ar', countryCode: 'KW');
+        }
       }
-      SchedulerBinding.instance.addPostFrameCallback((_) {
-        Get.toNamed('/home');
-      });
+      Future.delayed(
+          const Duration(seconds: 3),
+              () {
+                Get.toNamed('/home');
+              });
     } else {
       handleGuestLogin(noLoader: true);
     }
