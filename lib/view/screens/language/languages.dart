@@ -25,86 +25,78 @@ class Languages extends GetView<LanguageController> {
             fit: BoxFit.fill,
             width: Get.width,
           ),
-          SingleChildScrollView(
-            child: Stack(
-              children: [
-                SvgPicture.asset(
-                  'assets/svg/g.svg',
-                  width: Get.width,
-                  fit: BoxFit.cover,
-                ),
-                Column(
-                  children: [
-                    const SizedBox(
-                      height: 450,
-                    ),
-                    Column(
+          Column(
+            children: [
+              SvgPicture.asset(
+                'assets/svg/g.svg',
+                width: Get.width,
+                fit: BoxFit.cover,
+              ),
+
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  CustomText().createText(
+                      title: 'welcome_to_babydo_bus'.tr,
+                      size: 18,
+                      fontWeight: FontWeight.bold),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Obx(
+                    () => Row(
+                      textDirection: TextDirection.ltr,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        languageWidget(
+                            imgText: 'E',
+                            title: 'English',
+                            bg: controller.lang.value == 'en'
+                                ? AppColors().green
+                                : AppColors().gray,
+                            onClick: () {
+                              controller.lang.value = 'en';
+                            }),
                         const SizedBox(
-                          height: 50,
+                          width: 30,
                         ),
-                        CustomText().createText(
-                            title: 'welcome_to_babydo_bus'.tr,
-                            size: 18,
-                            fontWeight: FontWeight.bold),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        Obx(
-                          () => Row(
-                            textDirection: TextDirection.ltr,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              languageWidget(
-                                  imgText: 'E',
-                                  title: 'English',
-                                  bg: controller.lang.value == 'en'
-                                      ? AppColors().green
-                                      : AppColors().gray,
-                                  onClick: () {
-                                    controller.lang.value = 'en';
-                                  }),
-                              const SizedBox(
-                                width: 30,
-                              ),
-                              languageWidget(
-                                  imgText: 'ع',
-                                  title: 'العربية',
-                                  bg: controller.lang.value == 'ar'
-                                      ? AppColors().green
-                                      : AppColors().gray,
-                                  onClick: () {
-                                    controller.lang.value = 'ar';
-                                  })
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 80,
-                        ),
-                         Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 12),
-                              width: Get.width,
-                              height: 45,
-                              child: CustomTextButton().createTextButton(
-                                  buttonText: 'continue'.tr,
-                                  buttonColor: AppColors().green,
-                                  textColor: Colors.white,
-                                  onPress: () {
-                                    if (controller.lang.value == 'en') {
-                                      controller.changeLocalization(languageCode: 'en', countryCode: 'US');
-                                    } else {
-                                      controller.changeLocalization(languageCode: 'ar', countryCode: 'KW');
-                                    }
-                                  }),
-                            )
+                        languageWidget(
+                            imgText: 'ع',
+                            title: 'العربية',
+                            bg: controller.lang.value == 'ar'
+                                ? AppColors().green
+                                : AppColors().gray,
+                            onClick: () {
+                              controller.lang.value = 'ar';
+                            })
                       ],
                     ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                   Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 12),
+                        width: Get.width,
+                        height: 45,
+                        child: CustomTextButton().createTextButton(
+                            buttonText: 'continue'.tr,
+                            buttonColor: AppColors().green,
+                            textColor: Colors.white,
+                            onPress: () {
+                              if (controller.lang.value == 'en') {
+                                controller.changeLocalization(languageCode: 'en', countryCode: 'US');
+                              } else {
+                                controller.changeLocalization(languageCode: 'ar', countryCode: 'KW');
+                              }
+                            }),
+                      )
+                ],
+              ),
+            ],
           ),
         ],
       ),

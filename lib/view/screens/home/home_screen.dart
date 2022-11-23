@@ -193,33 +193,29 @@ class HomeScreen extends GetView<HomeController> {
                                             children: [
                                               SizedBox(
                                                 width: Get.width,
-                                                child: Directionality(
-                                                  textDirection:
-                                                      TextDirection.ltr,
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      SvgPicture.asset(
-                                                        'assets/svg/kids.svg',
-                                                        width: 25,
-                                                        height: 25,
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 6,
-                                                      ),
-                                                      CustomText().createText(
-                                                          title:
-                                                              '${current.kidsCount} ${'kids'.tr}',
-                                                          color: Colors.white,
-                                                          size: 16,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          align:
-                                                              TextAlign.center),
-                                                    ],
-                                                  ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                      'assets/svg/kids.svg',
+                                                      width: 25,
+                                                      height: 25,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 6,
+                                                    ),
+                                                    CustomText().createText(
+                                                        title:
+                                                            '${current.kidsCount} ${'kids'.tr}',
+                                                        color: Colors.white,
+                                                        size: 16,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        align:
+                                                            TextAlign.center),
+                                                  ],
                                                 ),
                                               ),
                                               const SizedBox(
@@ -259,53 +255,45 @@ class HomeScreen extends GetView<HomeController> {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Directionality(
-                                                    textDirection:
-                                                        TextDirection.ltr,
-                                                    child: Row(
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                          'assets/svg/price.svg',
-                                                          width: 25,
-                                                          height: 25,
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 6,
-                                                        ),
-                                                        CustomText().createText(
-                                                            title:
-                                                                'KD ${current.sessionPrice} /Session',
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            size: 16,
-                                                            color:
-                                                                Colors.white),
-                                                      ],
-                                                    ),
+                                                  Row(
+                                                    children: [
+                                                      SvgPicture.asset(
+                                                        'assets/svg/price.svg',
+                                                        width: 25,
+                                                        height: 25,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 6,
+                                                      ),
+                                                      CustomText().createText(
+                                                          title:
+                                                              '${'kd'.tr} ${current.sessionPrice} /${'session'.tr}',
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          size: 16,
+                                                          color:
+                                                              Colors.white),
+                                                    ],
                                                   ),
-                                                  Directionality(
-                                                    textDirection:
-                                                        TextDirection.ltr,
-                                                    child: Row(
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                          'assets/svg/kids_age.svg',
-                                                          width: 25,
-                                                          height: 25,
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 6,
-                                                        ),
-                                                        CustomText().createText(
-                                                            title:
-                                                                '${current.startAge} yr to ${current.endAge} yr',
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            size: 16,
-                                                            color:
-                                                                Colors.white),
-                                                      ],
-                                                    ),
+                                                  Row(
+                                                    children: [
+                                                      SvgPicture.asset(
+                                                        'assets/svg/kids_age.svg',
+                                                        width: 25,
+                                                        height: 25,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 6,
+                                                      ),
+                                                      CustomText().createText(
+                                                          title:
+                                                              '${current.startAge} ${'yr'.tr} ${current.endAge} ${'yrs'.tr}',
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          size: 16,
+                                                          color:
+                                                              Colors.white),
+                                                    ],
                                                   ),
                                                 ],
                                               ),
@@ -319,38 +307,26 @@ class HomeScreen extends GetView<HomeController> {
                                                 child: Stack(
                                                   children: [
                                                     Obx(() => ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(8),
+                                                          borderRadius: BorderRadius.circular(8),
                                                           child: Image.network(
                                                             current.imgBg.value,
                                                             width: Get.width,
-                                                            height: 170,
+                                                            height: 180,
                                                             fit: BoxFit.fill,
                                                             loadingBuilder:
-                                                                (BuildContext
-                                                                        context,
-                                                                    Widget
-                                                                        child,
-                                                                    ImageChunkEvent?
-                                                                        loadingProgress) {
-                                                              if (loadingProgress ==
-                                                                  null) {
+                                                                (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                                              if (loadingProgress == null) {
                                                                 return child;
                                                               }
                                                               return Center(
                                                                 child: SizedBox(
                                                                   width:
                                                                       Get.width,
-                                                                  height: 170,
+                                                                  height: 180,
                                                                   child: Center(
-                                                                    child:
-                                                                        CircularProgressIndicator(
-                                                                      value: loadingProgress.expectedTotalBytes !=
-                                                                              null
-                                                                          ? loadingProgress.cumulativeBytesLoaded /
-                                                                              loadingProgress.expectedTotalBytes!
-                                                                          : null,
+                                                                    child: CircularProgressIndicator(
+                                                                      value: loadingProgress.expectedTotalBytes != null
+                                                                          ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes! : null,
                                                                     ),
                                                                   ),
                                                                 ),
@@ -360,99 +336,51 @@ class HomeScreen extends GetView<HomeController> {
                                                         )),
                                                     Container(
                                                       width: 70,
-                                                      height: 150,
+                                                      height: 165,
                                                       decoration: BoxDecoration(
-                                                          color: Colors.white
-                                                              .withOpacity(0.5),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(8)),
-                                                      margin: const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 12,
-                                                          vertical: 10),
+                                                          color: Colors.white.withOpacity(0.5),
+                                                          borderRadius: BorderRadius.circular(8)),
+                                                      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                                                       child: ShaderMask(
-                                                        shaderCallback:
-                                                            (Rect rect) {
+                                                        shaderCallback: (Rect rect) {
                                                           return const LinearGradient(
-                                                            begin: Alignment
-                                                                .topCenter,
-                                                            end: Alignment
-                                                                .bottomCenter,
+                                                            begin: Alignment.topCenter,
+                                                            end: Alignment.bottomCenter,
                                                             colors: [
-                                                              Colors.grey,
-                                                              Colors
-                                                                  .transparent,
-                                                              Colors
-                                                                  .transparent,
-                                                              Colors.grey
+                                                              Colors.grey, Colors.transparent,
+                                                              Colors.transparent, Colors.grey
                                                             ],
-                                                            stops: [
-                                                              0.0,
-                                                              0.12,
-                                                              0.9,
-                                                              1.0
-                                                            ],
+                                                            stops: [0.0, 0.12, 0.9, 1.0],
                                                           ).createShader(rect);
                                                         },
                                                         blendMode:
                                                             BlendMode.dstOut,
                                                         child: ListView.builder(
-                                                          itemCount: current
-                                                              .galleryList
-                                                              .length,
+                                                          itemCount: current.galleryList.length,
                                                           shrinkWrap: true,
-                                                          physics:
-                                                              const BouncingScrollPhysics(),
-                                                          scrollDirection:
-                                                              Axis.vertical,
-                                                          itemBuilder:
-                                                              (BuildContext
-                                                                      context,
-                                                                  int index) {
-                                                            var cg = current
-                                                                    .galleryList[
-                                                                index];
+                                                          physics: const BouncingScrollPhysics(),
+                                                          scrollDirection: Axis.vertical,
+                                                          itemBuilder: (BuildContext context, int index) {
+                                                            var cg = current.galleryList[index];
                                                             return InkWell(
                                                               onTap: () {
-                                                                current.imgBg
-                                                                        .value =
-                                                                    cg.url;
-                                                                controller
-                                                                    .update();
+                                                                current.imgBg.value = cg.url;
+                                                                controller.update();
                                                               },
                                                               child: Container(
                                                                 width: 50,
-                                                                height: 50,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: Colors
-                                                                      .white
-                                                                      .withOpacity(
-                                                                          0.5),
+                                                                height: 60,
+                                                                decoration: BoxDecoration(color: Colors.white.withOpacity(0.5),
                                                                 ),
                                                                 child: Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                              .all(
-                                                                          4.0),
-                                                                  child:
-                                                                      ClipRRect(
-                                                                    borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(4),
-                                                                    child: Image
-                                                                        .network(
-                                                                      cg.url,
-                                                                      fit: BoxFit
-                                                                          .fill,
-                                                                      loadingBuilder: (BuildContext context,
-                                                                          Widget
-                                                                              child,
-                                                                          ImageChunkEvent?
-                                                                              loadingProgress) {
-                                                                        if (loadingProgress ==
-                                                                            null) {
+                                                                  padding: const EdgeInsets.all(4.0),
+                                                                  child: ClipRRect(
+                                                                    borderRadius: BorderRadius.circular(4),
+                                                                    child: Image.network(cg.url,
+                                                                      fit: BoxFit.fill,
+                                                                      loadingBuilder: (BuildContext context, Widget child,
+                                                                          ImageChunkEvent?loadingProgress) {
+                                                                        if (loadingProgress == null) {
                                                                           return child;
                                                                         }
                                                                         return Center(

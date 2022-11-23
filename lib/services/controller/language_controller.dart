@@ -14,8 +14,7 @@ class LanguageController extends GetxController {
      Get.find<AuthController>().dataStorage.write('country', countryCode);
      lang.value = languageCode;
         Future.delayed(
-            const Duration(milliseconds:100),
-                () {
+            const Duration(milliseconds:100), () {
               Get.offAllNamed('/home');
             });
      // Get.offAndToNamed('/home');

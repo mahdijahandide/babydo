@@ -59,14 +59,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
             _selectedTab.name == 'home'
                 ? const HomeScreen()
                 : _selectedTab.name == 'bus'
-                    ? Get.find<AuthController>().user['user_type'] == 'guest'?const Padding(
-                      padding: EdgeInsets.only(bottom: 50),
-                      child: AuthScreen(),
+                    ? Get.find<AuthController>().user['user_type'] == 'guest'? Padding(
+                      padding:const EdgeInsets.only(bottom: 50),
+                      child: AuthScreen(isOrange: false),
                     ): const LiveStreaming()
                     : _selectedTab.name == 'profile'
-                        ?Get.find<AuthController>().user['user_type'] == 'guest'?const Padding(
-                          padding: EdgeInsets.only(bottom: 50),
-                          child: AuthScreen(),
+                        ?Get.find<AuthController>().user['user_type'] == 'guest'? Padding(
+                          padding:const  EdgeInsets.only(bottom: 50),
+                          child: AuthScreen(isOrange: true),
                         ): const ProfileScreen()
                         : const MenuScreen(),
           ],

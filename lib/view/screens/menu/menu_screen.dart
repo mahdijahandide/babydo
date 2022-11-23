@@ -2,6 +2,7 @@ import 'package:babydoo/services/controller/profile_controller.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
@@ -185,6 +186,18 @@ class MenuScreen extends GetView<ProfileController> {
                               Share.share(
                                   'check out new version of babydo app https://babydobus.com',
                                   subject: 'download babydo app now');
+                            }),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        iconTextWidget(
+                            ic: 'change_language',
+                            txt: 'change_language'.tr,
+                            listner: () {
+                              Future.delayed(
+                                  const Duration(milliseconds:100), () {
+                                Get.toNamed('/languages');
+                              });
                             }),
                       ],
                     ),

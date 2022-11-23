@@ -11,12 +11,19 @@ import '../../widgets/buttons/custom_text_button.dart';
 import '../../widgets/texts/customText.dart';
 
 class SigninView extends GetView<AuthController> {
-  const SigninView({super.key});
+  bool bg=false;
+   SigninView({super.key, required this.bg});
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: AppColors().litePink));
+    if(bg==false){
+      SystemChrome.setSystemUIOverlayStyle(
+          SystemUiOverlayStyle(statusBarColor: AppColors().litePink));
+    }else{
+      SystemChrome.setSystemUIOverlayStyle(
+          const SystemUiOverlayStyle(statusBarColor: Color(0xffffc000)));
+    }
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       // appBar: PreferredSize(
@@ -30,7 +37,7 @@ class SigninView extends GetView<AuthController> {
       // ),
       body: ListView(children: [
         SvgPicture.asset(
-          'assets/svg/sign_in_bus.svg',
+         bg==true?'assets/svg/sign_in_orange_bus.svg': 'assets/svg/sign_in_bus.svg',
           fit: BoxFit.fill,
           width: Get.width,
           height: Get.height / 2,

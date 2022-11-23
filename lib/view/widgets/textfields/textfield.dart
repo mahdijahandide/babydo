@@ -1,3 +1,4 @@
+import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/widgets/texts/customText.dart';
 import 'package:flutter/material.dart';
 
@@ -70,11 +71,11 @@ class CustomTextField {
               hintStyle: hintStyle,
               suffixIcon: hasSuffixIcon == true
                   ? IconButton(
-                      alignment: const Alignment(1.0, -1.0),
+                    alignment: AlignmentDirectional.centerEnd,
                       onPressed: suffixPress,
                       icon: Icon(
                         suffixIcon ?? Icons.search,
-                        color: suffixColor ?? Colors.black,
+                        color: suffixColor ?? Colors.black,size: 20,
                       ),
                     )
                   : null,
@@ -108,55 +109,51 @@ class CustomTextField {
       dynamic hintStyle,
       dynamic align,
       dynamic maxLength,
+        dynamic keyy,
+        dynamic validate,
       dynamic controller,
       dynamic maxLines,
       dynamic borderColor}) {
-    return Container(
-      height: height.toDouble(),
-      alignment: Alignment.center,
-      padding: const EdgeInsets.only(right: 8.0, left: 8.0),
-      decoration: BoxDecoration(
-          border: Border.all(color: borderColor ?? const Color(0xffdcdcdc)),
-          borderRadius: BorderRadius.circular(12),
-          color: bg ?? Colors.white),
-      child: Directionality(
-        textDirection: TextDirection.ltr,
-        child: TextField(
-            textInputAction: textInputAction,
-            keyboardType: keyboardType,
-            inputFormatters: inputFormatters,
-            style: const TextStyle(fontSize: 12),
-            maxLines: maxLines ?? 1,
-            focusNode: node,
-            obscureText: obscure != null ? true : false,
-            maxLength: maxLength,
-            controller: controller,
-            textAlign: align ?? TextAlign.start,
-            onChanged: (str) {
-              // text.value = str;
-            },
-            decoration: InputDecoration(
-                counterText: '',
-                border: InputBorder.none,
-                hintText: hint,
-                hintStyle: hintStyle,
-                suffixIcon: hasSuffixIcon == true
-                    ? IconButton(
-                        onPressed: suffixPress,
-                        icon: Icon(
-                          suffixIcon ?? Icons.search,
-                        ),
-                      )
-                    : null,
-                prefixIcon: hasPrefixIcon == true
-                    ? IconButton(
-                        onPressed: prefixPress,
-                        icon: Icon(
-                          prefixIcon ?? Icons.search,
-                        ),
-                      )
-                    : null)),
-      ),
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: TextFormField(
+        validator: validate,
+          textInputAction: textInputAction,
+          keyboardType: keyboardType,
+          inputFormatters: inputFormatters,
+          // style: const TextStyle(fontSize: 12),
+          maxLines: maxLines ?? 1,
+          focusNode: node,
+          obscureText: obscure != null ? true : false,
+          maxLength: maxLength,
+          controller: controller,
+          textAlign: align ?? TextAlign.start,
+          onChanged: (str) {},
+          decoration: InputDecoration(
+              counterText: '',
+              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+              enabledBorder:OutlineInputBorder(borderSide: BorderSide(color: AppColors().green,width: 1.0),borderRadius: BorderRadius.circular(12)),
+              focusedBorder:OutlineInputBorder(borderSide: BorderSide(color: AppColors().green,width: 1.3),borderRadius: BorderRadius.circular(12)),
+              border: OutlineInputBorder(borderSide: BorderSide(color: AppColors().green,width: 1.0),borderRadius: BorderRadius.circular(12)),
+              errorBorder: OutlineInputBorder(borderSide:const BorderSide(color: Colors.red,width: 1.5),borderRadius: BorderRadius.circular(12)),
+              hintText: hint,
+              hintStyle: hintStyle,
+              suffixIcon: hasSuffixIcon == true
+                  ? IconButton(
+                      onPressed: suffixPress,
+                      icon: Icon(
+                        suffixIcon ?? Icons.search,
+                      ),
+                    )
+                  : null,
+              prefixIcon: hasPrefixIcon == true
+                  ? IconButton(
+                      onPressed: prefixPress,
+                      icon: Icon(
+                        prefixIcon ?? Icons.search,
+                      ),
+                    )
+                  : null)),
     );
   }
 }

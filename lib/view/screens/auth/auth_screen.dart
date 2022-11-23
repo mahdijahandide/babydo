@@ -6,18 +6,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import '../../../services/utils/app_statusbar.dart';
+
 class AuthScreen extends GetView<AuthController> {
-  const AuthScreen({super.key});
+  bool isOrange=false;
+   AuthScreen({super.key,required this.isOrange});
 
   @override
   Widget build(BuildContext context) {
+
     Get.lazyPut(() => LanguageController());
     Get.put(AuthController());
     return Scaffold(
       body: WillPopScope(
         onWillPop: () async {
-          Get.toNamed('/language');
-          return true;
+          if(Get.arguments=='pop'){
+            AppStatusbar().statusbarColor(color: Colors.transparent);
+            return true;
+          }
+          return false;
         },
         child: Stack(children: [
           SvgPicture.asset(
@@ -26,7 +33,7 @@ class AuthScreen extends GetView<AuthController> {
             width: Get.width,
           ),
           Obx(() => controller.isSignUp.isFalse
-              ? const SigninView()
+              ?  SigninView(bg:isOrange,)
               : const SignupView())
         ]),
       ),

@@ -98,7 +98,17 @@ class Messages extends Translations {
           'cancel': 'Cancel',
           'reset_password': 'Reset Password',
           'payment':'Payment',
-          'saved_address':'Saved Address'
+          'saved_address':'Saved Address',
+          'yr':'yr',
+          'yrs':'yrs',
+          'kd':'KD',
+          'session':'Session',
+          'name_can_not_be_blank':'Name cannot be blank',
+          'number_can_not_be_blank':'Number cannot be blank',
+          'block_can_not_be_blank':'Block cannot be blank',
+          'street_can_not_be_blank':'Street cannot be blank',
+          'avenue_can_not_be_blank':'Avenue cannot be blank',
+          'housebuilding_can_not_be_blank':'House/Building cannot be blank',
         },
         'ar_KW': {
           'appName': 'بیبی دو',
@@ -194,7 +204,17 @@ class Messages extends Translations {
           'cancel': 'يلغي',
           'reset_password': 'إعادة تعيين كلمة المرور',
           'payment':'دفع',
-          'saved_address':'العنوان المحفوظ'
+          'saved_address':'العنوان المحفوظ',
+          'yr':'سنة إلى',
+          'yrs':'سنة',
+          'kd':'د.ك',
+          'session':'حصة زمنية',
+          'name_can_not_be_blank':'لا يمكن أن يكون الاسم فارغًا',
+          'number_can_not_be_blank':'لا يمكن أن يكون الرقم فارغًا',
+          'block_can_not_be_blank':'لا يمكن أن يكون الحظر فارغًا',
+          'street_can_not_be_blank':'لا يمكن أن يكون الشارع فارغًا',
+          'avenue_can_not_be_blank':'لا يمكن أن يكون الطريق فارغًا',
+          'housebuilding_can_not_be_blank':'لا يمكن أن يكون المنزل / المبنى فارغًا',
         }
       };
 }

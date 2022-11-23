@@ -215,7 +215,8 @@ class DrawerWidgets {
                       textSize: 20,
                       onPress: () {
                         Get.close(1);
-                        Get.toNamed('/auth', arguments: true);
+                        Get.toNamed('/auth', arguments: 'pop');
+                        Get.find<AuthController>().isSignUp.value=true;
                       },
                       borderRadius: 10.0,
                       elevation: 0.0),
@@ -234,7 +235,8 @@ class DrawerWidgets {
                       textSize: 20,
                       onPress: () {
                         Get.close(1);
-                        Get.toNamed('/auth', arguments: true);
+                        Get.toNamed('/auth', arguments: 'pop');
+                        Get.find<AuthController>().isSignUp.value=false;
                       },
                       borderRadius: 10.0,
                       elevation: 0.0),
@@ -270,9 +272,7 @@ class DrawerWidgets {
                     title: 'change_language'.tr,
                     listner: () {
                       Get.find<HomeController>().drawerKey.currentState!.closeEndDrawer();
-                      // SchedulerBinding.instance.addPostFrameCallback((_) {
                         Get.toNamed('/languages');
-                      // });
                     }),
                 const Expanded(child: SizedBox()),
                 SvgPicture.asset(
