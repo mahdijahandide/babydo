@@ -1,8 +1,6 @@
 import 'package:babydoo/services/controller/address_controller.dart';
 import 'package:babydoo/services/controller/auth_controller.dart';
 import 'package:babydoo/services/controller/booking_controller.dart';
-import 'package:babydoo/services/controller/home_controller.dart';
-import 'package:babydoo/services/model/address/address_view_model.dart';
 import 'package:babydoo/services/model/area_model.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
 import 'package:babydoo/view/widgets/buttons/custom_text_button.dart';
@@ -198,7 +196,7 @@ class Booking extends GetView<BookController> {
                                             width: 6,
                                           ),
                                           CustomText().createText(
-                                              title: 'Session',
+                                              title: 'session'.tr,
                                               fontWeight: FontWeight.w500,
                                               size: 16),
                                         ],
@@ -229,7 +227,7 @@ class Booking extends GetView<BookController> {
                                             width: 6,
                                           ),
                                           CustomText().createText(
-                                              title: 'Full booking',
+                                              title: 'full_booking'.tr,
                                               size: 16,
                                               fontWeight: FontWeight.w500),
                                         ],
@@ -282,6 +280,10 @@ class Booking extends GetView<BookController> {
                           ),
                         );
                       }),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      CustomText().createText(title: 'please_select_time'.tr,fontWeight: FontWeight.w600,size: 18),
                       const SizedBox(
                         height: 10,
                       ),
@@ -346,7 +348,7 @@ class Booking extends GetView<BookController> {
                                       color: controller.bookData.selectedTime ==
                                               '${current.startTimeShow}-${current.endTimeShow}'
                                           ? AppColors().yellow
-                                          : AppColors().gray.withOpacity(0.5),
+                                          : AppColors().green,
                                       borderRadius: BorderRadius.circular(8)),
                                   child: Center(
                                     child: CustomText().createText(
@@ -802,23 +804,61 @@ class Booking extends GetView<BookController> {
                                 controller.bookData.avenue = controller.avenueTxtController.text;
                                 controller.bookData.houseNumber = controller.houseTxtController.text;
                                 controller.bookData.specialNote = controller.spNoteTxtController.text;
-                                if (controller.bookData.busId != '' && controller.bookData.dateReserved != '' &&
-                                    controller.bookData.startTime != '' && controller.bookData.endTime != '' &&
-                                    controller.bookData.name != '' && controller.bookData.phoneNumber != '' &&
-                                    controller.bookData.block != '' && controller.bookData.street != '' &&
-                                    controller.bookData.avenue != '' && controller.bookData.areaId != '' &&
-                                    controller.bookData.houseNumber != '' && controller.bookData.packageType != '' &&
-                                    controller.bookData.deliveryCharge != ''&&controller.acceptTerm.isTrue) {
-                                  controller.handlePaymentRequest();
-                                }
-                                else {
-                                  Snack().createSnack(
+                                if(controller.bookData.dateReserved == ''){
+                                    Snack().createSnack(
                                       title: 'warning',
-                                      msg: 'you need to fill all the fields correctly to continue',icon: Icon(
+                                      msg: 'please_select_date'.tr,icon: Icon(
                                     Icons.warning,
                                     color: AppColors().maroon,
                                   ));
+                                }else if(controller.bookData.startTime == '' || controller.bookData.endTime == ''){
+                                  Snack().createSnack(
+                                      title: 'warning',
+                                      msg: 'please_select_reserved_time'.tr,icon: Icon(
+                                    Icons.warning,
+                                    color: AppColors().maroon,
+                                  ));
+                                }else if(controller.bookData.areaId == ''){
+                                  Snack().createSnack(
+                                      title: 'warning',
+                                      msg: 'please_select_area'.tr,icon: Icon(
+                                    Icons.warning,
+                                    color: AppColors().maroon,
+                                  ));
+                                }else if(controller.bookData.packageType == ''){
+                                  Snack().createSnack(
+                                      title: 'warning',
+                                      msg: 'please_select_package_type'.tr,icon: Icon(
+                                    Icons.warning,
+                                    color: AppColors().maroon,
+                                  ));
+                                }else if(controller.acceptTerm.isFalse){
+                                  Snack().createSnack(
+                                      title: 'warning',
+                                      msg: 'please_accept_term_and_condition'.tr,icon: Icon(
+                                    Icons.warning,
+                                    color: AppColors().maroon,
+                                  ));
+                                } else{
+                                  controller.handlePaymentRequest();
                                 }
+                                // if (controller.bookData.busId != '' && controller.bookData.dateReserved != '' &&
+                                //     controller.bookData.startTime != '' && controller.bookData.endTime != '' &&
+                                //     controller.bookData.name != '' && controller.bookData.phoneNumber != '' &&
+                                //     controller.bookData.block != '' && controller.bookData.street != '' &&
+                                //     controller.bookData.avenue != '' && controller.bookData.areaId != '' &&
+                                //     controller.bookData.houseNumber != '' && controller.bookData.packageType != '' &&
+                                //     controller.bookData.deliveryCharge != ''&&controller.acceptTerm.isTrue) {
+                                //   controller.handlePaymentRequest();
+                                // }
+                                // else {
+                                //   Snack().createSnack(
+                                //       title: 'warning',
+                                //       msg: 'you need to fill all the fields correctly to continue',icon: Icon(
+                                //     Icons.warning,
+                                //     color: AppColors().maroon,
+                                //   ));
+                                // }
                               }
 
                             }),

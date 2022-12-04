@@ -536,9 +536,9 @@ class AuthController extends GetxController {
       if (dataStorage.hasData('lang')) {
         Get.find<LanguageController>().lang.value = dataStorage.read('lang');
         if(Get.find<LanguageController>().lang.value=='en'){
-          Get.find<LanguageController>().changeLocalization(languageCode: 'en', countryCode: 'US');
+          Get.find<LanguageController>().changeLocalization(languageCode: 'en', countryCode: 'US',time: 3000);
         }else{
-          Get.find<LanguageController>().changeLocalization(languageCode: 'ar', countryCode: 'KW');
+          Get.find<LanguageController>().changeLocalization(languageCode: 'ar', countryCode: 'KW',time: 3000);
         }
       }
       Future.delayed(

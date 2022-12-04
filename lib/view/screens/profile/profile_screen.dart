@@ -1,4 +1,5 @@
 import 'package:babydoo/services/controller/auth_controller.dart';
+import 'package:babydoo/services/controller/bus_controller.dart';
 import 'package:babydoo/services/controller/profile_controller.dart';
 import 'package:babydoo/services/remotes/api_routes.dart';
 import 'package:babydoo/services/utils/app_colors.dart';
@@ -189,7 +190,7 @@ class ProfileScreen extends GetView<ProfileController> {
                             listner: () {
                               Get.find<AuthController>().user['user_type']=='guest'? Snack().createSnack(
                                   icon: const Icon(Icons.warning,color: Colors.yellow,),
-                                  title: 'warning',msg: 'please login first to use this part') :  Get.toNamed('/liveStreaming',);
+                                  title: 'warning',msg: 'please login first to use this part') :  Get.find<BusController>().handleGetCameraRequest(openCameraPage: true);
                             }),
                       ],
                     ),

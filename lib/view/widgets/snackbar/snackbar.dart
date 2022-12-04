@@ -11,7 +11,7 @@ class Snack {
       dynamic titleColor,
       dynamic msgColor}) {
     return Get.snackbar('', '',
-        margin: EdgeInsets.symmetric(horizontal: Get.width / 4, vertical: 20),
+        margin:const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
         backgroundColor: bgColor ?? Colors.black,
         duration: Duration(seconds: duration ?? 3),
         titleText: Text(

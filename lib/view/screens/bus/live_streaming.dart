@@ -174,12 +174,30 @@ class LiveStreaming extends GetView<BusController> {
                                 CustomTextButton().createTextButton(
                                     buttonText: '${'camera'.tr} 1',
                                     buttonColor: AppColors().yellow,
-                                    onPress: ()=>controller.mainCamera.value=controller.camera1.value,
+                                    onPress: (){controller.mainCamera.value=controller.camera1.value;
+                                    if( controller.mainCamera.value=='null'){
+                                        Snack().createSnack(
+                                          title: 'warning',
+                                          msg: 'camera_error_text'.tr,
+                                          icon: Icon(
+                                            Icons.warning,
+                                            color: AppColors().yellow,
+                                        ));
+                                      }},
                                     textColor: Colors.black),
                                 CustomTextButton().createTextButton(
                                     buttonText: '${'camera'.tr} 2',
                                     buttonColor: AppColors().yellow,
-                                    onPress: ()=>controller.mainCamera.value=controller.camera2.value,
+                                    onPress: (){controller.mainCamera.value=controller.camera2.value;
+                                    if( controller.mainCamera.value=='null'){
+                                        Snack().createSnack(
+                                          title: 'warning',
+                                          msg: 'camera_error_text'.tr,
+                                          icon: Icon(
+                                            Icons.warning,
+                                            color: AppColors().yellow,
+                                        ));
+                                      }},
                                     textColor: Colors.black),
                               ],
                             ),
@@ -192,11 +210,31 @@ class LiveStreaming extends GetView<BusController> {
                                 CustomTextButton().createTextButton(
                                     buttonText: '${'camera'.tr} 3',
                                     buttonColor: AppColors().yellow,
-                                    onPress: ()=>controller.mainCamera.value=controller.camera3.value,
+                                    onPress: (){
+                                      controller.mainCamera.value=controller.camera3.value;
+                                      if( controller.mainCamera.value=='null'){
+                                        Snack().createSnack(
+                                          title: 'warning',
+                                          msg: 'camera_error_text'.tr,
+                                          icon: Icon(
+                                            Icons.warning,
+                                            color: AppColors().yellow,
+                                        ));
+                                      }
+                                    },
                                     textColor: Colors.black),
                                 CustomTextButton().createTextButton(
                                     buttonText: '${'camera'.tr} 4',
-                                    onPress: ()=>controller.mainCamera.value=controller.camera4.value,
+                                    onPress: (){controller.mainCamera.value=controller.camera4.value;
+                                    if( controller.mainCamera.value=='null'){
+                                        Snack().createSnack(
+                                          title: 'warning',
+                                          msg: 'camera_error_text'.tr,
+                                          icon: Icon(
+                                            Icons.warning,
+                                            color: AppColors().yellow,
+                                        ));
+                                      }},
                                     buttonColor: AppColors().yellow,
                                     textColor: Colors.black),
                               ],

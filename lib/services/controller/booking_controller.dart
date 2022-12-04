@@ -18,6 +18,7 @@ import '../remotes/requests.dart';
 import 'dart:convert' as convert;
 
 import '../utils/app_colors.dart';
+import 'auth_controller.dart';
 import 'language_controller.dart';
 
 class BookController extends GetxController {
@@ -130,8 +131,16 @@ class BookController extends GetxController {
 
           bookData = BookDataModel('', '', '', '', '', '', '', '', '', '', '',
               '', '', '', '', '', '', '', '');
-          nameTxtController.text = '';
-          mobileTxtController.text = '';
+              // editProfileFullName.text = user['name'].toString();
+    // editProfileMobile.text = user['mobile'].toString();
+          if(Get.find<AuthController>().user['user_type']=='guest'){
+            nameTxtController.text = '';
+            mobileTxtController.text = '';
+          }else{
+            nameTxtController.text = Get.find<AuthController>().user['name'].toString();
+            mobileTxtController.text = Get.find<AuthController>().user['mobile'].toString();
+          }
+          
           blockTxtController.text = '';
           streetTxtController.text = '';
           avenueTxtController.text = '';

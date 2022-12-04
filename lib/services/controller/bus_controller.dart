@@ -16,10 +16,10 @@ class BusController extends GetxController {
   final Completer<WebViewController> liveController =
       Completer<WebViewController>();
 
-  RxString camera1=''.obs;
-  RxString camera2=''.obs;
-  RxString camera3=''.obs;
-  RxString camera4=''.obs;
+  RxString camera1='null'.obs;
+  RxString camera2='null'.obs;
+  RxString camera3='null'.obs;
+  RxString camera4='null'.obs;
   RxString mainCamera='https://babydobus.com'.obs;
 
   JavascriptChannel toasterJavascriptChannel(BuildContext context) {
@@ -32,7 +32,7 @@ class BusController extends GetxController {
         });
   }
 
-  handleGetCameraRequest() async {
+  handleGetCameraRequest({dynamic openCameraPage}) async {
     LoadingDialog.showCustomDialog(msg: 'loading'.tr);
     final response = await Request.getCameraRequest();
     switch (response.statusCode) {
@@ -47,8 +47,22 @@ class BusController extends GetxController {
           camera4.value=data['camera-4'].toString();
           mainCamera.value=camera1.value;
           update();
+          if(openCameraPage==true){
+          if(data['camera-1']!=null||data['camera-2']!=null||data['camera-3']!=null||data['camera-4']!=null){
+            Get.toNamed('/liveStreaming');
+          }else{
+            Snack().createSnack(
+              title: 'warning',
+              msg: 'camera_error_text'.tr,
+              icon: Icon(
+                Icons.warning,
+                color: AppColors().yellow,
+              ));
+          }
+          }
         } else {
           Get.back();
+           
           Snack().createSnack(
               title: 'warning',
               msg: jsonObject['message'].toString(),
@@ -60,6 +74,7 @@ class BusController extends GetxController {
         break;
       default:
         Get.back();
+        
         Snack().createSnack(
             title: 'Error',
             msg: 'Server Error',

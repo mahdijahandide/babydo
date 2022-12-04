@@ -53,7 +53,6 @@ void backgroundNotificationListener(Map<String, dynamic> data) {
 
   // Clear iOS app badge number
   Pushy.clearBadge();
-
 }
 
 void main() async {
@@ -75,6 +74,9 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 }
+
+//ayu icon ayi
+//city light
 
 class _MyAppState extends State<MyApp> {
   @override
@@ -107,10 +109,14 @@ class _MyAppState extends State<MyApp> {
       getPages: [
         GetPage(name: '/splash', page: () => const Splash()),
         GetPage(name: '/languages', page: () => const Languages()),
-        GetPage(name: '/auth', page: () =>  AuthScreen(isOrange: false,)),
+        GetPage(
+            name: '/auth',
+            page: () => AuthScreen(
+                  isOrange: false,
+                )),
         GetPage(name: '/otp', page: () => const OtpScreen()),
         GetPage(name: '/home', page: () => const DashboardScreen()),
-        GetPage(name: '/booking', page: () =>  Booking()),
+        GetPage(name: '/booking', page: () => Booking()),
         GetPage(name: '/payment', page: () => const PaymentWebview()),
         GetPage(name: '/addressBook', page: () => const AddressBook()),
         GetPage(name: '/addAddress', page: () => const AddAddressScreen()),

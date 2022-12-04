@@ -15,12 +15,16 @@ class Splash extends GetView<AuthController> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+           // Image(image: const AssetImage('assets/png/logo.png',),width: Get.width,h,),
             SvgPicture.asset(
               'assets/svg/logo.svg',
-              width: Get.width,
-              fit: BoxFit.fill,
-            ),
+              width: 600,
+              height: 200,
+              allowDrawingOutsideViewBox: true,
+    ),
+            
             const CircularProgressIndicator(
               color: Colors.yellow,
             )

@@ -12,9 +12,9 @@ class PaymentWebview extends GetView<BookController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(
-      title: CustomText().createText(
-          title: 'payment'.tr, size: 18, fontWeight: FontWeight.bold),
+    return Scaffold(
+      appBar: AppBar(
+      title: CustomText().createText(title: 'payment'.tr, size: 18, fontWeight: FontWeight.bold),
       centerTitle: true,
       backgroundColor: Colors.transparent,
       elevation: 0,leading:  IconButton(icon:const Icon(Icons.close,color: Colors.red,),onPressed: ()=>Get.offAndToNamed('/home')),
@@ -28,42 +28,34 @@ class PaymentWebview extends GetView<BookController> {
         ),
       ),
     ),
-    body: WebView(
+      body: WebView(
       initialUrl: Get.arguments,
       javascriptMode: JavascriptMode.unrestricted,
-      onWebViewCreated:
-          (WebViewController webViewController) {
-        controller.liveController
-            .complete(webViewController);
-      },
-      onProgress: (int progress) {
-        print(
-            'WebView is loading (progress : $progress%)');
-      },
+      // onWebViewCreated:(WebViewController webViewController) {
+      //   controller.liveController.complete(webViewController);
+      // },
+      // onProgress: (int progress) {
+      //   print('WebView is loading (progress : $progress%)');
+      // },
       javascriptChannels: <JavascriptChannel>{
-        controller
-            .toasterJavascriptChannel(context),
+        controller.toasterJavascriptChannel(context),
       },
-      navigationDelegate:
-          (NavigationRequest request) {
-        if (request.url
-            .startsWith(Get.arguments)) {
-          print(
-              'blocking navigation to $request}');
-          return NavigationDecision.prevent;
-        }
-        print('allowing navigation to $request');
-        return NavigationDecision.navigate;
-      },
-      onPageStarted: (String url) {
-        print('Page started loading: $url');
-        controller.isLiveLoadingDone.value =
-        false;
-      },
-      onPageFinished: (String url) {
-        print('Page finished loading: $url');
-        controller.isLiveLoadingDone.value = true;
-      },
+      // navigationDelegate:(NavigationRequest request) {
+      //   if (request.url.startsWith(Get.arguments)) {
+      //     print('blocking navigation to $request}');
+      //     return NavigationDecision.prevent;
+      //   }
+      //   print('allowing navigation to $request');
+      //   return NavigationDecision.navigate;
+      // },
+      // onPageStarted: (String url) {
+      //   print('Page started loading: $url');
+      //   controller.isLiveLoadingDone.value =false;
+      // },
+      // onPageFinished: (String url) {
+      //   print('Page finished loading: $url');
+      //   controller.isLiveLoadingDone.value = true;
+      // },
       gestureNavigationEnabled: true,
       backgroundColor: const Color(0x00000000),
     ),

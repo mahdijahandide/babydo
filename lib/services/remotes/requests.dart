@@ -330,7 +330,7 @@ class Request {
   }
 
   static Future<http.Response> getCameraRequest() {
-    return http.post(
+    return http.get(
       Uri.parse(getCameraRoute(
           lang: Get.find<LanguageController>().lang.value)),
       headers: <String, String>{

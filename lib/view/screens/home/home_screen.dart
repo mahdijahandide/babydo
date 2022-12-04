@@ -436,12 +436,7 @@ class HomeScreen extends GetView<HomeController> {
                                                             textColor:
                                                                 Colors.white,
                                                             onPress: () {
-                                                              Get.find<
-                                                                      BookController>()
-                                                                  .handleGetBookingNowRequest(
-                                                                      busId: current
-                                                                          .id
-                                                                          .toString());
+                                                              Get.find<BookController>().handleGetBookingNowRequest(busId: current.id.toString());
                                                             }),
                                                   ),
                                                 ],
