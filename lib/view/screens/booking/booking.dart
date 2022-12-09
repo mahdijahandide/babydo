@@ -15,6 +15,7 @@ import 'package:flutter_date_pickers/flutter_date_pickers.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 
 import 'package:location_picker_flutter_map/location_picker_flutter_map.dart';
 
@@ -22,13 +23,15 @@ import '../../../services/model/address_model.dart';
 import '../../drawer/drawer.dart';
 
 class Booking extends GetView<BookController> {
-   Booking({super.key});
+  Booking({super.key});
 
-  final GlobalKey<FormState> formKey=GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-
-    Get.lazyPut(() => BookController(),);
+    Get.lazyPut(
+      () => BookController(),
+    );
     controller.handleGetBookingAreasRequest();
     Get.put(AddressController());
 
@@ -100,7 +103,8 @@ class Booking extends GetView<BookController> {
                                     size: 16,
                                     fontWeight: FontWeight.w400),
                                 InkWell(
-                                  onTap: () => Get.toNamed('/auth',arguments: 'pop'),
+                                  onTap: () =>
+                                      Get.toNamed('/auth', arguments: 'pop'),
                                   child: CustomText().createText(
                                       title: 'signin'.tr,
                                       color: AppColors().litePink,
@@ -117,7 +121,7 @@ class Booking extends GetView<BookController> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 12),
                         width: Get.width,
-                        height: 150,
+                        height: 155,
                         decoration: BoxDecoration(
                             color: AppColors().liteGray,
                             borderRadius: BorderRadius.circular(12),
@@ -151,8 +155,9 @@ class Booking extends GetView<BookController> {
                               margin: const EdgeInsets.only(left: 30),
                               padding: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: AppColors().liteMaroon),
+                                borderRadius: BorderRadius.circular(5),
+                                // color: AppColors().liteMaroon
+                              ),
                               child: CustomText().createText(
                                   title:
                                       'seasons_duration_one_hour_thirty_min'.tr,
@@ -170,7 +175,8 @@ class Booking extends GetView<BookController> {
                               height: 6,
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
                               child: Row(
                                 children: [
                                   InkWell(
@@ -180,14 +186,17 @@ class Booking extends GetView<BookController> {
                                     child: Container(
                                       padding: const EdgeInsets.all(4),
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                           color:
                                               controller.bookData.packageType ==
                                                       'Session'
                                                   ? AppColors()
                                                       .yellow
                                                       .withOpacity(0.8)
-                                                  : Colors.transparent),
+                                                  : AppColors()
+                                                      .green
+                                                      .withOpacity(0.7)),
                                       child: Row(
                                         children: [
                                           SvgPicture.asset(
@@ -211,14 +220,17 @@ class Booking extends GetView<BookController> {
                                     child: Container(
                                       padding: const EdgeInsets.all(4),
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                           color:
                                               controller.bookData.packageType ==
                                                       'Fullday'
                                                   ? AppColors()
                                                       .yellow
                                                       .withOpacity(0.8)
-                                                  : Colors.transparent),
+                                                  : AppColors()
+                                                      .green
+                                                      .withOpacity(0.7)),
                                       child: Row(
                                         children: [
                                           SvgPicture.asset(
@@ -283,7 +295,10 @@ class Booking extends GetView<BookController> {
                       const SizedBox(
                         height: 10,
                       ),
-                      CustomText().createText(title: 'please_select_time'.tr,fontWeight: FontWeight.w600,size: 18),
+                      CustomText().createText(
+                          title: 'please_select_time'.tr,
+                          fontWeight: FontWeight.w600,
+                          size: 18),
                       const SizedBox(
                         height: 10,
                       ),
@@ -312,20 +327,20 @@ class Booking extends GetView<BookController> {
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               var current;
-                              current =
-                                  controller.bookData.packageType == 'Fullday'
-                                      ? controller.bookingDetailsList
-                                          .where((p0) =>
-                                              p0.date.toString() ==
-                                              controller.selectedDate.toString())
-                                          .first
-                                          .fullBookingList[index]
-                                      : controller.bookingDetailsList
-                                          .where((p0) =>
-                                              p0.date.toString() ==
-                                              controller.selectedDate.toString())
-                                          .first
-                                          .sessionList[index];
+                              current = controller.bookData.packageType ==
+                                      'Fullday'
+                                  ? controller.bookingDetailsList
+                                      .where((p0) =>
+                                          p0.date.toString() ==
+                                          controller.selectedDate.toString())
+                                      .first
+                                      .fullBookingList[index]
+                                  : controller.bookingDetailsList
+                                      .where((p0) =>
+                                          p0.date.toString() ==
+                                          controller.selectedDate.toString())
+                                      .first
+                                      .sessionList[index];
                               return InkWell(
                                 onTap: () {
                                   controller.bookData.selectedTime =
@@ -373,7 +388,8 @@ class Booking extends GetView<BookController> {
                               color: Colors.black),
                           title: CustomText().createText(
                               size: 16,
-                              title: '${'kd'.tr} ${controller.bookData.bookPrice}',
+                              title:
+                                  '${'kd'.tr} ${controller.bookData.bookPrice}',
                               color: AppColors().maroon,
                               fontWeight: FontWeight.bold),
                         ),
@@ -387,7 +403,8 @@ class Booking extends GetView<BookController> {
                               color: Colors.black),
                           title: CustomText().createText(
                               size: 16,
-                              title: '${'kd'.tr} ${controller.bookData.deliveryCharge}',
+                              title:
+                                  '${'kd'.tr} ${controller.bookData.deliveryCharge}',
                               color: AppColors().maroon,
                               fontWeight: FontWeight.bold),
                         ),
@@ -440,14 +457,31 @@ class Booking extends GetView<BookController> {
                                 createCustomField(
                                     name: 'name'.tr,
                                     type: TextInputType.text,
-                                    validator: (value) => value.isEmpty ? 'name_can_not_be_blank'.tr : null,
+                                    validator: (value) => value.isEmpty
+                                        ? 'name_can_not_be_blank'.tr
+                                        : null,
                                     controller: controller.nameTxtController),
                                 const SizedBox(
                                   width: 8,
                                 ),
                                 createCustomField(
                                     name: 'mobile_number'.tr,
-                                    type: TextInputType.number,validator: (value) => value.isEmpty ? 'number_can_not_be_blank'.tr : null,
+                                    maxLength: 8,
+                                    type: TextInputType.number,
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return 'number_can_not_be_blank'.tr;
+                                      } else if (int.parse(value.toString()[0]) == 0 ||
+                                          int.parse(value.toString()[0]) == 1 ||
+                                          int.parse(value.toString()[0]) == 2 ||
+                                          int.parse(value.toString()[0]) == 3 ||
+                                          int.parse(value.toString()[0]) == 7 ||
+                                          int.parse(value.toString()[0]) == 8) {
+                                        return 'check_number_start_char'.tr;
+                                      }else if(int.parse(value.toString().length.toString())<8){
+                                        return 'number_max_length_error'.tr;
+                                      }
+                                    },
                                     controller: controller.mobileTxtController)
                               ],
                             ),
@@ -455,101 +489,203 @@ class Booking extends GetView<BookController> {
                               height: 8,
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 4),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 4),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Get.find<AddressController>().addressList.isEmpty
+                                  Get.find<AddressController>()
+                                          .addressList
+                                          .isEmpty
                                       ? const SizedBox()
-                                      :  CustomText().createText(
-                                      title: 'saved_address'.tr,
-                                      size: 14,
-                                      fontWeight: FontWeight.w600),
-                                  Get.find<AddressController>().addressList.isEmpty
+                                      : CustomText().createText(
+                                          title: 'saved_address'.tr,
+                                          size: 14,
+                                          fontWeight: FontWeight.w600),
+                                  Get.find<AddressController>()
+                                          .addressList
+                                          .isEmpty
                                       ? const SizedBox()
                                       : const SizedBox(
-                                    height: 8,
-                                  ),
-                                  Get.find<AddressController>().addressList.isEmpty
+                                          height: 8,
+                                        ),
+                                  Get.find<AddressController>()
+                                          .addressList
+                                          .isEmpty
                                       ? const SizedBox()
                                       : Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: AppColors().green,
-                                            width: 1),
-                                        borderRadius:
-                                        BorderRadius.circular(8)),
-                                    child: DropdownButtonHideUnderline(
-                                      child: Directionality(
-                                        textDirection: TextDirection.rtl,
-                                        child: DropdownButton<String>(
-                                          focusColor: Colors.white,
-                                          isExpanded: true,
-                                          hint: Text(Get.find<AddressController>().addressData.areaName.toString()),
-                                          onChanged: (val) {
-                                            AddressModel addressModel = Get.find<AddressController>().addressList.where((p0) => p0.id.toString() == val).first;
-                                            Get.find<AddressController>().addressData.areaName = addressModel.area.toString();
-                                            controller.bookData.areaName=addressModel.area.toString();
-                                            Get.find<AddressController>().addressData.areaId = val;
-                                            controller.bookData.areaId=val;
-                                            controller.nameTxtController.text=Get.find<AuthController>().user['name'].toString();
-                                            controller.mobileTxtController.text=Get.find<AuthController>().user['mobile'].toString();
-                                            controller.blockTxtController.text=addressModel.block.toString();
-                                            controller.streetTxtController.text=addressModel.street.toString();
-                                            controller.avenueTxtController.text=addressModel.avenue.toString();
-                                            controller.houseTxtController.text=addressModel.houseNumber.toString();
-                                            controller.spNoteTxtController.text=addressModel.specialNote.toString();
-                                            controller.bookData.lat=addressModel.lat.toString();
-                                            controller.bookData.lng=addressModel.lng.toString();
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: AppColors().green,
+                                                  width: 1),
+                                              borderRadius:
+                                                  BorderRadius.circular(8)),
+                                          child: DropdownButtonHideUnderline(
+                                            child: Directionality(
+                                              textDirection: TextDirection.rtl,
+                                              child: DropdownButton<String>(
+                                                focusColor: Colors.white,
+                                                isExpanded: true,
+                                                hint: Text(Get.find<
+                                                        AddressController>()
+                                                    .addressData
+                                                    .areaName
+                                                    .toString()),
+                                                onChanged: (val) {
+                                                  AddressModel addressModel =
+                                                      Get.find<
+                                                              AddressController>()
+                                                          .addressList
+                                                          .where((p0) =>
+                                                              p0.id
+                                                                  .toString() ==
+                                                              val)
+                                                          .first;
+                                                  Get.find<AddressController>()
+                                                          .addressData
+                                                          .areaName =
+                                                      addressModel.area
+                                                          .toString();
+                                                  controller.bookData.areaName =
+                                                      addressModel.area
+                                                          .toString();
+                                                  Get.find<AddressController>()
+                                                      .addressData
+                                                      .areaId = val;
+                                                  controller.bookData.areaId =
+                                                      val;
+                                                  controller.nameTxtController
+                                                          .text =
+                                                      Get.find<AuthController>()
+                                                          .user['name']
+                                                          .toString();
+                                                  controller.mobileTxtController
+                                                          .text =
+                                                      Get.find<AuthController>()
+                                                          .user['mobile']
+                                                          .toString();
+                                                  controller.blockTxtController
+                                                          .text =
+                                                      addressModel.block
+                                                          .toString();
+                                                  controller.streetTxtController
+                                                          .text =
+                                                      addressModel.street
+                                                          .toString();
+                                                  controller.avenueTxtController
+                                                          .text =
+                                                      addressModel.avenue
+                                                          .toString();
+                                                  controller.houseTxtController
+                                                          .text =
+                                                      addressModel.houseNumber
+                                                          .toString();
+                                                  controller.spNoteTxtController
+                                                          .text =
+                                                      addressModel.specialNote
+                                                          .toString();
+                                                  controller.bookData.lat =
+                                                      addressModel.lat
+                                                          .toString();
+                                                  controller.bookData.lng =
+                                                      addressModel.lng
+                                                          .toString();
 
+                                                  AreaModel areaModel =
+                                                      controller
+                                                          .bookingAreaList
+                                                          .where((p0) =>
+                                                              p0
+                                                                  .id
+                                                                  .toString() ==
+                                                              addressModel
+                                                                  .areaId)
+                                                          .first;
+                                                  String pName = controller
+                                                              .bookData
+                                                              .packageType ==
+                                                          'Fullday'
+                                                      ? 'fullday'
+                                                      : 'session';
+                                                  if (areaModel.type
+                                                          .toString() !=
+                                                      pName) {
+                                                    if (areaModel.type
+                                                            .toString() !=
+                                                        'both') {
+                                                      Snack().createSnack(
+                                                          title: 'warning',
+                                                          msg:
+                                                              'you can only select ${areaModel.type} package for ${areaModel.name} area',
+                                                          icon: Icon(
+                                                            Icons.warning,
+                                                            color: AppColors()
+                                                                .maroon,
+                                                          ));
+                                                      if (areaModel.type ==
+                                                          'fullday') {
+                                                        controller
+                                                            .handleFulldaySelection();
+                                                      } else if (areaModel
+                                                              .type ==
+                                                          'session') {
+                                                        controller
+                                                            .handleSessionSelection();
+                                                      }
+                                                    } else {
+                                                      controller.bookData
+                                                              .deliveryCharge =
+                                                          areaModel
+                                                              .deliveryCharge
+                                                              .toString();
+                                                      controller.update();
+                                                    }
+                                                  } else {
+                                                    controller.bookData
+                                                            .deliveryCharge =
+                                                        areaModel.deliveryCharge
+                                                            .toString();
+                                                    controller.update();
+                                                  }
 
-
-                                            AreaModel areaModel = controller.bookingAreaList.where((p0) => p0.id.toString() == addressModel.areaId).first;
-                                            String pName = controller.bookData.packageType == 'Fullday' ? 'fullday' : 'session';
-                                            if (areaModel.type.toString() != pName) {
-                                              if (areaModel.type.toString() != 'both') {
-                                                Snack().createSnack(title: 'warning', msg: 'you can only select ${areaModel.type} package for ${areaModel.name} area',icon: Icon(
-                                                  Icons.warning,
-                                                  color: AppColors().maroon,
-                                                ));
-                                                if (areaModel.type == 'fullday') {
-                                                  controller.handleFulldaySelection();
-                                                } else if (areaModel.type == 'session') {
-                                                  controller.handleSessionSelection();
-                                                }
-                                              } else {
-                                                controller.bookData.deliveryCharge = areaModel.deliveryCharge.toString();
-                                                controller.update();
-                                              }
-                                            } else {
-                                              controller.bookData.deliveryCharge = areaModel.deliveryCharge.toString();
-                                              controller.update();
-                                            }
-
-
-                                            controller.update();
-                                          },
-                                          items: Get.find<AddressController>().addressList.map((AddressModel value) {
-                                            return DropdownMenuItem<String>(
-                                              value: value.id.toString(),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                 CustomText().createText(title: value.area.toString(),fontWeight: FontWeight.bold),
-                                                  MarqueeWidget(
-                                                      direction: Axis.horizontal,
-                                                      child: CustomText().createText(title: 'Ave: ${value.avenue} St: ${value.street} Block: ${value.block}'))
-                                                ],
+                                                  controller.update();
+                                                },
+                                                items: Get.find<
+                                                        AddressController>()
+                                                    .addressList
+                                                    .map((AddressModel value) {
+                                                  return DropdownMenuItem<
+                                                      String>(
+                                                    value: value.id.toString(),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        CustomText().createText(
+                                                            title: value.area
+                                                                .toString(),
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                        MarqueeWidget(
+                                                            direction:
+                                                                Axis.horizontal,
+                                                            child: CustomText()
+                                                                .createText(
+                                                                    title:
+                                                                        'Ave: ${value.avenue} St: ${value.street} Block: ${value.block}'))
+                                                      ],
+                                                    ),
+                                                  );
+                                                }).toList(),
                                               ),
-                                            );
-                                          }).toList(),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height:12),
+                                  const SizedBox(height: 12),
                                   CustomText().createText(
                                       title: 'address'.tr,
                                       size: 14,
@@ -570,7 +706,8 @@ class Booking extends GetView<BookController> {
                                               borderRadius:
                                                   BorderRadius.circular(8)),
                                           child: const Center(
-                                              child: CircularProgressIndicator()))
+                                              child:
+                                                  CircularProgressIndicator()))
                                       : Container(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 8),
@@ -590,34 +727,72 @@ class Booking extends GetView<BookController> {
                                                     .bookData.areaName
                                                     .toString()),
                                                 onChanged: (val) {
-                                                  AreaModel areaModel = controller.bookingAreaList.where((p0) => p0.id.toString() == val).first;
-                                                  controller.bookData.areaName = areaModel.name.toString();
-                                                  controller.bookData.areaId = val;
-                                                  String pName = controller.bookData.packageType == 'Fullday' ? 'fullday' : 'session';
-                                                  if (areaModel.type.toString() != pName) {
-                                                    if (areaModel.type.toString() != 'both') {
-                                                      Snack().createSnack(title: 'warning', msg: 'you can only select ${areaModel.type} package for ${areaModel.name} area',icon: Icon(
-                                                        Icons.warning,
-                                                        color: AppColors().maroon,
-                                                      ));
-                                                      if (areaModel.type == 'fullday') {
-                                                        controller.handleFulldaySelection();
-                                                      } else if (areaModel.type == 'session') {
-                                                        controller.handleSessionSelection();
+                                                  AreaModel areaModel =
+                                                      controller.bookingAreaList
+                                                          .where((p0) =>
+                                                              p0.id
+                                                                  .toString() ==
+                                                              val)
+                                                          .first;
+                                                  controller.bookData.areaName =
+                                                      areaModel.name.toString();
+                                                  controller.bookData.areaId =
+                                                      val;
+                                                  String pName = controller
+                                                              .bookData
+                                                              .packageType ==
+                                                          'Fullday'
+                                                      ? 'fullday'
+                                                      : 'session';
+                                                  if (areaModel.type
+                                                          .toString() !=
+                                                      pName) {
+                                                    if (areaModel.type
+                                                            .toString() !=
+                                                        'both') {
+                                                      Snack().createSnack(
+                                                          title: 'warning',
+                                                          msg:
+                                                              'you can only select ${areaModel.type} package for ${areaModel.name} area',
+                                                          icon: Icon(
+                                                            Icons.warning,
+                                                            color: AppColors()
+                                                                .maroon,
+                                                          ));
+                                                      if (areaModel.type ==
+                                                          'fullday') {
+                                                        controller
+                                                            .handleFulldaySelection();
+                                                      } else if (areaModel
+                                                              .type ==
+                                                          'session') {
+                                                        controller
+                                                            .handleSessionSelection();
                                                       }
                                                     } else {
-                                                      controller.bookData.deliveryCharge = areaModel.deliveryCharge.toString();
+                                                      controller.bookData
+                                                              .deliveryCharge =
+                                                          areaModel
+                                                              .deliveryCharge
+                                                              .toString();
                                                       controller.update();
                                                     }
                                                   } else {
-                                                    controller.bookData.deliveryCharge = areaModel.deliveryCharge.toString();
+                                                    controller.bookData
+                                                            .deliveryCharge =
+                                                        areaModel.deliveryCharge
+                                                            .toString();
                                                     controller.update();
                                                   }
                                                 },
-                                                items: controller.bookingAreaList.map((AreaModel value) {
-                                                  return DropdownMenuItem<String>(
+                                                items: controller
+                                                    .bookingAreaList
+                                                    .map((AreaModel value) {
+                                                  return DropdownMenuItem<
+                                                      String>(
                                                     value: value.id.toString(),
-                                                    child: Text(value.name.toString()),
+                                                    child: Text(
+                                                        value.name.toString()),
                                                   );
                                                 }).toList(),
                                               ),
@@ -634,14 +809,20 @@ class Booking extends GetView<BookController> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 createCustomField(
-                                    name: 'block'.tr,validator: (value) => value.isEmpty ? 'block_can_not_be_blank'.tr : null,
+                                    name: 'block'.tr,
+                                    validator: (value) => value.isEmpty
+                                        ? 'block_can_not_be_blank'.tr
+                                        : null,
                                     controller: controller.blockTxtController,
                                     type: TextInputType.text),
                                 const SizedBox(
                                   width: 8,
                                 ),
                                 createCustomField(
-                                    name: 'street'.tr,validator: (value) => value.isEmpty ? 'street_can_not_be_blank'.tr : null,
+                                    name: 'street'.tr,
+                                    validator: (value) => value.isEmpty
+                                        ? 'street_can_not_be_blank'.tr
+                                        : null,
                                     type: TextInputType.text,
                                     controller: controller.streetTxtController)
                               ],
@@ -653,7 +834,10 @@ class Booking extends GetView<BookController> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 createCustomField(
-                                    name: 'avenue'.tr,validator: (value) => value.isEmpty ? 'avenue_can_not_be_blank'.tr : null,
+                                    name: 'avenue'.tr,
+                                    validator: (value) => value.isEmpty
+                                        ? 'avenue_can_not_be_blank'.tr
+                                        : null,
                                     controller: controller.avenueTxtController,
                                     type: TextInputType.text),
                                 const SizedBox(
@@ -661,7 +845,10 @@ class Booking extends GetView<BookController> {
                                 ),
                                 createCustomField(
                                     name: 'house_or_building'.tr,
-                                    type: TextInputType.text,validator: (value) => value.isEmpty ? 'housebuilding_can_not_be_blank'.tr : null,
+                                    type: TextInputType.text,
+                                    validator: (value) => value.isEmpty
+                                        ? 'housebuilding_can_not_be_blank'.tr
+                                        : null,
                                     controller: controller.houseTxtController)
                               ],
                             ),
@@ -671,7 +858,9 @@ class Booking extends GetView<BookController> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 12,),
+                      const SizedBox(
+                        height: 12,
+                      ),
                       Row(
                         children: [
                           SvgPicture.asset('assets/svg/location_tick.svg'),
@@ -714,8 +903,10 @@ class Booking extends GetView<BookController> {
                                   print(pickedData.latLong.longitude);
                                   print(pickedData.address);
                                   print(pickedData.addressData['country']);
-                                  controller.bookData.lat=pickedData.latLong.latitude.toString();
-                                  controller.bookData.lng=pickedData.latLong.longitude.toString();
+                                  controller.bookData.lat =
+                                      pickedData.latLong.latitude.toString();
+                                  controller.bookData.lng =
+                                      pickedData.latLong.longitude.toString();
                                 }),
                           )),
                       const SizedBox(
@@ -794,52 +985,68 @@ class Booking extends GetView<BookController> {
                             onPress: () {
                               final FormState? form = formKey.currentState;
                               print(formKey.currentState);
-                              if(!form!.validate()){
+                              if (!form!.validate()) {
                                 return;
-                              }else{
-                                controller.bookData.name = controller.nameTxtController.text;
-                                controller.bookData.phoneNumber = controller.mobileTxtController.text;
-                                controller.bookData.block = controller.blockTxtController.text;
-                                controller.bookData.street = controller.streetTxtController.text;
-                                controller.bookData.avenue = controller.avenueTxtController.text;
-                                controller.bookData.houseNumber = controller.houseTxtController.text;
-                                controller.bookData.specialNote = controller.spNoteTxtController.text;
-                                if(controller.bookData.dateReserved == ''){
-                                    Snack().createSnack(
-                                      title: 'warning',
-                                      msg: 'please_select_date'.tr,icon: Icon(
-                                    Icons.warning,
-                                    color: AppColors().maroon,
-                                  ));
-                                }else if(controller.bookData.startTime == '' || controller.bookData.endTime == ''){
+                              } else {
+                                controller.bookData.name =
+                                    controller.nameTxtController.text;
+                                controller.bookData.phoneNumber =
+                                    controller.mobileTxtController.text;
+                                controller.bookData.block =
+                                    controller.blockTxtController.text;
+                                controller.bookData.street =
+                                    controller.streetTxtController.text;
+                                controller.bookData.avenue =
+                                    controller.avenueTxtController.text;
+                                controller.bookData.houseNumber =
+                                    controller.houseTxtController.text;
+                                controller.bookData.specialNote =
+                                    controller.spNoteTxtController.text;
+                                if (controller.bookData.dateReserved == '') {
                                   Snack().createSnack(
                                       title: 'warning',
-                                      msg: 'please_select_reserved_time'.tr,icon: Icon(
-                                    Icons.warning,
-                                    color: AppColors().maroon,
-                                  ));
-                                }else if(controller.bookData.areaId == ''){
+                                      msg: 'please_select_date'.tr,
+                                      icon: Icon(
+                                        Icons.warning,
+                                        color: AppColors().maroon,
+                                      ));
+                                } else if (controller.bookData.startTime ==
+                                        '' ||
+                                    controller.bookData.endTime == '') {
                                   Snack().createSnack(
                                       title: 'warning',
-                                      msg: 'please_select_area'.tr,icon: Icon(
-                                    Icons.warning,
-                                    color: AppColors().maroon,
-                                  ));
-                                }else if(controller.bookData.packageType == ''){
+                                      msg: 'please_select_reserved_time'.tr,
+                                      icon: Icon(
+                                        Icons.warning,
+                                        color: AppColors().maroon,
+                                      ));
+                                } else if (controller.bookData.areaId == '') {
                                   Snack().createSnack(
                                       title: 'warning',
-                                      msg: 'please_select_package_type'.tr,icon: Icon(
-                                    Icons.warning,
-                                    color: AppColors().maroon,
-                                  ));
-                                }else if(controller.acceptTerm.isFalse){
+                                      msg: 'please_select_area'.tr,
+                                      icon: Icon(
+                                        Icons.warning,
+                                        color: AppColors().maroon,
+                                      ));
+                                } else if (controller.bookData.packageType ==
+                                    '') {
                                   Snack().createSnack(
                                       title: 'warning',
-                                      msg: 'please_accept_term_and_condition'.tr,icon: Icon(
-                                    Icons.warning,
-                                    color: AppColors().maroon,
-                                  ));
-                                } else{
+                                      msg: 'please_select_package_type'.tr,
+                                      icon: Icon(
+                                        Icons.warning,
+                                        color: AppColors().maroon,
+                                      ));
+                                } else if (controller.acceptTerm.isFalse) {
+                                  Snack().createSnack(
+                                      title: 'warning',
+                                      msg:
+                                          'please_accept_term_and_condition'.tr,
+                                      icon: Icon(
+                                        Icons.warning,
+                                        color: AppColors().maroon,
+                                      ));
+                                } else {
                                   controller.handlePaymentRequest();
                                 }
                                 // if (controller.bookData.busId != '' && controller.bookData.dateReserved != '' &&
@@ -860,7 +1067,6 @@ class Booking extends GetView<BookController> {
                                 //   ));
                                 // }
                               }
-
                             }),
                       ),
                       const SizedBox(
@@ -878,7 +1084,11 @@ class Booking extends GetView<BookController> {
   }
 
   Widget createCustomField(
-      {required name, required controller, required type,dynamic validator}) {
+      {required name,
+      required controller,
+      required type,
+      dynamic validator,
+      dynamic maxLength}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -894,8 +1104,10 @@ class Booking extends GetView<BookController> {
           width: Get.width / 2 - 20,
           child: CustomTextField().createCustomTextField(
             hint: '',
-            height: 45,validate: validator,
+            height: 45,
+            validate: validator,
             keyboardType: type,
+            maxLength: maxLength,
             controller: controller,
             bg: Colors.transparent,
             borderColor: AppColors().green,
